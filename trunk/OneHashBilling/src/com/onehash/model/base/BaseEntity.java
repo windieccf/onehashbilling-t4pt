@@ -28,7 +28,6 @@ import java.util.List;
 /**
  *Perform basic clone, equals, and hash code of entity model 
  */
-
 @SuppressWarnings("serial")
 public abstract class BaseEntity implements Serializable, Cloneable {
 	
