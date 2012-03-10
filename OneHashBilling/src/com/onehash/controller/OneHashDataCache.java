@@ -1,3 +1,22 @@
+/*
+ * CONFIDENTIAL AND PROPRIETARY SOURCE CODE OF
+ * Institute of Systems Science, National University of Singapore
+ *
+ * Copyright 2012 Team 4(Part-Time), ISS, NUS, Singapore. All rights reserved.
+ * Use of this source code is subjected to the terms of the applicable license
+ * agreement.
+ *
+ * -----------------------------------------------------------------
+ * REVISION HISTORY
+ * -----------------------------------------------------------------
+ * DATE             AUTHOR          REVISION		DESCRIPTION
+ * 10 March 2012    Robin Foe	    2.0				Class creating
+ * 													
+ * 													
+ * 													
+ * 													
+ * 
+ */
 package com.onehash.controller;
 
 import java.util.List;
@@ -6,6 +25,10 @@ import com.onehash.model.customer.Customer;
 import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.model.service.rate.ServiceRate;
 
+/**
+ * Data cache for the application
+ * 
+ */
 public class OneHashDataCache {
 
 	/************************* SINGLETON DESIGN PATTERN ***************************/
