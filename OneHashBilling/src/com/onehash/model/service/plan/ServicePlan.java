@@ -10,7 +10,7 @@
  * REVISION HISTORY
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
- * 10 March 2012    Robin Foe	    2.0				Class creating
+ * 10 March 2012    Robin Foe	    0.1				Class creating
  * 													
  * 													
  * 													

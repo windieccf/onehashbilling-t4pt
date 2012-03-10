@@ -10,23 +10,21 @@
  * REVISION HISTORY
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
- * 10 March 2012    Robin Foe	    0.1				Class creating
+ * 10 March 2012    Chen Changfeng	0.1				Class creating
  * 													
  * 													
  * 													
  * 													
  * 
  */
-package com.onehash.model.service.rate;
 
-import java.math.BigDecimal;
+package com.onehash.exception;
 
 @SuppressWarnings("serial")
-public class SubscriptionRate extends ServiceRate{
+public class InsufficientInputParameterException extends BusinessLogicException {
 
-	@Override
-	public BigDecimal calculateMonthlyRate() {
-		return null;
+	public InsufficientInputParameterException(String msg) {
+		super(msg);
 	}
 
 }
