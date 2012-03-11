@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Robin Foe	    0.1				Class creating
- * 													
+ * 11 March 2012	Robin Foe		0.2				Add in file read and write													
  * 													
  * 													
  * 													
@@ -19,8 +19,14 @@
  */
 package com.onehash.controller;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.onehash.constant.ConstantFilePath;
 import com.onehash.model.customer.Customer;
 import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.model.service.rate.ServiceRate;
@@ -43,7 +49,7 @@ public class OneHashDataCache {
 	}
 	
 	/************************************ DATA CACHE ************************************************/
-	private List<Customer> customers;
+	private List<Customer> customers = new ArrayList<Customer>();
 	public List<Customer> getCustomers() {return customers;}
 	public void setCustomers(List<Customer> customers) {this.customers = customers;}
 	
@@ -56,13 +62,51 @@ public class OneHashDataCache {
 	public void setAvailableServiceRate(List<ServiceRate> availableServiceRate) {this.availableServiceRate = availableServiceRate;}
 	
 	/************************************ FILE PROCESSING ************************************************/
-	public void init(){
+	
+	/**
+     * Initialise the class file
+     * @return void 
+     */
+	private void init(){
+		this.restoreCache();
+	}
+	
+	/**
+     * Restoring file from cache
+     * @return void 
+     */
+	@SuppressWarnings("unchecked")
+	private void restoreCache(){
+		try{
+			FileInputStream fin = new FileInputStream(ConstantFilePath.ONE_HASH_DATA);
+			ObjectInputStream ois = new ObjectInputStream(fin);
+			this.setCustomers((List<Customer>) ois.readObject());
+			ois.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 	
-	public void flush(){
-		
+	
+	/**
+     * Flush cache to file in BYTE format
+     * @return void
+     */
+	public void flushCache(){
+		try{
+			FileOutputStream fout = new FileOutputStream(ConstantFilePath.ONE_HASH_DATA);
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(this.getCustomers());
+			oos.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	/************************************ UTILITY ************************************************/
+
+	
+	
+	
 }
