@@ -150,6 +150,7 @@ public class ComplaintLog extends BaseEntity{
 	 * @param todayIssueNo
 	 * @return complaintDateNo, format as '201203100001'
 	 */
+	@SuppressWarnings("unused")
 	private String getComplaintDateNo(String complaintDateNo, String strDate,
 			long todayIssueNo) {
 		String[] strDateArr = null;

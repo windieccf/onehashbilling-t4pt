@@ -21,10 +21,7 @@
 package com.onehash.utility;
 
 import java.text.SimpleDateFormat;
-import java.text.ParseException;
 import java.util.*;
-import java.io.StringWriter;
-import java.io.PrintWriter;
 import java.sql.Timestamp;
 
 public class OneHashDateUtil {
@@ -358,7 +355,7 @@ public class OneHashDateUtil {
         if ( date == null ) return false;
 
         try {
-            Date temp = parse( date, format );
+           parse( date, format );
         } catch ( java.text.ParseException e ) {
             return false;
         }
@@ -379,7 +376,7 @@ public class OneHashDateUtil {
         if ( date == null ) return false;
 
         try {
-            Date temp = parse( date );
+        	parse( date );
         } catch ( java.text.ParseException e ) {
             return false;
         }
@@ -435,7 +432,7 @@ public class OneHashDateUtil {
        
 
         try {
-            Date temp = parse( time, timeformat );
+            parse( time, timeformat );
         } catch ( java.text.ParseException e ) {
             return false;
         }
@@ -456,7 +453,7 @@ public class OneHashDateUtil {
         if ( time == null || format == null ) return false;
 
         try {
-            Date temp = parse( time, format );
+            parse( time, format );
         } catch ( java.text.ParseException e ) {
             return false;
         }
