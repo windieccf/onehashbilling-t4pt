@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 11 March 2012    Robin Foe	    0.1				Class creating
- * 													
+ * 12 March 2012	Chen Changfeng	0.1				Menu creating												
  * 													
  * 													
  * 													
@@ -35,6 +35,7 @@ import com.onehash.model.scalar.MenuScalar;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.panel.bill.BillListPanel;
 import com.onehash.view.panel.bill.BillReportPanel;
+import com.onehash.view.panel.complaint.ComplaintListPanel;
 import com.onehash.view.panel.customer.CustomerListPanel;
 
 @SuppressWarnings("serial")
@@ -99,6 +100,12 @@ public class MenuPanel extends JPanel{
 		
 		BillMenu.getChildMenus().add( MenuScalar.createChildMenu("View Bill", BillListPanel.class) );
 		BillMenu.getChildMenus().add( MenuScalar.createChildMenu("Monthly Report", BillReportPanel.class) );
+		
+		/******************* COMPLAINT MENU ***********************/
+		MenuScalar ComplaintlMenu = MenuScalar.createParentMenu("Complaint");
+		rootMenu.getChildMenus().add(ComplaintlMenu);
+		
+		ComplaintlMenu.getChildMenus().add( MenuScalar.createChildMenu("View Complaint", ComplaintListPanel.class) );
 		
 		
 		return rootMenu;
