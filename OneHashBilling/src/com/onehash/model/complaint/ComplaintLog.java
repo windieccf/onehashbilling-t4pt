@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Robin Foe	    0.1				Class creating
- * 													
+ * 10 March 2012    Chen Changfeng	0.2				Add complaint ID methods 													
  * 													
  * 													
  * 													
