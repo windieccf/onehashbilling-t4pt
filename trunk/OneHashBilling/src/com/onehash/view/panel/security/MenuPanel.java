@@ -20,15 +20,22 @@
 
 package com.onehash.view.panel.security;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.onehash.model.scalar.MenuScalar;
 import com.onehash.view.OneHashGui;
+import com.onehash.view.panel.bill.BillListPanel;
+import com.onehash.view.panel.bill.BillReportPanel;
+import com.onehash.view.panel.customer.CustomerListPanel;
 
 @SuppressWarnings("serial")
 public class MenuPanel extends JPanel{
@@ -47,11 +54,26 @@ public class MenuPanel extends JPanel{
 		generateNodes(root, menuScalar.getChildMenus());
 		
 		JTree menuTree = new JTree(root);
-		this.add(menuTree);
+		// expanding all menu 
+		for (int i = 0; i < menuTree.getRowCount(); i++) {
+			menuTree.expandRow(i);
+		}
+		
+		this.bindEvent(menuTree);
+		JScrollPane scrollPane = new JScrollPane(menuTree);
+		
+		// removing borders
+		scrollPane.setBorder(null);
+		
+		this.add(scrollPane, BorderLayout.EAST);
 		this.setBackground(Color.WHITE);
 	}
 	
-	public void generateNodes(DefaultMutableTreeNode root, List<MenuScalar> menus){
+	private void bindEvent(JTree menuTree){
+		menuTree.addTreeSelectionListener(new MenuPanel.MenuPanelSelectionListener(this));
+	}
+	
+	private void generateNodes(DefaultMutableTreeNode root, List<MenuScalar> menus){
 		for(MenuScalar menu : menus){
 			DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(menu.cloneAttribute());
 			if(!menu.getChildMenus().isEmpty())
@@ -61,14 +83,43 @@ public class MenuPanel extends JPanel{
 		}
 	}
 	
+	
+	
 
 	public MenuScalar getMenus(){
-		MenuScalar rootMenu = new MenuScalar("Root Menu","");
+		MenuScalar rootMenu = MenuScalar.createParentMenu("One Hash Billing");
 		
-		MenuScalar customerMenu = new MenuScalar("Customer","");
+		/******************* CUSTOMER MENU ***********************/
+		MenuScalar customerMenu = MenuScalar.createChildMenu("Customer",CustomerListPanel.class);
 		rootMenu.getChildMenus().add(customerMenu);
-			
+		
+		/******************* BILL MENU ***********************/
+		MenuScalar BillMenu = MenuScalar.createParentMenu("Bill");
+		rootMenu.getChildMenus().add(BillMenu);
+		
+		BillMenu.getChildMenus().add( MenuScalar.createChildMenu("View Bill", BillListPanel.class) );
+		BillMenu.getChildMenus().add( MenuScalar.createChildMenu("Monthly Report", BillReportPanel.class) );
+		
+		
 		return rootMenu;
+	}
+
+	
+	/******************** LISTENER IMPLEMENTATION **************/
+	private static class MenuPanelSelectionListener implements  TreeSelectionListener{
+		private MenuPanel menuPanel;
+		public MenuPanelSelectionListener(MenuPanel menuPanel){ this.menuPanel = menuPanel;}
+		
+		@Override
+		public void valueChanged(TreeSelectionEvent selectionEvent) {
+			JTree tree = (JTree) selectionEvent.getSource();
+		    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+		    MenuScalar menuScalar = (MenuScalar)selectedNode.getUserObject();
+		    if(menuScalar.isAccessible())
+		    	this.menuPanel.getMainFrame().doLoadScreen(menuScalar.getKlass());
+			
+		}
+		
 	}
 	
 	

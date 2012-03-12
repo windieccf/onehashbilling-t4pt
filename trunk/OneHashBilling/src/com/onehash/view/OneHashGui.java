@@ -55,8 +55,12 @@ public class OneHashGui extends JFrame {
 			if(splitPanel == null){
 				splitPanel = new JSplitPane();
 				this.setSize(800,500);
-				this.setContentPane(splitPanel);
+				splitPanel.setDividerSize(5);
+				splitPanel.setDividerLocation(155);
+				splitPanel.setEnabled(false);
 				splitPanel.setLeftComponent(new MenuPanel(this));
+				
+				this.setContentPane(splitPanel);
 			}
 			
 			Constructor constructor = klass.getConstructor(OneHashGui.class);

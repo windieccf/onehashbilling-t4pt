@@ -23,30 +23,39 @@ package com.onehash.model.scalar;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.onehash.view.panel.base.BasePanel;
+
 public class MenuScalar {
 	
 	private String menuName;
 	public String getMenuName() {return menuName;}
 	public void setMenuName(String menuName) {this.menuName = menuName;}
 
-	private String klassName;
-	public String getKlassName() {return klassName;}
-	public void setKlassName(String klassName) {this.klassName = klassName;}
-	
+	private Class<? extends BasePanel> klass;
+	public Class<? extends BasePanel> getKlass() {return klass;}
+	public void setKlass(Class<? extends BasePanel> klass) {this.klass = klass;}
+
 	private List<MenuScalar> childMenus = new ArrayList<MenuScalar>();
 	public List<MenuScalar> getChildMenus() {return childMenus;}
 	public void setChildMenus(List<MenuScalar> childMenus) {this.childMenus = childMenus;}
-	
-	public MenuScalar(){}
-	public MenuScalar(String menuName, String klassName){
+
+	private MenuScalar(){}
+	private MenuScalar(String menuName){this(menuName,null);}
+	private MenuScalar(String menuName, Class<? extends BasePanel> klass){
 		this.menuName = menuName;
-		this.klassName = klassName;
+		this.klass = klass;
 	}
 	
-	public MenuScalar cloneAttribute(){
-		return new MenuScalar(menuName, klassName);
-	}
+
+	/******************************* UTILITY *************************************/
+	public boolean isAccessible(){return (klass!=null);}
+	
+	public MenuScalar cloneAttribute(){return new MenuScalar(menuName, klass);}
 	
 	public String toString(){return this.getMenuName();}
+
 	
+	/********************************************* CREATION OF MENU SCALAR *****************************************************/
+	public static MenuScalar createParentMenu(String menuName){return new MenuScalar(menuName);}
+	public static MenuScalar createChildMenu(String menuName,Class<? extends BasePanel> klass){return new MenuScalar(menuName,klass);}
 }
