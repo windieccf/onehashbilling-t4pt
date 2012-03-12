@@ -1,0 +1,151 @@
+AccNo,ChannelName,StartDate,EndDate
+SA-0005-14-91,Education- BBC Knowledge,01/01/2011,31/12/2012
+SA-0005-14-91,Kids- Nickelodeon,01/01/2011,31/12/2012
+SA-0005-14-91,News- CNN Headline News,01/01/2011,31/12/2012
+SA-0009-04-02,Education- BBC Knowledge,01/01/2011,31/12/2012
+SA-0009-04-02,Entertainment- Animax,01/01/2011,31/12/2012
+SA-0009-04-02,Kids- Nickelodeon,01/01/2011,31/12/2012
+SA-0012-71-76,Entertainment- Syfy HD,01/01/2011,31/12/2012
+SA-0012-71-76,Kids- BabyTV,01/01/2011,31/12/2012
+SA-0012-71-76,Kids- Nickelodeon,01/01/2011,31/12/2012
+SA-0021-95-06,Education- Discovery HD World,01/01/2011,31/12/2012
+SA-0021-95-06,Entertainment- Syfy HD,01/01/2011,31/12/2012
+SA-0021-95-06,Kids- BabyTV,01/01/2011,31/12/2012
+SA-0033-12-88,Education- BBC Knowledge,01/01/2011,31/12/2012
+SA-0033-12-88,Entertainment- MTV SEA,01/01/2011,31/12/2012
+SA-0033-12-88,News- CNN Headline News,01/01/2011,31/12/2012
+SA-0037-94-05,Education- Crime & Investigation Network,01/01/2011,31/12/2012
+SA-0037-94-05,Kids- Nickelodeon,01/01/2011,31/12/2012
+SA-0037-94-05,News- Sky News,01/01/2011,31/12/2012
+SA-0050-81-89,Education- HISTORY,01/01/2011,31/12/2012
+SA-0050-81-89,Entertainment- Animax,01/01/2011,31/12/2012
+SA-0050-81-89,News- Sky News,01/01/2011,31/12/2012
+SA-0055-36-68,Education- BBC Knowledge,01/01/2011,31/12/2012
+SA-0055-36-68,Education- Crime & Investigation Network,01/01/2011,31/12/2012
+SA-0055-36-68,Education- Discovery HD World,01/01/2011,31/12/2012
+SA-0063-02-33,Education- HISTORY,01/01/2011,31/12/2012
+SA-0063-02-33,Entertainment- Animax,01/01/2011,31/12/2012
+SA-0063-02-33,Entertainment- FOXCRIME HD,01/01/2011,31/12/2012
+SA-0080-84-93,Education- BBC Knowledge,01/01/2011,31/12/2012
+SA-0080-84-93,News- Fox News Channel,01/01/2011,31/12/2012
+SA-0080-84-93,News- Sky News,01/01/2011,31/12/2012
+SA-0092-93-02,Education- HISTORY,01/01/2011,31/12/2012
+SA-0092-93-02,Kids- BabyTV,01/01/2011,31/12/2012
+SA-0092-93-02,Kids- Nickelodeon,01/01/2011,31/12/2012
+SA-0107-05-98,Entertainment- FOXCRIME HD,01/01/2011,31/12/2012
+SA-0107-05-98,Entertainment- MTV SEA,01/01/2011,31/12/2012
+SA-0107-05-98,Entertainment- Syfy HD,01/01/2011,31/12/2012
+SA-0112-53-34,News- CNN Headline News,01/01/2011,31/12/2012
+SA-0112-53-34,News- Fox News Channel,01/01/2011,31/12/2012
+SA-0112-53-34,News- Sky News,01/01/2011,31/12/2012
+SA-0114-12-73,Education- BBC Knowledge,01/01/2011,31/12/2012
+SA-0114-12-73,Entertainment- Syfy HD,01/01/2011,31/12/2012
+SA-0114-12-73,News- Fox News Channel,01/01/2011,31/12/2012
+SA-0133-16-62,Education- Discovery HD World,01/01/2011,31/12/2012
+SA-0133-16-62,Education- HISTORY,01/01/2011,31/12/2012
+SA-0133-16-62,News- Sky News,01/01/2011,31/12/2012
+SA-0138-33-52,Education- BBC Knowledge,01/01/2011,31/12/2012
+SA-0138-33-52,Education- Crime & Investigation Network,01/01/2011,31/12/2012
+SA-0138-33-52,News- Fox News Channel,01/01/2011,31/12/2012
+SA-0144-10-84,Education- BBC Knowledge,01/01/2011,31/12/2012
+SA-0144-10-84,Education- Discovery HD World,01/01/2011,31/12/2012
+SA-0144-10-84,Education- HISTORY,,
+SA-0145-41-01,Education- HISTORY,,
+SA-0145-41-01,Entertainment- Animax,,
+SA-0145-41-01,Entertainment- Syfy HD,,
+SA-0147-43-82,Education- Discovery HD World,,
+SA-0147-43-82,Kids- Nickelodeon,,
+SA-0147-43-82,News- Fox News Channel,,
+SA-0151-98-79,Education- BBC Knowledge,,
+SA-0151-98-79,Entertainment- MTV SEA,,
+SA-0151-98-79,Kids- BabyTV,,
+SA-0155-74-77,Education- HISTORY,,
+SA-0155-74-77,Kids- BabyTV,,
+SA-0155-74-77,Kids- Nickelodeon,,
+SA-0182-19-79,Education- BBC Knowledge,,
+SA-0182-19-79,Entertainment- MTV SEA,,
+SA-0182-19-79,News- CNN Headline News,,
+SA-0185-10-64,Education- Discovery HD World,,
+SA-0185-10-64,Entertainment- Syfy HD,,
+SA-0185-10-64,News- Sky News,,
+SA-0185-59-07,Entertainment- MTV SEA,,
+SA-0185-59-07,Kids- BabyTV,,
+SA-0185-59-07,News- Fox News Channel,,
+SA-0186-07-48,Education- Discovery HD World,,
+SA-0186-07-48,Entertainment- Animax,,
+SA-0186-07-48,Entertainment- MTV SEA,,
+SA-0187-35-19,Education- HISTORY,,
+SA-0187-35-19,Entertainment- Syfy HD,,
+SA-0187-35-19,News- CNN Headline News,,
+SA-0202-82-34,Entertainment- Animax,,
+SA-0202-82-34,Kids- BabyTV,,
+SA-0202-82-34,News- Sky News,,
+SA-0210-42-47,Entertainment- MTV SEA,,
+SA-0210-42-47,Kids- Nickelodeon,,
+SA-0210-42-47,News- CNN Headline News,,
+SA-0220-48-64,Entertainment- Animax,,
+SA-0220-48-64,Entertainment- MTV SEA,,
+SA-0220-48-64,Entertainment- Syfy HD,,
+SA-0220-61-46,Education- HISTORY,,
+SA-0220-61-46,Entertainment- Animax,,
+SA-0220-61-46,News- Sky News,,
+SA-0222-28-58,Entertainment- Animax,,
+SA-0222-28-58,Entertainment- MTV SEA,,
+SA-0222-28-58,News- Fox News Channel,,
+SA-0227-78-67,Entertainment- FOXCRIME HD,,
+SA-0227-78-67,Entertainment- MTV SEA,,
+SA-0227-78-67,Kids- Nickelodeon,,
+SA-0249-45-54,Education- BBC Knowledge,,
+SA-0249-45-54,Entertainment- Animax,,
+SA-0249-45-54,News- Fox News Channel,,
+SA-0252-71-33,Education- BBC Knowledge,,
+SA-0252-71-33,Entertainment- Syfy HD,,
+SA-0252-71-33,News- Fox News Channel,,
+SA-0261-41-34,Education- Crime & Investigation Network,,
+SA-0261-41-34,Entertainment- FOXCRIME HD,,
+SA-0261-41-34,Entertainment- MTV SEA,,
+SA-0263-79-37,Education- BBC Knowledge,,
+SA-0263-79-37,Entertainment- FOXCRIME HD,,
+SA-0263-79-37,Entertainment- Syfy HD,,
+SA-0279-91-74,Education- HISTORY,,
+SA-0279-91-74,Entertainment- FOXCRIME HD,,
+SA-0279-91-74,News- CNN Headline News,,
+SA-0290-06-89,Entertainment- FOXCRIME HD,,
+SA-0290-06-89,News- CNN Headline News,,
+SA-0290-06-89,News- Fox News Channel,,
+SA-0303-06-26,Entertainment- FOXCRIME HD,,
+SA-0303-06-26,Entertainment- MTV SEA,,
+SA-0303-06-26,Kids- Nickelodeon,,
+SA-0305-50-15,Entertainment- Animax,,
+SA-0305-50-15,Entertainment- Syfy HD,,
+SA-0305-50-15,Kids- Nickelodeon,,
+SA-0312-94-95,Education- BBC Knowledge,,
+SA-0312-94-95,Education- Discovery HD World,,
+SA-0312-94-95,Education- HISTORY,,
+SA-0314-69-44,Entertainment- FOXCRIME HD,,
+SA-0314-69-44,Entertainment- Syfy HD,,
+SA-0314-69-44,News- Sky News,,
+SA-0335-96-08,Entertainment- MTV SEA,,
+SA-0335-96-08,Entertainment- Syfy HD,,
+SA-0335-96-08,News- CNN Headline News,,
+SA-0339-42-22,Entertainment- Animax,,
+SA-0339-42-22,Entertainment- MTV SEA,,
+SA-0339-42-22,News- Sky News,,
+SA-0343-60-69,Entertainment- FOXCRIME HD,,
+SA-0343-60-69,Entertainment- MTV SEA,,
+SA-0343-60-69,Kids- BabyTV,,
+SA-0361-84-31,Education- Discovery HD World,,
+SA-0361-84-31,Entertainment- MTV SEA,,
+SA-0361-84-31,Kids- BabyTV,,
+SA-0378-80-96,Education- Discovery HD World,,
+SA-0378-80-96,Entertainment- FOXCRIME HD,,
+SA-0378-80-96,Kids- BabyTV,,
+SA-0401-55-12,Education- BBC Knowledge,,
+SA-0401-55-12,Kids- BabyTV,,
+SA-0401-55-12,Kids- Nickelodeon,,
+SA-0414-20-79,Education- HISTORY,,
+SA-0414-20-79,Kids- Nickelodeon,,
+SA-0414-20-79,News- Sky News,,
+SA-0414-86-48,Entertainment- Animax,,
+SA-0414-86-48,Entertainment- FOXCRIME HD,,
+SA-0414-86-48,Entertainment- MTV SEA,,
