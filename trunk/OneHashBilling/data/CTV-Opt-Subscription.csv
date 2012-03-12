@@ -1,0 +1,811 @@
+AccNo,FeaName,Sdate,Edate
+SA-0005-14-91,Education- Animal Planet,06/01/2011,11/09/2011
+SA-0005-14-91,Education- Discovery Channel,09/01/2011,26/10/2011
+SA-0005-14-91,Education- Nat Geo Wild,10/01/2011,18/07/2011
+SA-0005-14-91,Entertainment- AXN HD,05/01/2011,29/07/2011
+SA-0005-14-91,Entertainment- AXN HD,29/07/2011,14/02/2012
+SA-0005-14-91,Entertainment- FOX HD,04/01/2011,21/10/2011
+SA-0005-14-91,Entertainment- STAR World HD,07/01/2011,04/07/2011
+SA-0005-14-91,Entertainment- STAR World HD,06/07/2011,10/01/2012
+SA-0005-14-91,Entertainment- Universal Channel HD,02/01/2011,24/12/2011
+SA-0005-14-91,Kids- Cartoon Network,04/01/2011,16/10/2011
+SA-0005-14-91,Kids- Disney Channel,31/01/2011,21/09/2011
+SA-0005-14-91,News- BBC World News,12/01/2011,05/11/2011
+SA-0005-14-91,News- Sky News,03/01/2011,08/08/2011
+SA-0005-14-91,News- Sky News,19/08/2011,19/12/2012
+SA-0005-14-91,Sports- All Sports Network HD,02/01/2011,26/11/2011
+SA-0005-14-91,Sports- Football Channel,03/01/2011,20/10/2011
+SA-0005-14-91,Sports- Neo Cricket,08/01/2011,04/09/2011
+SA-0005-14-91,Sports- Sports HD,09/01/2011,06/10/2011
+SA-0009-04-02,Education- Animal Planet,10/01/2011,26/07/2011
+SA-0009-04-02,Education- Discovery Channel,31/01/2011,30/11/2011
+SA-0009-04-02,Education- Nat Geo Wild,08/01/2011,13/11/2011
+SA-0009-04-02,Entertainment- AXN HD,05/01/2011,05/08/2011
+SA-0009-04-02,Entertainment- FOX HD,04/01/2011,02/10/2011
+SA-0009-04-02,Entertainment- STAR World HD,23/01/2011,07/12/2011
+SA-0009-04-02,Entertainment- Universal Channel HD,07/01/2011,30/12/2011
+SA-0009-04-02,Kids- Cartoon Network,12/01/2011,10/07/2011
+SA-0009-04-02,Kids- Cartoon Network,24/07/2011,24/05/2012
+SA-0009-04-02,Kids- Disney Channel,13/01/2011,01/10/2011
+SA-0009-04-02,News- BBC World News,19/01/2011,07/09/2011
+SA-0009-04-02,News- Sky News,19/01/2011,08/08/2011
+SA-0009-04-02,Sports- All Sports Network HD,01/01/2011,07/08/2011
+SA-0009-04-02,Sports- Football Channel,01/01/2011,18/11/2011
+SA-0009-04-02,Sports- Neo Cricket,10/01/2011,22/10/2011
+SA-0009-04-02,Sports- Sports HD,07/01/2011,24/12/2011
+SA-0012-71-76,Education- Animal Planet,02/01/2011,11/12/2011
+SA-0012-71-76,Education- Discovery Channel,21/01/2011,06/07/2011
+SA-0012-71-76,Education- Discovery Channel,02/08/2011,27/03/2012
+SA-0012-71-76,Education- Nat Geo Wild,17/02/2011,29/09/2011
+SA-0012-71-76,Entertainment- AXN HD,10/01/2011,29/10/2011
+SA-0012-71-76,Entertainment- FOX HD,07/01/2011,03/11/2011
+SA-0012-71-76,Entertainment- STAR World HD,31/01/2011,13/07/2011
+SA-0012-71-76,Entertainment- STAR World HD,15/07/2011,28/12/2012
+SA-0012-71-76,Entertainment- Universal Channel HD,11/01/2011,30/07/2011
+SA-0012-71-76,Kids- Cartoon Network,10/01/2011,27/12/2011
+SA-0012-71-76,Kids- Disney Channel,05/01/2011,13/12/2011
+SA-0012-71-76,News- BBC World News,02/01/2011,27/10/2011
+SA-0012-71-76,News- Sky News,03/01/2011,29/08/2011
+SA-0012-71-76,Sports- All Sports Network HD,05/01/2011,02/09/2011
+SA-0012-71-76,Sports- Football Channel,02/01/2011,18/12/2011
+SA-0012-71-76,Sports- Neo Cricket,12/01/2011,28/08/2011
+SA-0012-71-76,Sports- Sports HD,05/01/2011,10/09/2011
+SA-0021-95-06,Education- Animal Planet,05/02/2011,18/07/2011
+SA-0021-95-06,Education- Discovery Channel,16/01/2011,02/07/2011
+SA-0021-95-06,Education- Discovery Channel,02/07/2011,20/12/2012
+SA-0021-95-06,Education- Nat Geo Wild,10/01/2011,09/10/2011
+SA-0021-95-06,Entertainment- AXN HD,15/01/2011,16/09/2011
+SA-0021-95-06,Entertainment- FOX HD,15/01/2011,26/07/2011
+SA-0021-95-06,Entertainment- STAR World HD,11/01/2011,18/07/2011
+SA-0021-95-06,Entertainment- STAR World HD,26/07/2011,11/10/2012
+SA-0021-95-06,Entertainment- Universal Channel HD,22/01/2011,12/12/2011
+SA-0021-95-06,Kids- Cartoon Network,11/01/2011,01/09/2011
+SA-0021-95-06,Kids- Disney Channel,17/01/2011,05/08/2011
+SA-0021-95-06,News- BBC World News,04/01/2011,05/10/2011
+SA-0021-95-06,News- Sky News,10/01/2011,07/10/2011
+SA-0021-95-06,Sports- All Sports Network HD,05/01/2011,27/12/2011
+SA-0021-95-06,Sports- Football Channel,06/01/2011,23/10/2011
+SA-0021-95-06,Sports- Neo Cricket,01/01/2011,19/12/2011
+SA-0021-95-06,Sports- Sports HD,15/01/2011,25/12/2011
+SA-0033-12-88,Education- Animal Planet,05/01/2011,28/07/2011
+SA-0033-12-88,Education- Discovery Channel,20/01/2011,23/10/2011
+SA-0033-12-88,Education- Nat Geo Wild,03/02/2011,14/07/2011
+SA-0033-12-88,Entertainment- AXN HD,17/01/2011,13/08/2011
+SA-0033-12-88,Entertainment- FOX HD,10/01/2011,09/10/2011
+SA-0033-12-88,Entertainment- STAR World HD,03/01/2011,16/12/2011
+SA-0033-12-88,Entertainment- Universal Channel HD,07/01/2011,07/10/2011
+SA-0033-12-88,Kids- Cartoon Network,08/01/2011,30/09/2011
+SA-0033-12-88,Kids- Disney Channel,02/01/2011,11/12/2011
+SA-0033-12-88,News- BBC World News,06/01/2011,18/07/2011
+SA-0033-12-88,News- Sky News,30/01/2011,09/09/2011
+SA-0033-12-88,Sports- All Sports Network HD,18/01/2011,04/09/2011
+SA-0033-12-88,Sports- Football Channel,11/01/2011,21/11/2011
+SA-0033-12-88,Sports- Neo Cricket,27/01/2011,03/11/2011
+SA-0033-12-88,Sports- Sports HD,03/01/2011,13/09/2011
+SA-0037-94-05,Education- Animal Planet,09/01/2011,17/10/2011
+SA-0037-94-05,Education- Discovery Channel,07/01/2011,29/12/2011
+SA-0037-94-05,Education- Nat Geo Wild,04/01/2011,20/12/2011
+SA-0037-94-05,Entertainment- AXN HD,03/01/2011,06/08/2011
+SA-0037-94-05,Entertainment- FOX HD,05/01/2011,07/08/2011
+SA-0037-94-05,Entertainment- STAR World HD,02/01/2011,01/10/2011
+SA-0037-94-05,Entertainment- Universal Channel HD,03/01/2011,01/12/2011
+SA-0037-94-05,Kids- Cartoon Network,10/01/2011,26/09/2011
+SA-0037-94-05,Kids- Disney Channel,14/01/2011,05/09/2011
+SA-0037-94-05,News- BBC World News,14/01/2011,03/09/2011
+SA-0037-94-05,News- Sky News,25/02/2011,18/09/2011
+SA-0037-94-05,Sports- All Sports Network HD,04/01/2011,12/11/2011
+SA-0037-94-05,Sports- Football Channel,04/01/2011,01/09/2011
+SA-0037-94-05,Sports- Neo Cricket,18/01/2011,01/10/2011
+SA-0037-94-05,Sports- Sports HD,07/01/2011,21/07/2011
+SA-0037-94-05,Sports- Sports HD,22/07/2011,14/08/2012
+SA-0050-81-89,Education- Animal Planet,24/01/2011,06/08/2011
+SA-0050-81-89,Education- Discovery Channel,01/01/2011,04/12/2011
+SA-0050-81-89,Education- Nat Geo Wild,01/01/2011,18/08/2011
+SA-0050-81-89,Education- Nat Geo Wild,25/08/2011,27/01/2012
+SA-0050-81-89,Entertainment- AXN HD,17/02/2011,28/11/2011
+SA-0050-81-89,Entertainment- FOX HD,16/01/2011,05/08/2011
+SA-0050-81-89,Entertainment- STAR World HD,01/02/2011,09/09/2011
+SA-0050-81-89,Entertainment- Universal Channel HD,15/01/2011,01/08/2011
+SA-0050-81-89,Kids- Cartoon Network,27/01/2011,26/10/2011
+SA-0050-81-89,Kids- Disney Channel,10/01/2011,25/11/2011
+SA-0050-81-89,News- BBC World News,21/01/2011,13/08/2011
+SA-0050-81-89,News- Sky News,03/01/2011,14/08/2011
+SA-0050-81-89,Sports- All Sports Network HD,10/01/2011,01/12/2011
+SA-0050-81-89,Sports- Football Channel,31/03/2011,09/08/2011
+SA-0050-81-89,Sports- Neo Cricket,15/01/2011,14/11/2011
+SA-0050-81-89,Sports- Sports HD,02/01/2011,29/10/2011
+SA-0055-36-68,Education- Animal Planet,17/01/2011,05/09/2011
+SA-0055-36-68,Education- Discovery Channel,16/01/2011,21/07/2011
+SA-0055-36-68,Education- Nat Geo Wild,04/01/2011,16/11/2011
+SA-0055-36-68,Entertainment- AXN HD,10/01/2011,14/07/2011
+SA-0055-36-68,Entertainment- AXN HD,21/07/2011,20/03/2012
+SA-0055-36-68,Entertainment- FOX HD,03/02/2011,25/07/2011
+SA-0055-36-68,Entertainment- STAR World HD,01/01/2011,28/08/2011
+SA-0055-36-68,Entertainment- Universal Channel HD,08/01/2011,31/08/2011
+SA-0055-36-68,Kids- Cartoon Network,10/01/2011,22/10/2011
+SA-0055-36-68,Kids- Disney Channel,25/01/2011,30/09/2011
+SA-0055-36-68,News- BBC World News,17/01/2011,24/07/2011
+SA-0055-36-68,News- Sky News,25/01/2011,17/07/2011
+SA-0055-36-68,Sports- All Sports Network HD,11/01/2011,21/10/2011
+SA-0055-36-68,Sports- Football Channel,05/01/2011,03/09/2011
+SA-0055-36-68,Sports- Neo Cricket,11/01/2011,01/08/2011
+SA-0055-36-68,Sports- Sports HD,24/01/2011,04/12/2011
+SA-0063-02-33,Education- Animal Planet,01/01/2011,10/10/2011
+SA-0063-02-33,Education- Discovery Channel,25/01/2011,29/11/2011
+SA-0063-02-33,Education- Nat Geo Wild,07/01/2011,24/07/2011
+SA-0063-02-33,Education- Nat Geo Wild,13/08/2011,02/04/2012
+SA-0063-02-33,Entertainment- AXN HD,01/01/2011,21/09/2011
+SA-0063-02-33,Entertainment- FOX HD,28/02/2011,29/09/2011
+SA-0063-02-33,Entertainment- STAR World HD,03/01/2011,05/10/2011
+SA-0063-02-33,Entertainment- Universal Channel HD,20/01/2011,05/12/2011
+SA-0063-02-33,Kids- Cartoon Network,19/01/2011,24/07/2011
+SA-0063-02-33,Kids- Cartoon Network,07/10/2011,31/05/2012
+SA-0063-02-33,Kids- Disney Channel,03/01/2011,09/11/2011
+SA-0063-02-33,News- BBC World News,06/01/2011,19/08/2011
+SA-0063-02-33,News- Sky News,09/01/2011,17/07/2011
+SA-0063-02-33,News- Sky News,30/07/2011,29/05/2012
+SA-0063-02-33,Sports- All Sports Network HD,14/02/2011,24/12/2011
+SA-0063-02-33,Sports- Football Channel,20/01/2011,17/09/2011
+SA-0063-02-33,Sports- Neo Cricket,27/01/2011,24/09/2011
+SA-0063-02-33,Sports- Sports HD,05/02/2011,31/07/2011
+SA-0080-84-93,Education- Animal Planet,11/01/2011,15/11/2011
+SA-0080-84-93,Education- Discovery Channel,01/01/2011,19/07/2011
+SA-0080-84-93,Education- Nat Geo Wild,03/01/2011,27/12/2011
+SA-0080-84-93,Entertainment- AXN HD,12/01/2011,25/10/2011
+SA-0080-84-93,Entertainment- FOX HD,04/01/2011,08/08/2011
+SA-0080-84-93,Entertainment- STAR World HD,04/01/2011,30/11/2011
+SA-0080-84-93,Entertainment- Universal Channel HD,04/01/2011,29/07/2011
+SA-0080-84-93,Kids- Cartoon Network,08/01/2011,15/11/2011
+SA-0080-84-93,Kids- Disney Channel,12/01/2011,20/10/2011
+SA-0080-84-93,News- BBC World News,18/02/2011,01/12/2011
+SA-0080-84-93,News- Sky News,17/01/2011,03/09/2011
+SA-0080-84-93,Sports- All Sports Network HD,17/01/2011,20/12/2011
+SA-0080-84-93,Sports- Football Channel,09/01/2011,11/10/2011
+SA-0080-84-93,Sports- Neo Cricket,10/01/2011,24/08/2011
+SA-0080-84-93,Sports- Sports HD,04/01/2011,29/12/2011
+SA-0092-93-02,Education- Animal Planet,09/01/2011,15/07/2011
+SA-0092-93-02,Education- Discovery Channel,15/01/2011,01/09/2011
+SA-0092-93-02,Education- Nat Geo Wild,14/02/2011,15/08/2011
+SA-0092-93-02,Entertainment- AXN HD,04/01/2011,13/09/2011
+SA-0092-93-02,Entertainment- FOX HD,25/01/2011,17/09/2011
+SA-0092-93-02,Entertainment- STAR World HD,08/01/2011,16/10/2011
+SA-0092-93-02,Entertainment- Universal Channel HD,01/01/2011,03/09/2011
+SA-0092-93-02,Kids- Cartoon Network,05/01/2011,26/09/2011
+SA-0092-93-02,Kids- Disney Channel,10/01/2011,21/11/2011
+SA-0092-93-02,News- BBC World News,08/01/2011,29/08/2011
+SA-0092-93-02,News- Sky News,18/01/2011,20/08/2011
+SA-0092-93-02,Sports- All Sports Network HD,07/01/2011,15/09/2011
+SA-0092-93-02,Sports- Football Channel,05/01/2011,22/09/2011
+SA-0092-93-02,Sports- Neo Cricket,20/01/2011,05/11/2011
+SA-0092-93-02,Sports- Sports HD,06/02/2011,04/11/2011
+SA-0107-05-98,Education- Animal Planet,14/01/2011,20/09/2011
+SA-0107-05-98,Education- Discovery Channel,01/01/2011,26/09/2011
+SA-0107-05-98,Education- Nat Geo Wild,21/02/2011,27/07/2011
+SA-0107-05-98,Entertainment- AXN HD,20/01/2011,26/07/2011
+SA-0107-05-98,Entertainment- FOX HD,18/01/2011,07/10/2011
+SA-0107-05-98,Entertainment- STAR World HD,03/01/2011,25/11/2011
+SA-0107-05-98,Entertainment- Universal Channel HD,08/01/2011,01/07/2011
+SA-0107-05-98,Entertainment- Universal Channel HD,17/07/2011,16/06/2012
+SA-0107-05-98,Kids- Cartoon Network,04/01/2011,26/10/2011
+SA-0107-05-98,Kids- Disney Channel,04/01/2011,11/07/2011
+SA-0107-05-98,Kids- Disney Channel,12/07/2011,08/01/2012
+SA-0107-05-98,News- BBC World News,01/01/2011,04/10/2011
+SA-0107-05-98,News- Sky News,07/01/2011,26/10/2011
+SA-0107-05-98,Sports- All Sports Network HD,01/01/2011,19/10/2011
+SA-0107-05-98,Sports- Football Channel,18/01/2011,01/09/2011
+SA-0107-05-98,Sports- Neo Cricket,08/01/2011,15/10/2011
+SA-0107-05-98,Sports- Sports HD,05/01/2011,24/11/2011
+SA-0112-53-34,Education- Animal Planet,11/01/2011,17/12/2011
+SA-0112-53-34,Education- Discovery Channel,03/01/2011,12/07/2011
+SA-0112-53-34,Education- Discovery Channel,29/07/2011,30/10/2012
+SA-0112-53-34,Education- Nat Geo Wild,11/01/2011,25/07/2011
+SA-0112-53-34,Entertainment- AXN HD,02/01/2011,17/10/2011
+SA-0112-53-34,Entertainment- FOX HD,18/02/2011,27/07/2011
+SA-0112-53-34,Entertainment- STAR World HD,22/01/2011,20/08/2011
+SA-0112-53-34,Entertainment- Universal Channel HD,19/01/2011,06/10/2011
+SA-0112-53-34,Kids- Cartoon Network,18/02/2011,01/10/2011
+SA-0112-53-34,Kids- Disney Channel,10/01/2011,25/11/2011
+SA-0112-53-34,News- BBC World News,02/01/2011,20/12/2011
+SA-0112-53-34,News- Sky News,05/01/2011,27/07/2011
+SA-0112-53-34,Sports- All Sports Network HD,07/02/2011,05/09/2011
+SA-0112-53-34,Sports- Football Channel,11/01/2011,08/07/2011
+SA-0112-53-34,Sports- Neo Cricket,03/01/2011,18/07/2011
+SA-0112-53-34,Sports- Sports HD,27/01/2011,20/12/2011
+SA-0114-12-73,Education- Animal Planet,04/01/2011,16/12/2011
+SA-0114-12-73,Education- Discovery Channel,04/01/2011,13/09/2011
+SA-0114-12-73,Education- Nat Geo Wild,25/01/2011,25/11/2011
+SA-0114-12-73,Entertainment- AXN HD,22/01/2011,02/10/2011
+SA-0114-12-73,Entertainment- FOX HD,22/01/2011,25/09/2011
+SA-0114-12-73,Entertainment- STAR World HD,18/01/2011,04/08/2011
+SA-0114-12-73,Entertainment- Universal Channel HD,03/01/2011,08/09/2011
+SA-0114-12-73,Kids- Cartoon Network,22/01/2011,29/08/2011
+SA-0114-12-73,Kids- Disney Channel,06/01/2011,16/09/2011
+SA-0114-12-73,News- BBC World News,04/01/2011,21/08/2011
+SA-0114-12-73,News- Sky News,07/01/2011,27/07/2011
+SA-0114-12-73,Sports- All Sports Network HD,06/01/2011,22/09/2011
+SA-0114-12-73,Sports- Football Channel,04/01/2011,05/12/2011
+SA-0114-12-73,Sports- Neo Cricket,05/01/2011,22/12/2011
+SA-0114-12-73,Sports- Sports HD,04/01/2011,24/11/2011
+SA-0133-16-62,Education- Animal Planet,17/01/2011,07/11/2011
+SA-0133-16-62,Education- Discovery Channel,04/02/2011,09/10/2011
+SA-0133-16-62,Education- Nat Geo Wild,26/01/2011,23/09/2011
+SA-0133-16-62,Entertainment- AXN HD,02/02/2011,12/11/2011
+SA-0133-16-62,Entertainment- FOX HD,11/01/2011,14/07/2011
+SA-0133-16-62,Entertainment- FOX HD,02/08/2011,20/02/2012
+SA-0133-16-62,Entertainment- STAR World HD,23/01/2011,12/09/2011
+SA-0133-16-62,Entertainment- Universal Channel HD,25/01/2011,08/07/2011
+SA-0133-16-62,Entertainment- Universal Channel HD,16/07/2011,06/05/2012
+SA-0133-16-62,Kids- Cartoon Network,06/01/2011,24/08/2011
+SA-0133-16-62,Kids- Disney Channel,03/01/2011,17/10/2011
+SA-0133-16-62,News- BBC World News,12/01/2011,16/11/2011
+SA-0133-16-62,News- Sky News,19/01/2011,24/12/2011
+SA-0133-16-62,Sports- All Sports Network HD,04/01/2011,21/10/2011
+SA-0133-16-62,Sports- Football Channel,24/01/2011,13/12/2011
+SA-0133-16-62,Sports- Neo Cricket,07/01/2011,21/12/2011
+SA-0133-16-62,Sports- Sports HD,06/01/2011,15/09/2011
+SA-0138-33-52,Education- Animal Planet,02/01/2011,11/08/2011
+SA-0138-33-52,Education- Discovery Channel,22/01/2011,04/09/2011
+SA-0138-33-52,Education- Nat Geo Wild,09/02/2011,31/07/2011
+SA-0138-33-52,Entertainment- AXN HD,05/01/2011,04/09/2011
+SA-0138-33-52,Entertainment- FOX HD,21/01/2011,15/12/2011
+SA-0138-33-52,Entertainment- STAR World HD,28/01/2011,13/08/2011
+SA-0138-33-52,Entertainment- Universal Channel HD,04/01/2011,22/11/2011
+SA-0138-33-52,Kids- Cartoon Network,02/01/2011,02/12/2011
+SA-0138-33-52,Kids- Disney Channel,04/01/2011,17/09/2011
+SA-0138-33-52,News- BBC World News,06/01/2011,12/10/2011
+SA-0138-33-52,News- Sky News,11/01/2011,01/07/2011
+SA-0138-33-52,News- Sky News,07/07/2011,12/05/2012
+SA-0138-33-52,Sports- All Sports Network HD,06/01/2011,17/08/2011
+SA-0138-33-52,Sports- Football Channel,09/01/2011,31/10/2011
+SA-0138-33-52,Sports- Neo Cricket,10/01/2011,11/08/2011
+SA-0138-33-52,Sports- Sports HD,17/01/2011,26/12/2011
+SA-0144-10-84,Education- Animal Planet,02/01/2011,08/08/2011
+SA-0144-10-84,Education- Discovery Channel,18/03/2011,29/11/2011
+SA-0144-10-84,Education- Nat Geo Wild,06/01/2011,31/08/2011
+SA-0144-10-84,Entertainment- AXN HD,13/02/2011,16/10/2011
+SA-0144-10-84,Entertainment- FOX HD,01/01/2011,14/11/2011
+SA-0144-10-84,Entertainment- STAR World HD,24/01/2011,28/08/2011
+SA-0144-10-84,Entertainment- Universal Channel HD,21/01/2011,17/08/2011
+SA-0144-10-84,Kids- Cartoon Network,16/01/2011,22/09/2011
+SA-0144-10-84,Kids- Disney Channel,20/01/2011,25/07/2011
+SA-0144-10-84,News- BBC World News,09/01/2011,07/10/2011
+SA-0144-10-84,News- Sky News,08/01/2011,09/11/2011
+SA-0144-10-84,Sports- All Sports Network HD,13/01/2011,30/10/2011
+SA-0144-10-84,Sports- Football Channel,01/01/2011,17/09/2011
+SA-0144-10-84,Sports- Neo Cricket,03/01/2011,13/12/2011
+SA-0144-10-84,Sports- Sports HD,03/01/2011,09/09/2011
+SA-0145-41-01,Education- Animal Planet,12/01/2011,20/07/2011
+SA-0145-41-01,Education- Animal Planet,01/08/2011,08/09/2012
+SA-0145-41-01,Education- Discovery Channel,22/01/2011,07/09/2011
+SA-0145-41-01,Education- Nat Geo Wild,16/01/2011,23/11/2011
+SA-0145-41-01,Entertainment- AXN HD,10/01/2011,01/12/2011
+SA-0145-41-01,Entertainment- FOX HD,03/01/2011,22/07/2011
+SA-0145-41-01,Entertainment- STAR World HD,05/01/2011,29/07/2011
+SA-0145-41-01,Entertainment- Universal Channel HD,04/01/2011,20/10/2011
+SA-0145-41-01,Kids- Cartoon Network,04/01/2011,16/08/2011
+SA-0145-41-01,Kids- Disney Channel,19/01/2011,07/10/2011
+SA-0145-41-01,News- BBC World News,27/01/2011,27/07/2011
+SA-0145-41-01,News- Sky News,15/01/2011,14/10/2011
+SA-0145-41-01,Sports- All Sports Network HD,07/01/2011,07/12/2011
+SA-0145-41-01,Sports- Football Channel,13/01/2011,12/08/2011
+SA-0145-41-01,Sports- Football Channel,28/08/2011,01/01/2012
+SA-0145-41-01,Sports- Neo Cricket,23/01/2011,23/09/2011
+SA-0145-41-01,Sports- Sports HD,02/01/2011,23/12/2011
+SA-0147-43-82,Education- Animal Planet,10/01/2011,07/09/2011
+SA-0147-43-82,Education- Discovery Channel,26/01/2011,01/12/2011
+SA-0147-43-82,Education- Nat Geo Wild,10/01/2011,11/12/2011
+SA-0147-43-82,Entertainment- AXN HD,15/01/2011,08/12/2011
+SA-0147-43-82,Entertainment- FOX HD,01/01/2011,08/07/2011
+SA-0147-43-82,Entertainment- FOX HD,19/08/2011,10/12/2012
+SA-0147-43-82,Entertainment- STAR World HD,19/01/2011,19/09/2011
+SA-0147-43-82,Entertainment- Universal Channel HD,09/01/2011,01/08/2011
+SA-0147-43-82,Kids- Cartoon Network,07/01/2011,14/08/2011
+SA-0147-43-82,Kids- Disney Channel,21/01/2011,14/09/2011
+SA-0147-43-82,News- BBC World News,09/01/2011,09/12/2011
+SA-0147-43-82,News- Sky News,11/01/2011,12/10/2011
+SA-0147-43-82,Sports- All Sports Network HD,06/01/2011,07/10/2011
+SA-0147-43-82,Sports- Football Channel,13/01/2011,15/11/2011
+SA-0147-43-82,Sports- Neo Cricket,06/01/2011,17/11/2011
+SA-0147-43-82,Sports- Sports HD,10/01/2011,05/11/2011
+SA-0151-98-79,Education- Animal Planet,16/01/2011,19/10/2011
+SA-0151-98-79,Education- Discovery Channel,07/01/2011,05/08/2011
+SA-0151-98-79,Education- Nat Geo Wild,02/01/2011,13/12/2011
+SA-0151-98-79,Entertainment- AXN HD,06/01/2011,21/10/2011
+SA-0151-98-79,Entertainment- FOX HD,19/02/2011,19/11/2011
+SA-0151-98-79,Entertainment- STAR World HD,03/01/2011,28/08/2011
+SA-0151-98-79,Entertainment- Universal Channel HD,03/01/2011,19/12/2011
+SA-0151-98-79,Kids- Cartoon Network,03/01/2011,07/09/2011
+SA-0151-98-79,Kids- Disney Channel,13/02/2011,03/07/2011
+SA-0151-98-79,Kids- Disney Channel,16/07/2011,12/05/2012
+SA-0151-98-79,News- BBC World News,05/01/2011,21/10/2011
+SA-0151-98-79,News- Sky News,02/01/2011,31/08/2011
+SA-0151-98-79,Sports- All Sports Network HD,01/01/2011,18/09/2011
+SA-0151-98-79,Sports- Football Channel,10/01/2011,11/08/2011
+SA-0151-98-79,Sports- Neo Cricket,03/01/2011,05/12/2011
+SA-0151-98-79,Sports- Sports HD,10/01/2011,15/09/2011
+SA-0155-74-77,Education- Animal Planet,31/01/2011,09/11/2011
+SA-0155-74-77,Education- Discovery Channel,08/01/2011,19/09/2011
+SA-0155-74-77,Education- Nat Geo Wild,02/01/2011,18/11/2011
+SA-0155-74-77,Entertainment- AXN HD,12/01/2011,22/09/2011
+SA-0155-74-77,Entertainment- FOX HD,01/01/2011,07/11/2011
+SA-0155-74-77,Entertainment- STAR World HD,24/01/2011,05/09/2011
+SA-0155-74-77,Entertainment- Universal Channel HD,20/01/2011,25/11/2011
+SA-0155-74-77,Kids- Cartoon Network,08/01/2011,17/10/2011
+SA-0155-74-77,Kids- Disney Channel,23/01/2011,16/10/2011
+SA-0155-74-77,News- BBC World News,24/01/2011,22/09/2011
+SA-0155-74-77,News- Sky News,24/01/2011,28/12/2011
+SA-0155-74-77,Sports- All Sports Network HD,01/01/2011,02/08/2011
+SA-0155-74-77,Sports- Football Channel,06/01/2011,16/12/2011
+SA-0155-74-77,Sports- Neo Cricket,12/01/2011,06/07/2011
+SA-0155-74-77,Sports- Neo Cricket,15/08/2011,18/09/2012
+SA-0155-74-77,Sports- Sports HD,15/01/2011,19/07/2011
+SA-0182-19-79,Education- Animal Planet,29/01/2011,07/08/2011
+SA-0182-19-79,Education- Discovery Channel,10/01/2011,14/12/2011
+SA-0182-19-79,Education- Nat Geo Wild,14/01/2011,09/07/2011
+SA-0182-19-79,Education- Nat Geo Wild,15/07/2011,19/04/2012
+SA-0182-19-79,Entertainment- AXN HD,24/01/2011,25/10/2011
+SA-0182-19-79,Entertainment- FOX HD,04/01/2011,05/09/2011
+SA-0182-19-79,Entertainment- STAR World HD,22/01/2011,28/10/2011
+SA-0182-19-79,Entertainment- Universal Channel HD,04/01/2011,12/11/2011
+SA-0182-19-79,Kids- Cartoon Network,09/01/2011,27/08/2011
+SA-0182-19-79,Kids- Disney Channel,09/01/2011,18/12/2011
+SA-0182-19-79,News- BBC World News,04/01/2011,24/11/2011
+SA-0182-19-79,News- Sky News,26/02/2011,25/10/2011
+SA-0182-19-79,Sports- All Sports Network HD,05/01/2011,14/08/2011
+SA-0182-19-79,Sports- Football Channel,04/01/2011,09/08/2011
+SA-0182-19-79,Sports- Football Channel,10/09/2011,30/01/2012
+SA-0182-19-79,Sports- Neo Cricket,07/01/2011,21/11/2011
+SA-0182-19-79,Sports- Sports HD,20/01/2011,27/10/2011
+SA-0185-10-64,Education- Animal Planet,12/01/2011,12/12/2011
+SA-0185-10-64,Education- Discovery Channel,02/01/2011,03/10/2011
+SA-0185-10-64,Education- Nat Geo Wild,18/01/2011,18/12/2011
+SA-0185-10-64,Entertainment- AXN HD,18/01/2011,05/11/2011
+SA-0185-10-64,Entertainment- FOX HD,16/01/2011,27/09/2011
+SA-0185-10-64,Entertainment- STAR World HD,08/01/2011,22/10/2011
+SA-0185-10-64,Entertainment- Universal Channel HD,13/01/2011,23/08/2011
+SA-0185-10-64,Kids- Cartoon Network,21/01/2011,24/08/2011
+SA-0185-10-64,Kids- Disney Channel,07/01/2011,28/12/2011
+SA-0185-10-64,News- BBC World News,02/01/2011,31/08/2011
+SA-0185-10-64,News- Sky News,07/02/2011,14/10/2011
+SA-0185-10-64,Sports- All Sports Network HD,25/01/2011,07/07/2011
+SA-0185-10-64,Sports- Football Channel,09/01/2011,09/12/2011
+SA-0185-10-64,Sports- Neo Cricket,07/02/2011,11/10/2011
+SA-0185-10-64,Sports- Sports HD,03/02/2011,19/07/2011
+SA-0185-59-07,Education- Animal Planet,23/01/2011,06/11/2011
+SA-0185-59-07,Education- Discovery Channel,09/01/2011,02/07/2011
+SA-0185-59-07,Education- Discovery Channel,02/07/2011,03/02/2012
+SA-0185-59-07,Education- Nat Geo Wild,07/01/2011,18/07/2011
+SA-0185-59-07,Education- Nat Geo Wild,18/07/2011,04/07/2012
+SA-0185-59-07,Entertainment- AXN HD,04/01/2011,08/10/2011
+SA-0185-59-07,Entertainment- FOX HD,01/01/2011,08/08/2011
+SA-0185-59-07,Entertainment- FOX HD,24/08/2011,16/05/2012
+SA-0185-59-07,Entertainment- STAR World HD,04/01/2011,09/10/2011
+SA-0185-59-07,Entertainment- Universal Channel HD,06/01/2011,17/09/2011
+SA-0185-59-07,Kids- Cartoon Network,05/01/2011,30/07/2011
+SA-0185-59-07,Kids- Disney Channel,07/01/2011,24/10/2011
+SA-0185-59-07,News- BBC World News,03/01/2011,29/10/2011
+SA-0185-59-07,News- Sky News,09/01/2011,17/12/2011
+SA-0185-59-07,Sports- All Sports Network HD,28/01/2011,26/10/2011
+SA-0185-59-07,Sports- Football Channel,07/01/2011,20/08/2011
+SA-0185-59-07,Sports- Neo Cricket,17/01/2011,17/07/2011
+SA-0185-59-07,Sports- Sports HD,04/01/2011,24/09/2011
+SA-0186-07-48,Education- Animal Planet,08/01/2011,30/07/2011
+SA-0186-07-48,Education- Discovery Channel,07/01/2011,31/10/2011
+SA-0186-07-48,Education- Nat Geo Wild,14/01/2011,27/10/2011
+SA-0186-07-48,Entertainment- AXN HD,21/01/2011,07/07/2011
+SA-0186-07-48,Entertainment- FOX HD,04/01/2011,15/08/2011
+SA-0186-07-48,Entertainment- STAR World HD,05/01/2011,22/09/2011
+SA-0186-07-48,Entertainment- Universal Channel HD,02/03/2011,09/11/2011
+SA-0186-07-48,Kids- Cartoon Network,06/01/2011,28/11/2011
+SA-0186-07-48,Kids- Disney Channel,30/01/2011,09/09/2011
+SA-0186-07-48,News- BBC World News,15/01/2011,31/10/2011
+SA-0186-07-48,News- Sky News,21/01/2011,09/11/2011
+SA-0186-07-48,Sports- All Sports Network HD,09/01/2011,20/07/2011
+SA-0186-07-48,Sports- Football Channel,13/01/2011,24/08/2011
+SA-0186-07-48,Sports- Neo Cricket,17/01/2011,29/09/2011
+SA-0186-07-48,Sports- Sports HD,07/01/2011,07/07/2011
+SA-0186-07-48,Sports- Sports HD,08/08/2011,24/03/2012
+SA-0187-35-19,Education- Animal Planet,03/01/2011,14/11/2011
+SA-0187-35-19,Education- Discovery Channel,07/01/2011,09/08/2011
+SA-0187-35-19,Education- Nat Geo Wild,02/01/2011,04/08/2011
+SA-0187-35-19,Entertainment- AXN HD,12/01/2011,06/08/2011
+SA-0187-35-19,Entertainment- FOX HD,02/01/2011,24/12/2011
+SA-0187-35-19,Entertainment- STAR World HD,03/01/2011,31/10/2011
+SA-0187-35-19,Entertainment- Universal Channel HD,10/01/2011,02/07/2011
+SA-0187-35-19,Entertainment- Universal Channel HD,21/07/2011,27/08/2012
+SA-0187-35-19,Kids- Cartoon Network,03/01/2011,19/10/2011
+SA-0187-35-19,Kids- Disney Channel,13/01/2011,14/08/2011
+SA-0187-35-19,News- BBC World News,12/01/2011,02/09/2011
+SA-0187-35-19,News- Sky News,04/01/2011,27/07/2011
+SA-0187-35-19,Sports- All Sports Network HD,05/01/2011,23/07/2011
+SA-0187-35-19,Sports- Football Channel,03/01/2011,19/07/2011
+SA-0187-35-19,Sports- Neo Cricket,25/01/2011,18/12/2011
+SA-0187-35-19,Sports- Sports HD,05/01/2011,08/07/2011
+SA-0202-82-34,Education- Animal Planet,09/01/2011,16/07/2011
+SA-0202-82-34,Education- Animal Planet,04/08/2011,29/10/2012
+SA-0202-82-34,Education- Discovery Channel,01/01/2011,08/08/2011
+SA-0202-82-34,Education- Nat Geo Wild,17/03/2011,07/10/2011
+SA-0202-82-34,Entertainment- AXN HD,01/02/2011,09/07/2011
+SA-0202-82-34,Entertainment- FOX HD,02/01/2011,24/10/2011
+SA-0202-82-34,Entertainment- STAR World HD,21/01/2011,22/09/2011
+SA-0202-82-34,Entertainment- Universal Channel HD,03/01/2011,13/08/2011
+SA-0202-82-34,Kids- Cartoon Network,17/01/2011,16/08/2011
+SA-0202-82-34,Kids- Disney Channel,03/01/2011,03/10/2011
+SA-0202-82-34,News- BBC World News,13/02/2011,15/10/2011
+SA-0202-82-34,News- Sky News,24/01/2011,14/07/2011
+SA-0202-82-34,Sports- All Sports Network HD,01/01/2011,02/07/2011
+SA-0202-82-34,Sports- All Sports Network HD,02/07/2011,16/06/2012
+SA-0202-82-34,Sports- Football Channel,01/01/2011,20/11/2011
+SA-0202-82-34,Sports- Neo Cricket,08/01/2011,07/11/2011
+SA-0202-82-34,Sports- Sports HD,05/01/2011,27/10/2011
+SA-0210-42-47,Education- Animal Planet,18/01/2011,13/07/2011
+SA-0210-42-47,Education- Discovery Channel,04/02/2011,28/07/2011
+SA-0210-42-47,Education- Nat Geo Wild,06/01/2011,03/08/2011
+SA-0210-42-47,Entertainment- AXN HD,07/01/2011,06/10/2011
+SA-0210-42-47,Entertainment- FOX HD,15/01/2011,08/08/2011
+SA-0210-42-47,Entertainment- STAR World HD,02/01/2011,22/12/2011
+SA-0210-42-47,Entertainment- Universal Channel HD,04/01/2011,29/10/2011
+SA-0210-42-47,Kids- Cartoon Network,04/01/2011,09/10/2011
+SA-0210-42-47,Kids- Disney Channel,05/01/2011,10/10/2011
+SA-0210-42-47,News- BBC World News,21/01/2011,19/11/2011
+SA-0210-42-47,News- Sky News,11/01/2011,18/09/2011
+SA-0210-42-47,Sports- All Sports Network HD,03/01/2011,28/12/2011
+SA-0210-42-47,Sports- Football Channel,02/01/2011,17/11/2011
+SA-0210-42-47,Sports- Neo Cricket,15/02/2011,05/12/2011
+SA-0210-42-47,Sports- Sports HD,28/01/2011,23/12/2011
+SA-0220-48-64,Education- Animal Planet,07/01/2011,19/10/2011
+SA-0220-48-64,Education- Discovery Channel,01/01/2011,16/10/2011
+SA-0220-48-64,Education- Nat Geo Wild,05/01/2011,16/07/2011
+SA-0220-48-64,Education- Nat Geo Wild,04/08/2011,19/06/2012
+SA-0220-48-64,Entertainment- AXN HD,07/02/2011,30/07/2011
+SA-0220-48-64,Entertainment- FOX HD,05/01/2011,23/08/2011
+SA-0220-48-64,Entertainment- STAR World HD,13/01/2011,24/10/2011
+SA-0220-48-64,Entertainment- Universal Channel HD,15/01/2011,16/11/2011
+SA-0220-48-64,Kids- Cartoon Network,03/02/2011,31/08/2011
+SA-0220-48-64,Kids- Disney Channel,22/01/2011,08/07/2011
+SA-0220-48-64,News- BBC World News,19/01/2011,09/09/2011
+SA-0220-48-64,News- Sky News,06/01/2011,22/09/2011
+SA-0220-48-64,Sports- All Sports Network HD,07/01/2011,24/10/2011
+SA-0220-48-64,Sports- Football Channel,21/01/2011,23/09/2011
+SA-0220-48-64,Sports- Neo Cricket,06/01/2011,09/10/2011
+SA-0220-48-64,Sports- Sports HD,07/02/2011,25/09/2011
+SA-0220-61-46,Education- Animal Planet,08/01/2011,04/09/2011
+SA-0220-61-46,Education- Discovery Channel,01/01/2011,30/08/2011
+SA-0220-61-46,Education- Nat Geo Wild,12/02/2011,28/07/2011
+SA-0220-61-46,Entertainment- AXN HD,08/01/2011,03/10/2011
+SA-0220-61-46,Entertainment- FOX HD,04/01/2011,08/08/2011
+SA-0220-61-46,Entertainment- STAR World HD,14/01/2011,23/11/2011
+SA-0220-61-46,Entertainment- Universal Channel HD,12/01/2011,20/12/2011
+SA-0220-61-46,Kids- Cartoon Network,07/02/2011,23/11/2011
+SA-0220-61-46,Kids- Disney Channel,16/01/2011,27/08/2011
+SA-0220-61-46,News- BBC World News,05/01/2011,30/10/2011
+SA-0220-61-46,News- Sky News,01/02/2011,13/12/2011
+SA-0220-61-46,Sports- All Sports Network HD,02/01/2011,21/10/2011
+SA-0220-61-46,Sports- Football Channel,03/01/2011,30/08/2011
+SA-0220-61-46,Sports- Neo Cricket,17/01/2011,16/10/2011
+SA-0220-61-46,Sports- Sports HD,01/01/2011,21/08/2011
+SA-0222-28-58,Education- Animal Planet,12/01/2011,08/12/2011
+SA-0222-28-58,Education- Discovery Channel,17/01/2011,18/09/2011
+SA-0222-28-58,Education- Nat Geo Wild,01/01/2011,07/07/2011
+SA-0222-28-58,Education- Nat Geo Wild,22/07/2011,12/06/2012
+SA-0222-28-58,Entertainment- AXN HD,11/02/2011,12/12/2011
+SA-0222-28-58,Entertainment- FOX HD,23/01/2011,15/09/2011
+SA-0222-28-58,Entertainment- STAR World HD,02/01/2011,22/10/2011
+SA-0222-28-58,Entertainment- Universal Channel HD,03/02/2011,24/07/2011
+SA-0222-28-58,Kids- Cartoon Network,08/01/2011,25/09/2011
+SA-0222-28-58,Kids- Disney Channel,06/01/2011,09/08/2011
+SA-0222-28-58,News- BBC World News,01/01/2011,13/09/2011
+SA-0222-28-58,News- Sky News,05/01/2011,08/10/2011
+SA-0222-28-58,Sports- All Sports Network HD,07/01/2011,20/07/2011
+SA-0222-28-58,Sports- All Sports Network HD,03/08/2011,20/11/2012
+SA-0222-28-58,Sports- Football Channel,05/01/2011,01/11/2011
+SA-0222-28-58,Sports- Neo Cricket,08/01/2011,05/11/2011
+SA-0222-28-58,Sports- Sports HD,20/01/2011,13/09/2011
+SA-0227-78-67,Education- Animal Planet,03/01/2011,08/12/2011
+SA-0227-78-67,Education- Discovery Channel,02/02/2011,22/08/2011
+SA-0227-78-67,Education- Nat Geo Wild,04/01/2011,14/08/2011
+SA-0227-78-67,Entertainment- AXN HD,24/01/2011,24/10/2011
+SA-0227-78-67,Entertainment- FOX HD,13/01/2011,02/09/2011
+SA-0227-78-67,Entertainment- STAR World HD,04/01/2011,23/11/2011
+SA-0227-78-67,Entertainment- Universal Channel HD,03/01/2011,11/12/2011
+SA-0227-78-67,Kids- Cartoon Network,31/01/2011,10/09/2011
+SA-0227-78-67,Kids- Disney Channel,04/01/2011,18/08/2011
+SA-0227-78-67,News- BBC World News,11/01/2011,15/10/2011
+SA-0227-78-67,News- Sky News,02/01/2011,09/10/2011
+SA-0227-78-67,Sports- All Sports Network HD,02/01/2011,11/08/2011
+SA-0227-78-67,Sports- Football Channel,27/01/2011,21/12/2011
+SA-0227-78-67,Sports- Neo Cricket,14/01/2011,17/07/2011
+SA-0227-78-67,Sports- Neo Cricket,31/07/2011,06/01/2012
+SA-0227-78-67,Sports- Sports HD,09/02/2011,10/09/2011
+SA-0249-45-54,Education- Animal Planet,02/01/2011,14/07/2011
+SA-0249-45-54,Education- Discovery Channel,28/02/2011,28/11/2011
+SA-0249-45-54,Education- Nat Geo Wild,07/02/2011,17/11/2011
+SA-0249-45-54,Entertainment- AXN HD,05/01/2011,15/07/2011
+SA-0249-45-54,Entertainment- AXN HD,19/07/2011,01/10/2012
+SA-0249-45-54,Entertainment- FOX HD,06/01/2011,22/08/2011
+SA-0249-45-54,Entertainment- STAR World HD,07/01/2011,17/08/2011
+SA-0249-45-54,Entertainment- Universal Channel HD,15/01/2011,27/11/2011
+SA-0249-45-54,Kids- Cartoon Network,18/01/2011,20/08/2011
+SA-0249-45-54,Kids- Disney Channel,08/01/2011,29/09/2011
+SA-0249-45-54,News- BBC World News,12/01/2011,16/10/2011
+SA-0249-45-54,News- Sky News,04/01/2011,19/11/2011
+SA-0249-45-54,Sports- All Sports Network HD,16/01/2011,05/12/2011
+SA-0249-45-54,Sports- Football Channel,01/01/2011,13/11/2011
+SA-0249-45-54,Sports- Neo Cricket,10/02/2011,17/12/2011
+SA-0249-45-54,Sports- Sports HD,02/01/2011,12/12/2011
+SA-0252-71-33,Education- Animal Planet,09/01/2011,17/10/2011
+SA-0252-71-33,Education- Discovery Channel,02/01/2011,29/08/2011
+SA-0252-71-33,Education- Nat Geo Wild,10/01/2011,18/12/2011
+SA-0252-71-33,Entertainment- AXN HD,02/01/2011,27/09/2011
+SA-0252-71-33,Entertainment- FOX HD,04/01/2011,18/09/2011
+SA-0252-71-33,Entertainment- STAR World HD,02/01/2011,24/07/2011
+SA-0252-71-33,Entertainment- Universal Channel HD,02/01/2011,30/08/2011
+SA-0252-71-33,Kids- Cartoon Network,16/02/2011,11/07/2011
+SA-0252-71-33,Kids- Cartoon Network,12/07/2011,22/12/2012
+SA-0252-71-33,Kids- Disney Channel,08/01/2011,25/10/2011
+SA-0252-71-33,News- BBC World News,06/01/2011,17/09/2011
+SA-0252-71-33,News- Sky News,01/01/2011,02/08/2011
+SA-0252-71-33,Sports- All Sports Network HD,01/01/2011,07/07/2011
+SA-0252-71-33,Sports- All Sports Network HD,08/08/2011,20/07/2012
+SA-0252-71-33,Sports- Football Channel,04/01/2011,26/10/2011
+SA-0252-71-33,Sports- Neo Cricket,03/02/2011,01/08/2011
+SA-0252-71-33,Sports- Sports HD,03/01/2011,11/08/2011
+SA-0261-41-34,Education- Animal Planet,28/01/2011,11/10/2011
+SA-0261-41-34,Education- Discovery Channel,11/01/2011,28/09/2011
+SA-0261-41-34,Education- Nat Geo Wild,26/01/2011,03/10/2011
+SA-0261-41-34,Entertainment- AXN HD,22/01/2011,10/10/2011
+SA-0261-41-34,Entertainment- FOX HD,04/01/2011,19/10/2011
+SA-0261-41-34,Entertainment- STAR World HD,15/01/2011,07/12/2011
+SA-0261-41-34,Entertainment- Universal Channel HD,15/01/2011,25/09/2011
+SA-0261-41-34,Kids- Cartoon Network,09/01/2011,15/10/2011
+SA-0261-41-34,Kids- Disney Channel,16/01/2011,01/10/2011
+SA-0261-41-34,News- BBC World News,02/01/2011,01/11/2011
+SA-0261-41-34,News- Sky News,13/02/2011,06/09/2011
+SA-0261-41-34,Sports- All Sports Network HD,05/01/2011,24/11/2011
+SA-0261-41-34,Sports- Football Channel,04/01/2011,12/12/2011
+SA-0261-41-34,Sports- Neo Cricket,07/01/2011,15/08/2011
+SA-0261-41-34,Sports- Sports HD,09/01/2011,12/11/2011
+SA-0263-79-37,Education- Animal Planet,01/01/2011,19/10/2011
+SA-0263-79-37,Education- Discovery Channel,06/01/2011,09/07/2011
+SA-0263-79-37,Education- Discovery Channel,22/07/2011,17/11/2012
+SA-0263-79-37,Education- Nat Geo Wild,13/01/2011,03/07/2011
+SA-0263-79-37,Education- Nat Geo Wild,10/07/2011,09/05/2012
+SA-0263-79-37,Entertainment- AXN HD,03/01/2011,25/11/2011
+SA-0263-79-37,Entertainment- FOX HD,22/01/2011,18/11/2011
+SA-0263-79-37,Entertainment- STAR World HD,12/01/2011,07/12/2011
+SA-0263-79-37,Entertainment- Universal Channel HD,05/01/2011,10/10/2011
+SA-0263-79-37,Kids- Cartoon Network,07/01/2011,16/08/2011
+SA-0263-79-37,Kids- Disney Channel,26/01/2011,04/11/2011
+SA-0263-79-37,News- BBC World News,30/01/2011,06/08/2011
+SA-0263-79-37,News- Sky News,06/01/2011,09/12/2011
+SA-0263-79-37,Sports- All Sports Network HD,04/01/2011,12/07/2011
+SA-0263-79-37,Sports- Football Channel,08/01/2011,24/10/2011
+SA-0263-79-37,Sports- Neo Cricket,20/01/2011,28/09/2011
+SA-0263-79-37,Sports- Sports HD,14/01/2011,26/07/2011
+SA-0279-91-74,Education- Animal Planet,01/01/2011,22/07/2011
+SA-0279-91-74,Education- Animal Planet,02/08/2011,10/09/2012
+SA-0279-91-74,Education- Discovery Channel,28/01/2011,12/10/2011
+SA-0279-91-74,Education- Nat Geo Wild,16/01/2011,16/09/2011
+SA-0279-91-74,Entertainment- AXN HD,28/01/2011,10/10/2011
+SA-0279-91-74,Entertainment- FOX HD,12/01/2011,28/10/2011
+SA-0279-91-74,Entertainment- STAR World HD,17/01/2011,28/09/2011
+SA-0279-91-74,Entertainment- Universal Channel HD,14/01/2011,11/10/2011
+SA-0279-91-74,Kids- Cartoon Network,03/01/2011,26/11/2011
+SA-0279-91-74,Kids- Disney Channel,03/01/2011,07/08/2011
+SA-0279-91-74,News- BBC World News,25/01/2011,24/12/2011
+SA-0279-91-74,News- Sky News,02/01/2011,15/08/2011
+SA-0279-91-74,Sports- All Sports Network HD,06/01/2011,27/09/2011
+SA-0279-91-74,Sports- Football Channel,04/01/2011,07/12/2011
+SA-0279-91-74,Sports- Neo Cricket,11/01/2011,30/09/2011
+SA-0279-91-74,Sports- Sports HD,05/01/2011,12/11/2011
+SA-0290-06-89,Education- Animal Planet,18/01/2011,13/10/2011
+SA-0290-06-89,Education- Discovery Channel,14/01/2011,08/09/2011
+SA-0290-06-89,Education- Nat Geo Wild,02/01/2011,12/07/2011
+SA-0290-06-89,Education- Nat Geo Wild,12/07/2011,22/04/2012
+SA-0290-06-89,Entertainment- AXN HD,05/01/2011,14/09/2011
+SA-0290-06-89,Entertainment- FOX HD,03/02/2011,10/07/2011
+SA-0290-06-89,Entertainment- FOX HD,22/07/2011,18/04/2012
+SA-0290-06-89,Entertainment- STAR World HD,02/01/2011,07/12/2011
+SA-0290-06-89,Entertainment- Universal Channel HD,04/01/2011,27/12/2011
+SA-0290-06-89,Kids- Cartoon Network,03/01/2011,08/09/2011
+SA-0290-06-89,Kids- Disney Channel,01/01/2011,26/11/2011
+SA-0290-06-89,News- BBC World News,01/01/2011,23/07/2011
+SA-0290-06-89,News- Sky News,01/01/2011,05/10/2011
+SA-0290-06-89,Sports- All Sports Network HD,19/01/2011,18/11/2011
+SA-0290-06-89,Sports- Football Channel,06/01/2011,02/11/2011
+SA-0290-06-89,Sports- Neo Cricket,12/02/2011,06/07/2011
+SA-0290-06-89,Sports- Neo Cricket,07/07/2011,09/06/2012
+SA-0290-06-89,Sports- Sports HD,04/02/2011,20/07/2011
+SA-0290-06-89,Sports- Sports HD,22/07/2011,02/03/2012
+SA-0303-06-26,Education- Animal Planet,07/01/2011,29/11/2011
+SA-0303-06-26,Education- Discovery Channel,15/01/2011,14/09/2011
+SA-0303-06-26,Education- Nat Geo Wild,04/01/2011,27/09/2011
+SA-0303-06-26,Entertainment- AXN HD,13/01/2011,20/09/2011
+SA-0303-06-26,Entertainment- FOX HD,06/01/2011,02/07/2011
+SA-0303-06-26,Entertainment- FOX HD,15/07/2011,07/09/2012
+SA-0303-06-26,Entertainment- STAR World HD,18/01/2011,12/07/2011
+SA-0303-06-26,Entertainment- STAR World HD,03/08/2011,14/06/2012
+SA-0303-06-26,Entertainment- Universal Channel HD,05/01/2011,12/07/2011
+SA-0303-06-26,Kids- Cartoon Network,01/01/2011,28/11/2011
+SA-0303-06-26,Kids- Disney Channel,03/01/2011,19/11/2011
+SA-0303-06-26,News- BBC World News,02/01/2011,14/08/2011
+SA-0303-06-26,News- Sky News,04/01/2011,21/07/2011
+SA-0303-06-26,Sports- All Sports Network HD,11/01/2011,15/09/2011
+SA-0303-06-26,Sports- Football Channel,07/02/2011,03/11/2011
+SA-0303-06-26,Sports- Neo Cricket,01/01/2011,23/07/2011
+SA-0303-06-26,Sports- Sports HD,01/01/2011,02/08/2011
+SA-0303-06-26,Sports- Sports HD,21/08/2011,06/05/2012
+SA-0305-50-15,Education- Animal Planet,03/01/2011,29/11/2011
+SA-0305-50-15,Education- Discovery Channel,16/02/2011,12/11/2011
+SA-0305-50-15,Education- Nat Geo Wild,07/01/2011,10/11/2011
+SA-0305-50-15,Entertainment- AXN HD,01/01/2011,27/07/2011
+SA-0305-50-15,Entertainment- FOX HD,05/01/2011,29/10/2011
+SA-0305-50-15,Entertainment- STAR World HD,13/01/2011,20/12/2011
+SA-0305-50-15,Entertainment- Universal Channel HD,14/01/2011,20/11/2011
+SA-0305-50-15,Kids- Cartoon Network,09/02/2011,04/07/2011
+SA-0305-50-15,Kids- Disney Channel,20/01/2011,08/12/2011
+SA-0305-50-15,News- BBC World News,13/01/2011,02/12/2011
+SA-0305-50-15,News- Sky News,12/01/2011,02/08/2011
+SA-0305-50-15,Sports- All Sports Network HD,04/02/2011,13/09/2011
+SA-0305-50-15,Sports- Football Channel,17/01/2011,07/12/2011
+SA-0305-50-15,Sports- Neo Cricket,12/01/2011,19/10/2011
+SA-0305-50-15,Sports- Sports HD,01/01/2011,17/07/2011
+SA-0312-94-95,Education- Animal Planet,01/01/2011,25/07/2011
+SA-0312-94-95,Education- Discovery Channel,08/01/2011,24/12/2011
+SA-0312-94-95,Education- Nat Geo Wild,14/01/2011,24/07/2011
+SA-0312-94-95,Entertainment- AXN HD,05/01/2011,17/07/2011
+SA-0312-94-95,Entertainment- FOX HD,06/01/2011,29/07/2011
+SA-0312-94-95,Entertainment- STAR World HD,06/01/2011,12/11/2011
+SA-0312-94-95,Entertainment- Universal Channel HD,02/01/2011,09/08/2011
+SA-0312-94-95,Kids- Cartoon Network,28/01/2011,01/08/2011
+SA-0312-94-95,Kids- Disney Channel,02/01/2011,14/12/2011
+SA-0312-94-95,News- BBC World News,09/01/2011,21/09/2011
+SA-0312-94-95,News- Sky News,05/01/2011,08/12/2011
+SA-0312-94-95,Sports- All Sports Network HD,13/01/2011,04/10/2011
+SA-0312-94-95,Sports- Football Channel,10/01/2011,08/12/2011
+SA-0312-94-95,Sports- Neo Cricket,16/01/2011,04/09/2011
+SA-0312-94-95,Sports- Sports HD,15/01/2011,28/09/2011
+SA-0314-69-44,Education- Animal Planet,16/01/2011,13/12/2011
+SA-0314-69-44,Education- Discovery Channel,03/01/2011,30/09/2011
+SA-0314-69-44,Education- Nat Geo Wild,04/01/2011,19/10/2011
+SA-0314-69-44,Entertainment- AXN HD,01/01/2011,02/10/2011
+SA-0314-69-44,Entertainment- FOX HD,03/01/2011,03/12/2011
+SA-0314-69-44,Entertainment- STAR World HD,07/01/2011,12/09/2011
+SA-0314-69-44,Entertainment- Universal Channel HD,07/01/2011,03/11/2011
+SA-0314-69-44,Kids- Cartoon Network,17/01/2011,28/07/2011
+SA-0314-69-44,Kids- Disney Channel,15/01/2011,12/11/2011
+SA-0314-69-44,News- BBC World News,24/01/2011,23/11/2011
+SA-0314-69-44,News- Sky News,14/01/2011,20/11/2011
+SA-0314-69-44,Sports- All Sports Network HD,06/01/2011,20/10/2011
+SA-0314-69-44,Sports- Football Channel,09/01/2011,07/11/2011
+SA-0314-69-44,Sports- Neo Cricket,05/01/2011,27/11/2011
+SA-0314-69-44,Sports- Sports HD,14/01/2011,02/11/2011
+SA-0335-96-08,Education- Animal Planet,20/02/2011,10/12/2011
+SA-0335-96-08,Education- Discovery Channel,01/01/2011,02/07/2011
+SA-0335-96-08,Education- Discovery Channel,14/07/2011,09/07/2012
+SA-0335-96-08,Education- Nat Geo Wild,12/03/2011,05/12/2011
+SA-0335-96-08,Entertainment- AXN HD,15/01/2011,26/09/2011
+SA-0335-96-08,Entertainment- FOX HD,03/01/2011,04/11/2011
+SA-0335-96-08,Entertainment- STAR World HD,24/01/2011,20/07/2011
+SA-0335-96-08,Entertainment- Universal Channel HD,02/02/2011,16/08/2011
+SA-0335-96-08,Kids- Cartoon Network,18/02/2011,19/09/2011
+SA-0335-96-08,Kids- Disney Channel,09/01/2011,23/11/2011
+SA-0335-96-08,News- BBC World News,01/01/2011,22/12/2011
+SA-0335-96-08,News- Sky News,12/01/2011,27/09/2011
+SA-0335-96-08,Sports- All Sports Network HD,06/01/2011,20/07/2011
+SA-0335-96-08,Sports- Football Channel,21/01/2011,31/07/2011
+SA-0335-96-08,Sports- Neo Cricket,12/01/2011,11/11/2011
+SA-0335-96-08,Sports- Sports HD,21/01/2011,18/11/2011
+SA-0339-42-22,Education- Animal Planet,24/02/2011,27/10/2011
+SA-0339-42-22,Education- Discovery Channel,22/01/2011,08/09/2011
+SA-0339-42-22,Education- Nat Geo Wild,28/02/2011,02/12/2011
+SA-0339-42-22,Entertainment- AXN HD,15/02/2011,11/09/2011
+SA-0339-42-22,Entertainment- FOX HD,07/01/2011,21/09/2011
+SA-0339-42-22,Entertainment- STAR World HD,21/02/2011,03/09/2011
+SA-0339-42-22,Entertainment- Universal Channel HD,03/01/2011,04/07/2011
+SA-0339-42-22,Entertainment- Universal Channel HD,10/07/2011,29/08/2012
+SA-0339-42-22,Kids- Cartoon Network,06/02/2011,02/10/2011
+SA-0339-42-22,Kids- Disney Channel,12/01/2011,03/11/2011
+SA-0339-42-22,News- BBC World News,17/02/2011,15/07/2011
+SA-0339-42-22,News- BBC World News,26/07/2011,15/07/2012
+SA-0339-42-22,News- Sky News,07/01/2011,13/10/2011
+SA-0339-42-22,Sports- All Sports Network HD,05/01/2011,25/09/2011
+SA-0339-42-22,Sports- Football Channel,04/01/2011,17/09/2011
+SA-0339-42-22,Sports- Neo Cricket,04/01/2011,17/10/2011
+SA-0339-42-22,Sports- Sports HD,08/02/2011,09/10/2011
+SA-0343-60-69,Education- Animal Planet,02/01/2011,06/11/2011
+SA-0343-60-69,Education- Discovery Channel,02/01/2011,24/11/2011
+SA-0343-60-69,Education- Nat Geo Wild,08/01/2011,31/07/2011
+SA-0343-60-69,Entertainment- AXN HD,13/01/2011,04/07/2011
+SA-0343-60-69,Entertainment- AXN HD,05/07/2011,29/11/2012
+SA-0343-60-69,Entertainment- FOX HD,09/01/2011,31/10/2011
+SA-0343-60-69,Entertainment- STAR World HD,04/01/2011,14/10/2011
+SA-0343-60-69,Entertainment- Universal Channel HD,04/01/2011,19/10/2011
+SA-0343-60-69,Kids- Cartoon Network,02/01/2011,18/12/2011
+SA-0343-60-69,Kids- Disney Channel,01/01/2011,23/10/2011
+SA-0343-60-69,News- BBC World News,09/01/2011,25/11/2011
+SA-0343-60-69,News- Sky News,11/01/2011,04/12/2011
+SA-0343-60-69,Sports- All Sports Network HD,02/01/2011,24/08/2011
+SA-0343-60-69,Sports- Football Channel,19/01/2011,30/08/2011
+SA-0343-60-69,Sports- Neo Cricket,14/04/2011,12/07/2011
+SA-0343-60-69,Sports- Sports HD,26/01/2011,13/10/2011
+SA-0361-84-31,Education- Animal Planet,24/01/2011,27/07/2011
+SA-0361-84-31,Education- Animal Planet,05/08/2011,13/11/2012
+SA-0361-84-31,Education- Discovery Channel,07/01/2011,08/11/2011
+SA-0361-84-31,Education- Nat Geo Wild,05/01/2011,15/11/2011
+SA-0361-84-31,Entertainment- AXN HD,15/01/2011,09/09/2011
+SA-0361-84-31,Entertainment- FOX HD,03/01/2011,02/10/2011
+SA-0361-84-31,Entertainment- STAR World HD,04/01/2011,21/10/2011
+SA-0361-84-31,Entertainment- Universal Channel HD,09/01/2011,06/08/2011
+SA-0361-84-31,Kids- Cartoon Network,02/01/2011,21/10/2011
+SA-0361-84-31,Kids- Disney Channel,01/01/2011,17/10/2011
+SA-0361-84-31,News- BBC World News,18/01/2011,08/11/2011
+SA-0361-84-31,News- Sky News,03/01/2011,20/08/2011
+SA-0361-84-31,Sports- All Sports Network HD,01/01/2011,12/11/2011
+SA-0361-84-31,Sports- Football Channel,03/01/2011,06/11/2011
+SA-0361-84-31,Sports- Neo Cricket,16/01/2011,22/10/2011
+SA-0361-84-31,Sports- Sports HD,06/01/2011,31/08/2011
+SA-0378-80-96,Education- Animal Planet,10/02/2011,20/09/2011
+SA-0378-80-96,Education- Discovery Channel,07/01/2011,26/07/2011
+SA-0378-80-96,Education- Nat Geo Wild,28/02/2011,26/10/2011
+SA-0378-80-96,Entertainment- AXN HD,12/01/2011,02/07/2011
+SA-0378-80-96,Entertainment- AXN HD,16/07/2011,08/05/2012
+SA-0378-80-96,Entertainment- FOX HD,03/01/2011,17/08/2011
+SA-0378-80-96,Entertainment- STAR World HD,04/01/2011,21/10/2011
+SA-0378-80-96,Entertainment- Universal Channel HD,09/01/2011,04/12/2011
+SA-0378-80-96,Kids- Cartoon Network,01/01/2011,07/10/2011
+SA-0378-80-96,Kids- Disney Channel,20/01/2011,17/10/2011
+SA-0378-80-96,News- BBC World News,19/01/2011,20/07/2011
+SA-0378-80-96,News- Sky News,11/02/2011,03/10/2011
+SA-0378-80-96,Sports- All Sports Network HD,07/01/2011,12/09/2011
+SA-0378-80-96,Sports- Football Channel,21/01/2011,11/07/2011
+SA-0378-80-96,Sports- Neo Cricket,10/02/2011,25/07/2011
+SA-0378-80-96,Sports- Sports HD,12/01/2011,10/11/2011
+SA-0401-55-12,Education- Animal Planet,19/01/2011,27/08/2011
+SA-0401-55-12,Education- Discovery Channel,03/01/2011,07/07/2011
+SA-0401-55-12,Education- Nat Geo Wild,06/01/2011,23/08/2011
+SA-0401-55-12,Entertainment- AXN HD,05/01/2011,25/07/2011
+SA-0401-55-12,Entertainment- FOX HD,19/01/2011,14/12/2011
+SA-0401-55-12,Entertainment- STAR World HD,20/01/2011,11/10/2011
+SA-0401-55-12,Entertainment- Universal Channel HD,21/01/2011,29/07/2011
+SA-0401-55-12,Kids- Cartoon Network,05/02/2011,28/11/2011
+SA-0401-55-12,Kids- Disney Channel,23/01/2011,15/10/2011
+SA-0401-55-12,News- BBC World News,11/01/2011,01/09/2011
+SA-0401-55-12,News- Sky News,19/01/2011,19/07/2011
+SA-0401-55-12,Sports- All Sports Network HD,06/01/2011,24/09/2011
+SA-0401-55-12,Sports- Football Channel,08/01/2011,21/12/2011
+SA-0401-55-12,Sports- Neo Cricket,04/01/2011,28/08/2011
+SA-0401-55-12,Sports- Sports HD,18/01/2011,18/07/2011
+SA-0401-55-12,Sports- Sports HD,18/07/2011,09/06/2012
+SA-0414-20-79,Education- Animal Planet,10/01/2011,17/08/2011
+SA-0414-20-79,Education- Discovery Channel,04/01/2011,11/11/2011
+SA-0414-20-79,Education- Nat Geo Wild,15/01/2011,12/10/2011
+SA-0414-20-79,Entertainment- AXN HD,02/02/2011,17/07/2011
+SA-0414-20-79,Entertainment- FOX HD,09/01/2011,03/10/2011
+SA-0414-20-79,Entertainment- STAR World HD,01/01/2011,05/09/2011
+SA-0414-20-79,Entertainment- Universal Channel HD,28/01/2011,02/11/2011
+SA-0414-20-79,Kids- Cartoon Network,04/01/2011,19/07/2011
+SA-0414-20-79,Kids- Disney Channel,02/01/2011,03/08/2011
+SA-0414-20-79,News- BBC World News,05/01/2011,09/12/2011
+SA-0414-20-79,News- Sky News,03/01/2011,29/10/2011
+SA-0414-20-79,Sports- All Sports Network HD,01/01/2011,05/08/2011
+SA-0414-20-79,Sports- Football Channel,06/01/2011,09/10/2011
+SA-0414-20-79,Sports- Neo Cricket,20/01/2011,24/09/2011
+SA-0414-20-79,Sports- Sports HD,02/01/2011,12/08/2011
+SA-0414-86-48,Education- Animal Planet,11/04/2011,11/12/2011
+SA-0414-86-48,Education- Discovery Channel,02/01/2011,16/07/2011
+SA-0414-86-48,Education- Nat Geo Wild,01/01/2011,05/10/2011
+SA-0414-86-48,Entertainment- AXN HD,23/02/2011,11/07/2011
+SA-0414-86-48,Entertainment- AXN HD,17/07/2011,16/02/2012
+SA-0414-86-48,Entertainment- FOX HD,05/01/2011,27/07/2011
+SA-0414-86-48,Entertainment- STAR World HD,11/01/2011,15/08/2011
+SA-0414-86-48,Entertainment- Universal Channel HD,07/01/2011,09/11/2011
+SA-0414-86-48,Kids- Cartoon Network,28/01/2011,23/10/2011
+SA-0414-86-48,Kids- Disney Channel,02/01/2011,20/09/2011
+SA-0414-86-48,News- BBC World News,05/01/2011,05/12/2011
+SA-0414-86-48,News- Sky News,22/01/2011,09/09/2011
+SA-0414-86-48,Sports- All Sports Network HD,22/01/2011,12/07/2011
+SA-0414-86-48,Sports- Football Channel,07/01/2011,25/07/2011
+SA-0414-86-48,Sports- Neo Cricket,05/01/2011,15/07/2011
+SA-0414-86-48,Sports- Neo Cricket,15/07/2011,09/04/2012
+SA-0414-86-48,Sports- Sports HD,04/01/2011,06/08/2011

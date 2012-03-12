@@ -1,0 +1,65 @@
+News- BBC World News
+News- CCTV News
+News- CNBC
+News- CNN
+News- CNN Headline News
+News- Fox News Channel
+News- Sky News
+Education- Animal Planet
+Education- Discovery Channel
+Education- TLC
+Education- HISTORY
+Education- Nat Geo Wild
+Education- BBC Knowledge
+Education- National Geographic Channel
+Education- Crime & Investigation Network
+Education- Nat Geo Adventure
+Education- Nat Geo Music
+Education- Discovery HD World
+Education- Nat Geo Wild HD
+Education- National Geographic Channel HD
+Education- Nat Geo Adventure HD
+Entertainment- Animax (Ch 532)
+Entertainment- AXN (Ch 511)
+Entertainment- FOX (Ch 505)
+Entertainment- DIVA Universal (Ch 522)
+Entertainment- MTV SEA (Ch 533)
+Entertainment- STAR World (Ch 501)
+Entertainment- AXN Beyond (Ch 525)
+Entertainment- Channel [V] (Ch 531)
+Entertainment- FOXCRIME (Ch 503)
+Entertainment- Universal Channel (Ch 512)
+Entertainment- Syfy (Ch 526)
+Entertainment- WarnerTV (Ch 515)
+Entertainment- AXN HD (Ch 559)
+Entertainment- FOX HD (Ch 558)
+Entertainment- MTV LIVE HD (Ch 580)
+Entertainment- STAR World HD (Ch 555)
+Entertainment- FOXCRIME HD (Ch 557)
+Entertainment- Syfy HD (Ch 569)
+Entertainment- Universal Channel HD (Ch 560)
+Kids- Cartoon Network (Ch 316)
+Kids- Disney Channel (Ch 312)
+Kids- Nickelodeon (Ch 314)
+Kids- Disney Junior (Ch 311)
+Kids- BabyTV (Ch 302)
+Kids- Boomerang (Ch 315)
+Kids- CBeebies (Ch 303)
+Kids- Nick Jr (Ch 304)
+Sports- Eurosport (Ch 205)
+Sports- Football Channel (Ch 222)
+Sports- Golf Channel (Ch 213)
+Sports- La Liga On Demand (via Ch 222)
+Sports- NBA TV (Ch 216)
+Sports- PGA Tour On Demand (via Ch 213)
+Sports- Racquet Channel (Ch 211)
+Sports- Sports HD (Ch 255)
+Sports- SuperSports (Ch 202)
+Sports- SuperSports Plus (Ch 203)
+Sports- WWE Series On Demand (via Ch 202)
+Sports- Setanta Sports (Ch 217)
+Sports- All Sports Network (Ch 215)
+Sports- All Sports Network HD (Ch 256)
+Sports- Cricket Extra (Ch 231)
+Sports- Neo Cricket (Ch 232)
+Sports- Ten Cricket (Ch 235)
