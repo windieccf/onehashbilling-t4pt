@@ -52,12 +52,12 @@ public class AuthenticationPanel extends BasePanel {
 		super.registerComponent(COMP_TXT_PASSWORD , FactoryComponent.createPasswordField( new TextFieldAttributeScalar(146, 48, 126, 20,0) ));
 		
 		JButton loginButton = FactoryComponent.createButton("Login", new PositionScalar(178, 79, 96, 23));
-		loginButton.addActionListener(new LoginButtonListener(this));
+		loginButton.addActionListener(new AuthenticationPanel.LoginButtonListener(this));
 		super.registerComponent(COMP_BUTTON_LOGIN , loginButton);
 		
 	}
 	
-	private class LoginButtonListener implements ActionListener {
+	public static class LoginButtonListener implements ActionListener {
 		
 		private BasePanel basePanel;
 		public LoginButtonListener(BasePanel basePanel){ this.basePanel = basePanel;}
