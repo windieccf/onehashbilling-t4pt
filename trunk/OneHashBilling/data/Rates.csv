@@ -1,0 +1,12 @@
+Type,Name,ChargeType,Rate
+DV,Subscription,Monthly,10
+DV,Call Transfer,Monthly,5
+DV,Local Calls,Per Second,0.3
+DV,IDD Calls,Per Second,1
+MV,Subscription,Monthly,45
+MV,Data Service,Monthly,10
+MV,Local Calls,Per Second,0.5
+MV,IDD Calls,Per Second,1.5
+MV,Roaming,Per Second,1.5
+CTV,Subscription,Monthly,60
+CTV,Per Channel,Monthly,20
