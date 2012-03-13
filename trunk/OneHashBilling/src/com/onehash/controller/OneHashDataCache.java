@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.onehash.constant.ConstantFilePath;
+import com.onehash.model.complaint.ComplaintLog;
 import com.onehash.model.customer.Customer;
 import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.model.service.rate.ServiceRate;
@@ -60,6 +61,10 @@ public class OneHashDataCache {
 	private List<ServiceRate> availableServiceRate;
 	public List<ServiceRate> getAvailableServiceRate() {return availableServiceRate;}
 	public void setAvailableServiceRate(List<ServiceRate> availableServiceRate) {this.availableServiceRate = availableServiceRate;}
+	
+	private List<ComplaintLog> complaintLog;
+	public List<ComplaintLog> ComplaintLog() {return complaintLog;}
+	public void setComplaintLog(List<ComplaintLog> complaintLog) {this.complaintLog = complaintLog;}
 	
 	/************************************ FILE PROCESSING ************************************************/
 	
