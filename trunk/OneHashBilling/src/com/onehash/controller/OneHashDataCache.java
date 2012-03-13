@@ -77,6 +77,7 @@ public class OneHashDataCache {
      */
 	@SuppressWarnings("unchecked")
 	private void restoreCache(){
+		ServiceRate.loadServiceRate();
 		try{
 			FileInputStream fin = new FileInputStream(ConstantFilePath.ONE_HASH_DATA);
 			ObjectInputStream ois = new ObjectInputStream(fin);
@@ -85,7 +86,6 @@ public class OneHashDataCache {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
 	}
 	
 	
