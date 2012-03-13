@@ -58,6 +58,9 @@ public abstract class ServiceRate extends BaseEntity{
 		/**
 		 * Load ServiceRate CSV File
 		 */
+		int priority = 0;
+		ArrayList<ServiceRate> services = new ArrayList<ServiceRate>();
+		// load Rates.csv
 		try {
 			String rateFile = "data/Rates.csv";
 			BufferedReader br = new BufferedReader(new FileReader(rateFile));
@@ -65,7 +68,6 @@ public abstract class ServiceRate extends BaseEntity{
 			String line;
 			HashMap<Integer, String> header = new HashMap<Integer, String>();
 			HashMap<String, String> value = new HashMap<String, String>();
-			ArrayList<ServiceRate> services = new ArrayList<ServiceRate>();
 	
 			// read header
 			line = br.readLine();
@@ -74,7 +76,6 @@ public abstract class ServiceRate extends BaseEntity{
 				header.put(header.size(), st.nextToken());
 			}
 	
-			int priority = 0;
 			ServiceRate temp;
 			// read data
 			while ((line = br.readLine()) != null) {
@@ -99,10 +100,66 @@ public abstract class ServiceRate extends BaseEntity{
 				priority++;
 				services.add(temp);
 			}
-			OneHashDataCache.getInstance().setAvailableServiceRate(services);
 		}
 		catch (Exception e) {
 			System.out.println(e);
 		}
+		
+		// load TVChannel-Basic.csv
+		try {
+			String rateFile = "data/TVChannel-Basic.csv";
+			BufferedReader br = new BufferedReader(new FileReader(rateFile));
+			String line;
+
+			ServiceRate temp;
+			// read data
+			while ((line = br.readLine()) != null) {
+				temp = new SubscriptionRate();
+				temp.setRateCode("");
+				temp.setRateDescription(line);
+				temp.setRatePrice(new BigDecimal(5));
+				temp.setPriority(priority);
+				priority++;
+				services.add(temp);
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+
+
+		// load VoiceFeatures.txt
+		try {
+			String rateFile = "data/VoiceFeatures.txt";
+			BufferedReader br = new BufferedReader(new FileReader(rateFile));
+			String line;
+
+			ServiceRate temp;
+			// read data
+			while ((line = br.readLine()) != null) {
+				temp = new SubscriptionRate(); // voice features has SubscriptionRate
+				temp.setRateCode(line);
+				temp.setRateDescription(line);
+				temp.setRatePrice(new BigDecimal(5));
+				temp.setPriority(priority);
+				priority++;
+				services.add(temp);
+
+				temp = new UsageRate(); // voice features has UsageRate
+				temp.setRateCode(line);
+				temp.setRateDescription(line);
+				temp.setRatePrice(new BigDecimal(5));
+				temp.setPriority(priority);
+				priority++;
+				services.add(temp);
+			}
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+
+		
+		// Set all ServiceRate
+		OneHashDataCache.getInstance().setAvailableServiceRate(services);
 	}
 }
