@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Robin Foe	    0.1				Class creating
- * 													
+ * 13 March 2012	Kenny Hartono	0.2				Added loadServiceRate()														
  * 													
  * 													
  * 													
@@ -19,8 +19,14 @@
  */
 package com.onehash.model.service.rate;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.StringTokenizer;
 
+import com.onehash.controller.OneHashDataCache;
 import com.onehash.model.base.BaseEntity;
 
 @SuppressWarnings("serial")
@@ -47,5 +53,56 @@ public abstract class ServiceRate extends BaseEntity{
 	public void setFreeCharge(boolean freeCharge) {this.freeCharge = freeCharge;}
 	
 	public abstract BigDecimal calculateMonthlyRate();
-
+	
+	public static void loadServiceRate() {
+		/**
+		 * Load ServiceRate CSV File
+		 */
+		try {
+			String rateFile = "data/Rates.csv";
+			BufferedReader br = new BufferedReader(new FileReader(rateFile));
+			StringTokenizer st;
+			String line;
+			HashMap<Integer, String> header = new HashMap<Integer, String>();
+			HashMap<String, String> value = new HashMap<String, String>();
+			ArrayList<ServiceRate> services = new ArrayList<ServiceRate>();
+	
+			// read header
+			line = br.readLine();
+			st = new StringTokenizer(line, ",");
+			while (st.hasMoreTokens()) {
+				header.put(header.size(), st.nextToken());
+			}
+	
+			int priority = 0;
+			ServiceRate temp;
+			// read data
+			while ((line = br.readLine()) != null) {
+				value.clear();
+				st = new StringTokenizer(line, ",");
+				int index = 0;
+				while (st.hasMoreTokens()) {
+					String columnValue = st.nextToken();
+					String columnName = header.get(index);
+					value.put(columnName, columnValue);
+					index++;
+				}
+				if (value.get("Name").equals("Subscription")) {
+					temp = new SubscriptionRate();
+				} else {
+					temp = new UsageRate();
+				}
+				temp.setRateCode(value.get("Type"));
+				temp.setRateDescription(value.get("Name"));
+				temp.setRatePrice(new BigDecimal(value.get("Rate")));
+				temp.setPriority(priority);
+				priority++;
+				services.add(temp);
+			}
+			OneHashDataCache.getInstance().setAvailableServiceRate(services);
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }
