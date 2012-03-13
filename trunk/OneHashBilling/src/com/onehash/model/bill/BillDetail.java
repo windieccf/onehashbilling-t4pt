@@ -19,6 +19,7 @@
 package com.onehash.model.bill;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import com.onehash.model.base.BaseEntity;
 
@@ -31,7 +32,7 @@ public class BillDetail extends BaseEntity{
 	
 	private BigDecimal rate;
 	
-	private BigDecimal usageTime;
+	private Date usageTime;
 	
 	private Long usageDuration;
 
@@ -58,12 +59,12 @@ public class BillDetail extends BaseEntity{
 	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
-
-	public BigDecimal getUsageTime() {
+	
+	public Date getUsageTime() {
 		return usageTime;
 	}
 
-	public void setUsageTime(BigDecimal usageTime) {
+	public void setUsageTime(Date usageTime) {
 		this.usageTime = usageTime;
 	}
 

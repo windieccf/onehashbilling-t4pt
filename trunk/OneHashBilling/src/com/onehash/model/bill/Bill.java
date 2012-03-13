@@ -26,9 +26,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.onehash.model.base.BaseEntity;
+import com.onehash.model.customer.Customer;
 
 @SuppressWarnings("serial")
-public class Bill extends BaseEntity{
+public abstract class Bill extends BaseEntity{
 	
 	private Date billDate;
 	
@@ -103,6 +104,15 @@ public class Bill extends BaseEntity{
 	}
 	
 	public BigDecimal getTotalOutstanding() {
+		return null;
+	}
+	
+	public Bill generateMonthlyBill(Customer customer, Date billDate) {
+		try{
+			
+		}catch(Exception exp){
+			exp.printStackTrace();
+		}
 		return null;
 	}
 }
