@@ -27,6 +27,7 @@ import com.onehash.model.base.BaseEntity;
 import com.onehash.model.complaint.ComplaintLog;
 import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.utility.OneHashStringUtil;
+import com.onehash.model.bill.Bill;
 
 @SuppressWarnings("serial")
 public class Customer extends BaseEntity{
@@ -54,6 +55,12 @@ public class Customer extends BaseEntity{
 	private List<ComplaintLog> complaintLogs = new  ArrayList<ComplaintLog>();
 	public List<ComplaintLog> getComplaintLogs() {return complaintLogs;}
 	public void setComplaintLogs(List<ComplaintLog> complaintLogs) {this.complaintLogs = complaintLogs;}
+	
+	private List<Bill> bill = new ArrayList<Bill>();
+	public List<Bill> getBill() {return bill;}
+	public void setBill(List<Bill> bill) {this.bill = bill;}
+
+	
 	/************************************* UTILITY ***********************************************/
 	public ServicePlan getServicePlan(String planCode){
 		if(OneHashStringUtil.isEmpty(planCode)) return null;
