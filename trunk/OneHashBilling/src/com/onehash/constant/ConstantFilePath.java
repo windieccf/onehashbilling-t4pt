@@ -13,8 +13,7 @@ package com.onehash.constant;
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 11 March 2012    Robin Foe	    0.1				Class creating
  * 													
- * 													
- * 													
+ * 																									
  * 													
  * 
  */
