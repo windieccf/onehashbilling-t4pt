@@ -11,6 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Robin Foe	    0.1				Class creating
+ * 13 March 2012    Yue Yang        0.2             Add attributes and Constructor
  * 													
  * 													
  * 													
@@ -31,7 +32,9 @@ import com.onehash.model.bill.Bill;
 
 @SuppressWarnings("serial")
 public class Customer extends BaseEntity{
-
+    
+	private static int count = 0;
+	
 	private String name;
 	public String getName() {return name;}
 	public void setName(String name) {this.name = name;}
@@ -39,6 +42,22 @@ public class Customer extends BaseEntity{
 	private String nric;
 	public String getNric() {return nric;}
 	public void setNric(String nric) {this.nric = nric;}
+	
+	private String address;
+	public String getAddress() {return address;}
+	public void setAddress(String address) {this.address = address;}
+	
+	private String phoneNumber;
+	public String getPhoneNumber() {return phoneNumber;}
+	public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
+	
+	private String accountNumber;
+	public String getAccountNumber() {return accountNumber;}
+	public void setAccountNumber(String accountNumber) {this.accountNumber = accountNumber;}
+	
+	private int customerId= 0;
+	public int getCustomerId() {return customerId;}
+	public void setCustomerId(int customerId) {this.customerId = customerId;}
 	
 	private String status = ConstantStatus.ACTIVE;
 	public boolean isActivated() {return ConstantStatus.ACTIVE.equals(status);}
@@ -73,5 +92,16 @@ public class Customer extends BaseEntity{
 		return null;
 		
 	}
+	
+    public Customer(String name,String nric,String address,String phoneNumber,String accountNumber){
+       this.setName(name);
+       this.setNric(nric);
+       this.setAddress(address);
+       this.setPhoneNumber(phoneNumber);
+       this.setAccountNumber(accountNumber);
+       this.setStatus(true);
+       count++;
+       this.setCustomerId(count);
+    }
 
 }
