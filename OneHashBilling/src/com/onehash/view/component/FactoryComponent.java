@@ -21,8 +21,11 @@
 package com.onehash.view.component;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.onehash.model.scalar.PositionScalar;
@@ -60,6 +63,23 @@ public class FactoryComponent {
 		return jButton;
 	}
 	
+	public static JTextArea createTextArea(String labelName , PositionScalar pos){
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(pos.getPosX(), pos.getPosY(), pos.getWidth(), pos.getHeight());
+		return textArea;
+	}
+	
+	public static JCheckBox createCheckBox(String labelName , PositionScalar pos){
+		JCheckBox chckbxNewCheckBox = new JCheckBox(labelName);
+		chckbxNewCheckBox.setBounds(pos.getPosX(), pos.getPosY(), pos.getWidth(), pos.getHeight());
+		return chckbxNewCheckBox;
+	}
+	
+	public static JComboBox createCheckBox(PositionScalar pos){
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(pos.getPosX(), pos.getPosY(), pos.getWidth(), pos.getHeight());
+		return comboBox;
+	}
 	
 
 }
