@@ -50,7 +50,7 @@ public class MenuPanel extends JPanel{
 	}
 	
 	public void init(){
-		DefaultMutableTreeNode root =	new DefaultMutableTreeNode("Root");
+		DefaultMutableTreeNode root =	new DefaultMutableTreeNode("One Hash");
 		MenuScalar menuScalar = getMenus();
 		generateNodes(root, menuScalar.getChildMenus());
 		
@@ -83,8 +83,6 @@ public class MenuPanel extends JPanel{
 			root.add(childNode);
 		}
 	}
-	
-	
 	
 
 	public MenuScalar getMenus(){
@@ -121,10 +119,13 @@ public class MenuPanel extends JPanel{
 		public void valueChanged(TreeSelectionEvent selectionEvent) {
 			JTree tree = (JTree) selectionEvent.getSource();
 		    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-		    MenuScalar menuScalar = (MenuScalar)selectedNode.getUserObject();
-		    if(menuScalar.isAccessible())
-		    	this.menuPanel.getMainFrame().doLoadScreen(menuScalar.getKlass());
-			
+		    
+		    if(! (selectedNode.getUserObject() instanceof String) ){
+		    	MenuScalar menuScalar = (MenuScalar)selectedNode.getUserObject();
+			    if(menuScalar.isAccessible())
+			    	this.menuPanel.getMainFrame().doLoadScreen(menuScalar.getKlass());
+		    }
+		    
 		}
 		
 	}

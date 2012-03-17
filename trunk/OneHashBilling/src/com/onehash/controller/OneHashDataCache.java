@@ -12,7 +12,7 @@
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Robin Foe	    0.1				Class creating
  * 11 March 2012	Robin Foe		0.2				Add in file read and write													
- * 													
+ * 16 March 2012	Robin Foe		0.3				Add in Key Scalar and Customer related operation												
  * 													
  * 													
  * 
@@ -27,10 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.onehash.constant.ConstantFilePath;
+import com.onehash.exception.BusinessLogicException;
 import com.onehash.model.complaint.ComplaintLog;
 import com.onehash.model.customer.Customer;
+import com.onehash.model.scalar.KeyScalar;
 import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.model.service.rate.ServiceRate;
+import com.onehash.utility.OneHashStringUtil;
 
 /**
  * Data cache for the application
@@ -50,6 +53,7 @@ public class OneHashDataCache {
 	}
 	
 	/************************************ DATA CACHE ************************************************/
+	private KeyScalar keyScalar = new KeyScalar();
 	private List<Customer> customers = new ArrayList<Customer>();
 	public List<Customer> getCustomers() {return customers;}
 	public void setCustomers(List<Customer> customers) {this.customers = customers;}
@@ -88,6 +92,11 @@ public class OneHashDataCache {
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			this.setCustomers((List<Customer>) ois.readObject());
 			ois.close();
+			
+			fin = new FileInputStream(ConstantFilePath.ONE_HASH_KEY_DATA);
+			ois = new ObjectInputStream(fin);
+			this.keyScalar= (KeyScalar) ois.readObject();
+			ois.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -104,6 +113,11 @@ public class OneHashDataCache {
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(this.getCustomers());
 			oos.close();
+			
+			fout = new FileOutputStream(ConstantFilePath.ONE_HASH_KEY_DATA);
+			oos = new ObjectOutputStream(fout);
+			oos.writeObject(this.keyScalar);
+			oos.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -111,7 +125,51 @@ public class OneHashDataCache {
 	
 	/************************************ UTILITY ************************************************/
 
+	/****************************************** CUSTOMER RELATED OPERATION **************************************************/
+	public Customer getCustomerByAccountNumber(String accountNumber) {
+		for(Customer customer : this.getCustomers()){
+			if(customer.getAccountNumber().equalsIgnoreCase(accountNumber)){
+				// will create a replicate of the customer
+				return (Customer) customer.clone();
+			}
+				
+		}
+		return null;
+	}
 	
+	public void saveCustomer(Customer customer) throws Exception{
+		if(OneHashStringUtil.isEmpty(customer.getAccountNumber())){
+			// means you are new customer, we just assign the account number and append new record into the list
+			// validate NRIC
+			if(this.isNricExist(customer.getNric()))
+				throw new BusinessLogicException("NRIC exist");
+			
+			String accountNumber = OneHashStringUtil.maskAccountNumber(this.keyScalar.getNextAccountNumber());
+			customer.setAccountNumber(accountNumber);
+			this.getCustomers().add(customer);
+		}else{
+			
+			// UPDATE 
+			for(Customer cachedCustomer : this.getCustomers()){
+				if(customer.getAccountNumber().equalsIgnoreCase(cachedCustomer.getAccountNumber())){
+					cachedCustomer.setName(customer.getName());
+					cachedCustomer.setNric(customer.getNric());
+					cachedCustomer.setPhoneNumber(customer.getPhoneNumber());
+					cachedCustomer.setAddress(customer.getAddress());
+					cachedCustomer.setStatus(customer.isActivated());
+				}
+			}
+		}
+	}
+	
+	private boolean isNricExist(String nric){
+		for(Customer customer : this.getCustomers()){
+			if(customer.getNric().equalsIgnoreCase(nric))
+				return true;
+		}
+		
+		return false;
+	}
 	
 	
 }

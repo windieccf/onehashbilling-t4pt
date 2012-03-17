@@ -36,4 +36,8 @@ public class BillReportPanel extends BasePanel {
 	protected void init() {
 		super.registerComponent(COMP_LBL_TITLE , FactoryComponent.createLabel("Report Listing", new PositionScalar(38,26,79,14)));
 	}
+	
+	@Override
+	protected String getScreenTitle() {return "Report Listing";}
+
 }

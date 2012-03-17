@@ -18,15 +18,9 @@
  */
 package com.onehash.model.usage;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.onehash.model.base.BaseEntity;
-import com.onehash.model.customer.Customer;
 
 @SuppressWarnings("serial")
 public abstract class TalkTimeUsage extends BaseEntity{

@@ -1,4 +1,3 @@
-package com.onehash.constant;
 /*
  * CONFIDENTIAL AND PROPRIETARY SOURCE CODE OF
  * Institute of Systems Science, National University of Singapore
@@ -11,16 +10,21 @@ package com.onehash.constant;
  * REVISION HISTORY
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
- * 11 March 2012    Robin Foe	    0.1				Class creating
+ * 15 March 2012    Robin Foe	    0.1				Initial creating
  * 													
- * 																									
  * 													
  * 
  */
 
-public class ConstantFilePath {
-	
-	public static final String ONE_HASH_DATA = "./data/onehash.dat";
-	public static final String ONE_HASH_KEY_DATA = "./data/onehashkey.dat";
+package com.onehash.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(value={ElementType.FIELD,ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PostCreate {
 
 }

@@ -36,5 +36,8 @@ public class ComplaintListPanel extends BasePanel {
 	protected void init() {
 		super.registerComponent(COMP_LBL_TITLE , FactoryComponent.createLabel("Complaint Listing", new PositionScalar(38,26,79,14)));
 	}
-
+	
+	@Override
+	protected String getScreenTitle() {return "Complaint Listing";}
+	
 }

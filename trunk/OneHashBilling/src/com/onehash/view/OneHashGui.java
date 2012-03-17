@@ -11,8 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 11 March 2012    Robin Foe	    0.1				Class creating
- * 													
- * 													
+ * 16 March 2012    Robin Foe	    0.2				Add in dynamic class loading that sense @PostCreate annotation 													
  * 													
  * 													
  * 
@@ -22,11 +21,17 @@ package com.onehash.view;
 
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
+import com.onehash.annotation.PostCreate;
+import com.onehash.constant.ConstantGUIAttribute;
+import com.onehash.controller.OneHashDataCache;
 import com.onehash.view.panel.base.BasePanel;
 import com.onehash.view.panel.security.AuthenticationPanel;
 import com.onehash.view.panel.security.MenuPanel;
@@ -39,36 +44,85 @@ public class OneHashGui extends JFrame {
 	
 	
 	private void init(){
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    public void windowClosing(WindowEvent winEvt) {
+		    	OneHashDataCache.getInstance().flushCache();
+		        System.exit(0); 
+		    }
+		});
+		
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		doLoadLoginScreen();
 		//setBounds(100, 100, 768, 416);
 	}
 	
 	public void doLoadLoginScreen(){
 		this.setContentPane(new AuthenticationPanel(this));
-		this.setSize(400, 150);
+		this.setSize(ConstantGUIAttribute.GUI_LOGON_WIDTH, ConstantGUIAttribute.GUI_LOGON_HEIGHT);
+		this.setResizable( false );
 	}
 	
 	@SuppressWarnings({ "rawtypes" })
-	public void doLoadScreen(Class<? extends BasePanel> klass){
-		try{
-			if(splitPanel == null){
-				splitPanel = new JSplitPane();
-				this.setSize(800,500);
-				splitPanel.setDividerSize(5);
-				splitPanel.setDividerLocation(155);
-				splitPanel.setEnabled(false);
-				splitPanel.setLeftComponent(new MenuPanel(this));
-				
-				this.setContentPane(splitPanel);
+	public void doLoadScreen(Class<? extends BasePanel> klass,String... parameters){
+		final OneHashGui frame = this;
+		final Class<? extends BasePanel> clazz = klass;
+		final String[] finalParam = parameters;
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try{
+					
+					if(splitPanel == null){
+						frame.setVisible(false);
+						splitPanel = new JSplitPane();
+						frame.setSize(ConstantGUIAttribute.GUI_MAIN_WIDTH,ConstantGUIAttribute.GUI_MAIN_HEIGHT);
+						frame.setResizable( false );
+						splitPanel.setDividerSize(5);
+						splitPanel.setDividerLocation(155);
+						splitPanel.setEnabled(false);
+						splitPanel.setLeftComponent(new MenuPanel(frame));
+						
+						frame.setContentPane(splitPanel);
+					}
+					
+					Constructor constructor = clazz.getConstructor(OneHashGui.class);
+					Object panelComponent = (Object) constructor.newInstance(frame);
+					
+					splitPanel.setRightComponent((Component)panelComponent);
+					//check on method invocation with annotation post create
+					Method[] methods = clazz.getMethods();
+					for(Method method : methods){
+						if(method.getAnnotation(PostCreate.class)!=null){ 
+							method.getParameterTypes();
+							method.invoke(panelComponent,Arrays.asList(finalParam));
+						}
+					}
+					
+					
+					frame.setVisible(true);
+					
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
+		});
+		
+		/*if(splitPanel == null){
+			splitPanel = new JSplitPane();
+			this.setSize(ConstantGUIAttribute.GUI_MAIN_WIDTH,ConstantGUIAttribute.GUI_MAIN_HEIGHT);
+			this.setResizable( false );
+			splitPanel.setDividerSize(5);
+			splitPanel.setDividerLocation(155);
+			splitPanel.setEnabled(false);
+			splitPanel.setLeftComponent(new MenuPanel(this));
 			
-			Constructor constructor = klass.getConstructor(OneHashGui.class);
-			splitPanel.setRightComponent((Component) constructor.newInstance(this));
-			
-		}catch(Exception e){
-			e.printStackTrace();
+			this.setContentPane(splitPanel);
 		}
+		
+		Constructor constructor = klass.getConstructor(OneHashGui.class);
+		splitPanel.setRightComponent((Component) constructor.newInstance(this));*/
+		
+		
 	}
 	
 	

@@ -9,11 +9,29 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
+import java.awt.Color;
+import javax.swing.JScrollPane;
+import javax.swing.JProgressBar;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import java.awt.CardLayout;
+import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.GridBagLayout;
+import javax.swing.JTable;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JList;
+import javax.swing.JScrollBar;
 
 @SuppressWarnings("serial")
 public class TestView extends JFrame {
-
-	private JPanel contentPane;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -24,6 +42,7 @@ public class TestView extends JFrame {
 				try {
 					TestView frame = new TestView();
 					frame.setVisible(true);
+					frame.getContentPane().setLayout(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -36,26 +55,34 @@ public class TestView extends JFrame {
 	 */
 	public TestView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
+		setBounds(100, 100, 568, 412);
+		getContentPane().setLayout(null);
 		
-		JTextPane textPane = new JTextPane();
-		contentPane.add(textPane, BorderLayout.NORTH);
-		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setBounds(0, 0, 434, 262);
-		contentPane.add(splitPane);
-		
-		JPanel panel = new JPanel();
-		splitPane.setRightComponent(panel);
+		JPanel mainPanel = new JPanel();
+		mainPanel.setBounds(0, 0, 434, 262);
+		mainPanel.setBackground(Color.LIGHT_GRAY);
+		getContentPane().add(mainPanel);
+		mainPanel.setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
-		splitPane.setLeftComponent(panel_1);
+		panel_1.setBounds(0, 0, 553, 376);
+		mainPanel.add(panel_1);
+		panel_1.setLayout(null);
 		
-		JTree tree = new JTree();
-		panel_1.add(tree);
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 39, 414, 2);
+		panel_1.add(separator);
+		
+		table = new JTable();
+		table.setBounds(10, 188, 414, 48);
+		panel_1.add(table);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(20, 52, 89, 23);
+		panel_1.add(btnNewButton);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(220, 157, 204, 20);
+		panel_1.add(textPane);
 	}
 }
