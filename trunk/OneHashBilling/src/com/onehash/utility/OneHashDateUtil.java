@@ -171,7 +171,7 @@ public class OneHashDateUtil {
         // the month value starting from 0.
         if ( Calendar.MONTH == field )
             value += 1;
-
+        
         // If it is 12 am/pm, the value will be 0. Need to change it to 12 for ease of display.
         if ( Calendar.HOUR == field && value == 0 )
             value = 12;
@@ -685,5 +685,68 @@ public class OneHashDateUtil {
 	    arrDate[2] = strDate.substring(4);
 	    return arrDate;
 	  } 
-
+	  
+	  /****************************************** BILL RELATED OPERATION - START **************************************************/
+	  
+	  /**
+	     * Method to check if requested bill is of future date
+	     * @param Date
+	     * @return boolean
+	     */
+	  public static boolean isFutureDate(Date yearMonth) {
+			Date currentDate = new Date();
+			try{
+				int currentMonth = OneHashDateUtil.get(currentDate, Calendar.MONTH);
+				int currentYear = OneHashDateUtil.get(currentDate, Calendar.YEAR);
+				
+				int requestedMonth = OneHashDateUtil.get(yearMonth, Calendar.MONTH);
+				int requestedYear = OneHashDateUtil.get(yearMonth, Calendar.MONTH);
+				
+				if(requestedYear>currentYear)
+					return true;
+				if(requestedYear==currentYear && requestedMonth>currentMonth)
+					return true;
+				
+			}catch(Exception exp){
+				exp.printStackTrace();
+			}
+			return false;
+		}
+		
+	  /**
+	     * Method to check if bill for requested month & year exists
+	     * @param Date, Date
+	     * @return boolean
+	     */
+	  public static boolean isMonthYearOfBill(Date billDate, Date yearMonth) {
+			try{
+				int billMonth = OneHashDateUtil.get(billDate, Calendar.MONTH);
+				int billYear = OneHashDateUtil.get(billDate, Calendar.YEAR);
+				
+				int requestedMonth = OneHashDateUtil.get(yearMonth, Calendar.MONTH);
+				int requestedYear = OneHashDateUtil.get(yearMonth, Calendar.MONTH);
+				
+				if(billMonth==requestedMonth && billYear==requestedYear)
+					return true;
+			}catch(Exception exp){
+				exp.printStackTrace();
+			}
+			return false;
+	  }
+		
+	  public static boolean checkMonthYear(String usageYearMonth, Date yearMonth) {
+			try{
+				
+				int requestedMonth = OneHashDateUtil.get(yearMonth, Calendar.MONTH);
+				int requestedYear = OneHashDateUtil.get(yearMonth, Calendar.MONTH);
+				String requestedMonthYear = new Integer(requestedMonth).toString() + new Integer(requestedYear).toString();
+				if(requestedMonthYear.equalsIgnoreCase(usageYearMonth))
+					return true;
+			}catch(Exception exp){
+				exp.printStackTrace();
+			}
+			return false;
+	  }
+	  
+	  /****************************************** BILL RELATED OPERATION - END **************************************************/
 }
