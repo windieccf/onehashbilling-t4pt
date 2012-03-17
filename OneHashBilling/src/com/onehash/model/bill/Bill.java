@@ -29,7 +29,7 @@ import com.onehash.model.base.BaseEntity;
 import com.onehash.model.customer.Customer;
 
 @SuppressWarnings("serial")
-public abstract class Bill extends BaseEntity{
+public class Bill extends BaseEntity{
 	
 	private Date billDate;
 	
@@ -43,10 +43,10 @@ public abstract class Bill extends BaseEntity{
 	
 	private List<BillDetail> billDetails = new ArrayList<BillDetail>();
 	
-	//private List<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
-	
 	Map<String,List<BillSummary>> billSummaryMap = new HashMap<String,List<BillSummary>>();
-
+	
+	private List<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
+	
 	public Date getBillDate() {
 		return billDate;
 	}
@@ -103,16 +103,15 @@ public abstract class Bill extends BaseEntity{
 		this.billSummaryMap = billSummaryMap;
 	}
 	
-	public BigDecimal getTotalOutstanding() {
-		return null;
+	public List<PaymentDetail> getPaymentDetails() {
+		return paymentDetails;
 	}
-	
-	public Bill generateMonthlyBill(Customer customer, Date billDate) {
-		try{
-			
-		}catch(Exception exp){
-			exp.printStackTrace();
-		}
+
+	public void setPaymentDetails(List<PaymentDetail> paymentDetails) {
+		this.paymentDetails = paymentDetails;
+	}
+
+	public BigDecimal getTotalOutstanding() {
 		return null;
 	}
 }

@@ -43,4 +43,9 @@ public class BillSummary extends BaseEntity{
 		this.total = total;
 	}
 	
+	/************************************* UTILITY ***********************************************/
+	public BillSummary(String description, BigDecimal total){
+		this.setDescription(description);
+		this.setTotal(total);
+	}
 }
