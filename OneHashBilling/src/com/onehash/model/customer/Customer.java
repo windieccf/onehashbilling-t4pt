@@ -32,8 +32,6 @@ import com.onehash.model.bill.Bill;
 
 @SuppressWarnings("serial")
 public class Customer extends BaseEntity{
-    
-	private static int count = 0;
 	
 	private String name;
 	public String getName() {return name;}
@@ -54,10 +52,6 @@ public class Customer extends BaseEntity{
 	private String accountNumber;
 	public String getAccountNumber() {return accountNumber;}
 	public void setAccountNumber(String accountNumber) {this.accountNumber = accountNumber;}
-	
-	private int customerId= 0;
-	public int getCustomerId() {return customerId;}
-	public void setCustomerId(int customerId) {this.customerId = customerId;}
 	
 	private String status = ConstantStatus.ACTIVE;
 	public boolean isActivated() {return ConstantStatus.ACTIVE.equals(status);}
@@ -93,6 +87,8 @@ public class Customer extends BaseEntity{
 		
 	}
 	
+	public Customer(){}
+	
     public Customer(String name,String nric,String address,String phoneNumber,String accountNumber){
        this.setName(name);
        this.setNric(nric);
@@ -100,8 +96,6 @@ public class Customer extends BaseEntity{
        this.setPhoneNumber(phoneNumber);
        this.setAccountNumber(accountNumber);
        this.setStatus(true);
-       count++;
-       this.setCustomerId(count);
     }
 
 }

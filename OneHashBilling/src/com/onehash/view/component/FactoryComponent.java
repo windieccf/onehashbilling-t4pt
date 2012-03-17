@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 11 March 2012    Robin Foe	    0.1				Class creating
- * 													
+ * 16 March 2012    Robin Foe		0.2				Add in Document listener support 													
  * 													
  * 													
  * 													
@@ -20,6 +20,9 @@
 
 package com.onehash.view.component;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -28,6 +31,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.onehash.model.scalar.ButtonAttributeScalar;
+import com.onehash.model.scalar.CheckboxAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
 
@@ -45,6 +50,9 @@ public class FactoryComponent {
 		if(scalar.getColumns() > 0)
 			textField.setColumns(scalar.getColumns());
 		
+		if(scalar.getDocumentListener()!=null)
+			textField.getDocument().addDocumentListener(scalar.getDocumentListener());
+		
 		return textField;
 	}
 	
@@ -57,25 +65,39 @@ public class FactoryComponent {
 		return passwordField;
 	}
 	
-	public static JButton createButton(String labelName , PositionScalar pos){
+	public static JButton createButton(String labelName , ButtonAttributeScalar scalar){
 		JButton jButton = new JButton(labelName);
-		jButton.setBounds(pos.getPosX(), pos.getPosY(), pos.getWidth(), pos.getHeight());
+		jButton.setBounds(scalar.getPosX(), scalar.getPosY(), scalar.getWidth(), scalar.getHeight());
+		if(scalar.getActionListener()!=null)
+			jButton.addActionListener(scalar.getActionListener());
+		
 		return jButton;
 	}
 	
-	public static JTextArea createTextArea(String labelName , PositionScalar pos){
+	public static JTextArea createTextArea( TextFieldAttributeScalar scalar){
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(pos.getPosX(), pos.getPosY(), pos.getWidth(), pos.getHeight());
+		textArea.setBounds(scalar.getPosX(), scalar.getPosY(), scalar.getWidth(), scalar.getHeight());
+		textArea.setBorder(BorderFactory.createLineBorder(Color.black));
+		if(scalar.getColumns() > 0)
+			textArea.setColumns(scalar.getColumns());
+		
+		if(scalar.getDocumentListener()!=null)
+			textArea.getDocument().addDocumentListener(scalar.getDocumentListener());
+		
 		return textArea;
 	}
 	
-	public static JCheckBox createCheckBox(String labelName , PositionScalar pos){
+	public static JCheckBox createCheckBox(String labelName , CheckboxAttributeScalar scalar){
 		JCheckBox chckbxNewCheckBox = new JCheckBox(labelName);
-		chckbxNewCheckBox.setBounds(pos.getPosX(), pos.getPosY(), pos.getWidth(), pos.getHeight());
+		chckbxNewCheckBox.setBounds(scalar.getPosX(), scalar.getPosY(), scalar.getWidth(), scalar.getHeight());
+		chckbxNewCheckBox.setBackground(Color.WHITE);
+		if(scalar.getItemListener()!=null)
+			chckbxNewCheckBox.addItemListener(scalar.getItemListener());
+			
 		return chckbxNewCheckBox;
 	}
 	
-	public static JComboBox createCheckBox(PositionScalar pos){
+	public static JComboBox createComboBox(PositionScalar pos){
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(pos.getPosX(), pos.getPosY(), pos.getWidth(), pos.getHeight());
 		return comboBox;

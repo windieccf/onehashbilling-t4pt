@@ -1,4 +1,3 @@
-package com.onehash.constant;
 /*
  * CONFIDENTIAL AND PROPRIETARY SOURCE CODE OF
  * Institute of Systems Science, National University of Singapore
@@ -11,16 +10,22 @@ package com.onehash.constant;
  * REVISION HISTORY
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
- * 11 March 2012    Robin Foe	    0.1				Class creating
+ * 15 March 2012    Robin Foe	    0.1				Initial creating
  * 													
- * 																									
  * 													
  * 
  */
+package com.onehash.model.scalar;
 
-public class ConstantFilePath {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class KeyScalar implements Serializable{
+
+	private long accountNumber = 1L;
+	public long getNextAccountNumber(){return ++accountNumber;}
 	
-	public static final String ONE_HASH_DATA = "./data/onehash.dat";
-	public static final String ONE_HASH_KEY_DATA = "./data/onehashkey.dat";
-
+	private long complaintNumber = 1L;
+	public long getNextComplaintNumber(){return ++complaintNumber;}
+	
 }

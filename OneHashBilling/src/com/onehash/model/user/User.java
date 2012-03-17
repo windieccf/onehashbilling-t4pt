@@ -18,10 +18,6 @@
  */
 package com.onehash.model.user;
 
-import java.util.List;
-
-import com.onehash.constant.ConstantStatus;
-
 public abstract class User {
 	
 	private String userId;
@@ -29,7 +25,7 @@ public abstract class User {
 	private String lastName;
 	private String password;
 	private String memberOf;
-	private ConstantStatus status;
+	private String status;
 	
 	public String getUserid() {
 		return userId;
@@ -47,11 +43,11 @@ public abstract class User {
 		this.password = password;
 	}
 	
-	public ConstantStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
 	
-	public void setStatus(ConstantStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	

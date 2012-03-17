@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
 import com.onehash.view.OneHashGui;
@@ -51,7 +52,7 @@ public class AuthenticationPanel extends BasePanel {
 		super.registerComponent(COMP_TXT_USERNAME, FactoryComponent.createTextField( new TextFieldAttributeScalar(146, 23, 126, 20,10) ));
 		super.registerComponent(COMP_TXT_PASSWORD , FactoryComponent.createPasswordField( new TextFieldAttributeScalar(146, 48, 126, 20,0) ));
 		
-		JButton loginButton = FactoryComponent.createButton("Login", new PositionScalar(178, 79, 96, 23));
+		JButton loginButton = FactoryComponent.createButton("Login", new ButtonAttributeScalar(178, 79, 96, 23));
 		loginButton.addActionListener(new AuthenticationPanel.LoginButtonListener(this));
 		super.registerComponent(COMP_BUTTON_LOGIN , loginButton);
 		
@@ -67,6 +68,12 @@ public class AuthenticationPanel extends BasePanel {
 			basePanel.getMainFrame().doLoadScreen(MainScreenPanel.class);
         }
     }
+	
+	@Override
+	protected String getScreenTitle() {return "Login";}
+	
+	@Override
+	protected boolean isEnableHeader(){return false;}
 	
 	
 }

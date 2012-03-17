@@ -1,4 +1,3 @@
-package com.onehash.constant;
 /*
  * CONFIDENTIAL AND PROPRIETARY SOURCE CODE OF
  * Institute of Systems Science, National University of Singapore
@@ -11,16 +10,23 @@ package com.onehash.constant;
  * REVISION HISTORY
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
- * 11 March 2012    Robin Foe	    0.1				Class creating
+ * 15 March 2012    Robin Foe	    0.1				Initial Creation
  * 													
- * 																									
  * 													
  * 
  */
 
-public class ConstantFilePath {
+package com.onehash.utility;
+
+import java.lang.reflect.Method;
+
+public class OneHashBeanUtil {
 	
-	public static final String ONE_HASH_DATA = "./data/onehash.dat";
-	public static final String ONE_HASH_KEY_DATA = "./data/onehashkey.dat";
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Method getSetterMethod(Class klass, String fieldName, Class... argumentsType) throws SecurityException, NoSuchMethodException{
+		String setter = "set" + OneHashStringUtil.capitalize(fieldName);
+		Method mtd = klass.getMethod(setter, argumentsType);
+		return mtd;
+	}
 
 }

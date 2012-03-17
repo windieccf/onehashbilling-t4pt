@@ -12,12 +12,16 @@
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Robin Foe	    0.1				Class creating
  * 10 March 2012	Chen Changfeng	0.2				Adding new Util methods											
- * 													
+ * 15 March 2012	Robin Foe		0.3				Adding new Util methods											
  * 													
  * 													
  * 
  */
 package com.onehash.utility;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 
 /**
  *Perform basic string utility function 
@@ -37,6 +41,17 @@ public class OneHashStringUtil {
 	
 	public static String getEmptyIfNull(String text){
 		return OneHashStringUtil.isEmpty(text) ? "" : text;
+	}
+	
+	public static String capitalize(String text){
+		if(OneHashStringUtil.isEmpty(text)) return text;
+		
+		String capitalizeString = text.substring(0,1).toUpperCase();
+		if(text.length() < 1)
+			return capitalizeString;
+		else{
+			return capitalizeString + text.substring(1);
+		}
 	}
 	
 	/**
@@ -154,6 +169,11 @@ public class OneHashStringUtil {
      */
     public static String lPad ( String str, int len ) {
         return lPad( str, len, " " );
+    }
+    
+    public static String maskAccountNumber(long accountNo) throws ParseException{
+    	NumberFormat formatter = new DecimalFormat("000000000");
+    	return formatter.format(accountNo);
     }
 
 }
