@@ -18,7 +18,7 @@
  */
 package com.onehash.model.usage;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.onehash.model.base.BaseEntity;
@@ -46,57 +46,33 @@ public abstract class MonthlyUsage extends BaseEntity{
 		this.talkTimeUsages = talkTimeUsages;
 	}
 	
-	public BigDecimal getTotalLocalCallUsage(){
-		try{
-			
-		}catch(Exception exp){
-			exp.printStackTrace();
-		}
-		return null;
-	}
+	/************************************ UTILITY ************************************************/
 	
-	public BigDecimal getTotalddUsage(){
+	public Long getCallUsages(String usageType){
+		Long totalCallUasges = new Long(0);
 		try{
-			
+			for(TalkTimeUsage _talkTimeUsage : this.getTalkTimeUsages()){
+				if(_talkTimeUsage.getUsageType().equalsIgnoreCase(usageType))
+					totalCallUasges = totalCallUasges + _talkTimeUsage.getUsageDuration();
+			}
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
-		return null;
+		return totalCallUasges;
 	}
-	
-	public BigDecimal getTotalRoamingUsage(){
+		
+	public List<TalkTimeUsage> getUsages(String usageType){
+		List<TalkTimeUsage> talkTimeUsages = new ArrayList<TalkTimeUsage>();
 		try{
+			
+			for(TalkTimeUsage _talkTimeUsage : this.getTalkTimeUsages()){
+				if(_talkTimeUsage.getUsageType().equalsIgnoreCase(usageType))
+					talkTimeUsages.add(_talkTimeUsage);
+			}
 			
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
-		return null;
-	}
-	
-	public List<TalkTimeUsage> getLocalUsages(){
-		try{
-			
-		}catch(Exception exp){
-			exp.printStackTrace();
-		}
-		return null;
-	}
-	
-	public List<TalkTimeUsage> getIddUsages(){
-		try{
-			
-		}catch(Exception exp){
-			exp.printStackTrace();
-		}
-		return null;
-	}
-	
-	public List<TalkTimeUsage> getRoamingusages(){
-		try{
-			
-		}catch(Exception exp){
-			exp.printStackTrace();
-		}
-		return null;
+		return talkTimeUsages;
 	}
 }
