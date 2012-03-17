@@ -13,7 +13,7 @@
  * 10 March 2012    Robin Foe	    0.1				Class creating
  * 11 March 2012	Robin Foe		0.2				Add in file read and write													
  * 16 March 2012	Robin Foe		0.3				Add in Key Scalar and Customer related operation												
- * 													
+ * 17 March 2012	Aman Sharma		0.4				Add bill related methods.													
  * 													
  * 
  */
