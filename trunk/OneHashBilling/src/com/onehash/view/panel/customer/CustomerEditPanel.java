@@ -12,7 +12,7 @@
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 15 March 2012    Robin Foe	    0.1				Class creation and screean loading
  * 16 March 2012    Yue Yang	    0.2				Validation and call to save
- * 													
+ * 17 March 2012	Kenny Hartono	0.3				Adding manage ServicePlan													
  * 													
  * 
  */
@@ -43,6 +43,7 @@ import com.onehash.view.component.listener.ButtonActionListener;
 import com.onehash.view.component.listener.OneHashTextFieldListener;
 import com.onehash.view.panel.base.BaseOperationImpl;
 import com.onehash.view.panel.base.BasePanel;
+import com.onehash.view.panel.serviceplan.ServicePlanListPanel;
 
 @SuppressWarnings("serial")
 public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
@@ -65,6 +66,8 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 
 	private static final String COMP_BUTTON_NAME_SAVE = "BTN_SAVE";
 	private static final String COMP_BUTTON_NAME_CANCEL = "BTN_CANCEL";
+	
+	private static final String COMP_BUTTON_NAME_MANAGE_SERVICEPLAN = "BTN_MANAGE_SERVICEPLAN";
 	
 	
 	private Customer customer  = new Customer(); // for data binding
@@ -115,6 +118,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		super.registerComponent(COMP_BUTTON_NAME_SAVE , FactoryComponent.createButton("Save", new ButtonAttributeScalar(136, 250, 100, 23 , new ButtonActionListener(this,"saveCustomer"))));
 		super.registerComponent(COMP_BUTTON_NAME_CANCEL , FactoryComponent.createButton("Cancel", new ButtonAttributeScalar(256, 250, 100, 23 , new ButtonActionListener(this,"cancel"))));
 		
+		super.registerComponent(COMP_BUTTON_NAME_MANAGE_SERVICEPLAN , FactoryComponent.createButton("Manage Subscription", new ButtonAttributeScalar(136, 290, 220, 23 , new ButtonActionListener(this,"loadManageServicePlanScreen"))));
 	}
 	
 	@Override
@@ -179,6 +183,8 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		
 	}
 
-	
+	public void loadManageServicePlanScreen() {
+		this.getMainFrame().doLoadScreen(ServicePlanListPanel.class, ConstantAction.MANAGE, customer.getAccountNumber());
+	}
 
 }

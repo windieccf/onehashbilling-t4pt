@@ -1,12 +1,12 @@
-Type,Name,ChargeType,Rate
-DV,Subscription,Monthly,10
-DV,Call Transfer,Monthly,5
-DV,Local Calls,Per Second,0.3
-DV,IDD Calls,Per Second,1
-MV,Subscription,Monthly,45
-MV,Data Service,Monthly,10
-MV,Local Calls,Per Second,0.5
-MV,IDD Calls,Per Second,1.5
-MV,Roaming,Per Second,1.5
-CTV,Subscription,Monthly,60
-CTV,Per Channel,Monthly,20
+RateCode,Desc,RateUnit,Rate
+DV-S,Digital Voice Subscription,Month,10
+DV-C,Digital Voice Call Transfer,Month,5
+DV-L,Digital Voice Local Calls,Second,0.3
+DV-I,Digital Voice IDD Calls,Second,1
+MV-S,Mobile Voice Subscription,Month,45
+MV-D,Mobile Voice Data Service,Month,10
+MV-L,Mobile Voice Local Calls,Second,0.5
+MV-I,Mobile Voice IDD Calls,Second,1.5
+MV-R,Mobile Voice Roaming,Second,1.5
+TV-S,TV Subscription,Month,60
+TV-C,TV Per Channel,Month,20

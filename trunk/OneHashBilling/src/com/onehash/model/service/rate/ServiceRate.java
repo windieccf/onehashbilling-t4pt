@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Robin Foe	    0.1				Class creating
- * 13 March 2012	Kenny Hartono	0.2				Added loadServiceRate()														
+ * 17 March 2012	Kenny Hartono	0.2				Added loadServiceRate()														
  * 													
  * 													
  * 													
@@ -91,10 +91,10 @@ public abstract class ServiceRate extends BaseEntity{
 				if (value.get("Name").equals("Subscription")) {
 					temp = new SubscriptionRate();
 				} else {
-					temp = new UsageRate();
+					temp = new UsageRate(UsageRate.getRateUnitFromString(value.get("RateUnit")));
 				}
-				temp.setRateCode(value.get("Type"));
-				temp.setRateDescription(value.get("Name"));
+				temp.setRateCode(value.get("RateCode"));
+				temp.setRateDescription(value.get("Desc"));
 				temp.setRatePrice(new BigDecimal(value.get("Rate")));
 				temp.setPriority(priority);
 				priority++;
@@ -107,7 +107,7 @@ public abstract class ServiceRate extends BaseEntity{
 		
 		// load TVChannel-Basic.csv
 		try {
-			String rateFile = "data/TVChannel-Basic.csv";
+			String rateFile = "data/TVChannel-Basic.txt";
 			BufferedReader br = new BufferedReader(new FileReader(rateFile));
 			String line;
 
@@ -145,7 +145,7 @@ public abstract class ServiceRate extends BaseEntity{
 				priority++;
 				services.add(temp);
 
-				temp = new UsageRate(); // voice features has UsageRate
+				temp = new UsageRate(UsageRate.perSecond); // voice features has UsageRate
 				temp.setRateCode(line);
 				temp.setRateDescription(line);
 				temp.setRatePrice(new BigDecimal(5));
