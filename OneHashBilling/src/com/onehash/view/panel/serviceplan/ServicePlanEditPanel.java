@@ -10,22 +10,25 @@
  * REVISION HISTORY
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
- * 15 March 2012    Robin Foe	    0.1				Initial creating
- * 17 March 2012	Kenny Hartono	0.2				Adding MANAGE variable
+ * 17 March 2012	Kenny Hartono	0.1				Class Initialization													
  * 													
  * 
  */
 
-package com.onehash.constant;
+package com.onehash.view.panel.serviceplan;
 
-public class ConstantAction {
-	
-	public static final String ADD = "A";
-	public static final String EDIT = "E";
-	public static final String MANAGE = "M";
-	
-	public static final String ADD_SERVICE_PLAN = "S";
-	public static final String EDIT_SERVICE_PLAN = "T";
-	public static final String DELETE_SERVICE_PLAN = "U";
-	
+import com.onehash.view.OneHashGui;
+import com.onehash.view.panel.base.BasePanel;
+
+@SuppressWarnings("serial")
+public class ServicePlanEditPanel extends BasePanel {
+	public ServicePlanEditPanel(OneHashGui mainFrame) {
+		super(mainFrame);
+	}
+	protected String getScreenTitle() {return "Subscription Maintenance";}
+
+	@Override
+	protected void init() {
+		
+	}
 }
