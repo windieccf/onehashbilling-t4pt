@@ -24,6 +24,7 @@ import java.util.List;
 
 import com.onehash.model.base.BaseEntity;
 import com.onehash.model.service.rate.ServiceRate;
+import com.onehash.model.usage.MonthlyUsage;
 
 @SuppressWarnings("serial")
 public abstract class ServicePlan extends BaseEntity {
@@ -51,6 +52,10 @@ public abstract class ServicePlan extends BaseEntity {
 	private List<ServiceRate> serviceRates;
 	public List<ServiceRate> getServiceRates() {return serviceRates;}
 	public void setServiceRates(List<ServiceRate> serviceRates) {this.serviceRates = serviceRates;}
+	
+	private List<MonthlyUsage> monthlyUsages;
+	public List<MonthlyUsage> getMonthlyUsages() {return monthlyUsages;}
+	public void setMonthlyUsages(List<MonthlyUsage> monthlyUsages) {this.monthlyUsages = monthlyUsages;}
 	
 	public abstract void calculateBill();
 
