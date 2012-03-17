@@ -23,7 +23,7 @@ import java.util.Date;
 import com.onehash.model.base.BaseEntity;
 
 @SuppressWarnings("serial")
-public abstract class TalkTimeUsage extends BaseEntity{
+public class TalkTimeUsage extends BaseEntity{
 	
 	private Date callTime;
 	
