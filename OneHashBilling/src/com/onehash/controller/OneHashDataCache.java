@@ -24,15 +24,24 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.onehash.constant.ConstantFilePath;
+import com.onehash.constant.ConstantUsageType;
 import com.onehash.exception.BusinessLogicException;
+import com.onehash.model.bill.Bill;
 import com.onehash.model.complaint.ComplaintLog;
 import com.onehash.model.customer.Customer;
 import com.onehash.model.scalar.KeyScalar;
+import com.onehash.model.service.plan.CableTvPlan;
+import com.onehash.model.service.plan.DigitalVoicePlan;
+import com.onehash.model.service.plan.MobileVoicePlan;
 import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.model.service.rate.ServiceRate;
+import com.onehash.model.usage.MonthlyUsage;
+import com.onehash.utility.OneHashDateUtil;
 import com.onehash.utility.OneHashStringUtil;
 
 /**
@@ -172,4 +181,116 @@ public class OneHashDataCache {
 	}
 	
 	
+	/****************************************** BILL RELATED OPERATION - START **************************************************/
+	
+	/**
+     * Method to get the requested monthly bill for a customer
+     * @param Customer, Date
+     * @return Bill
+     */
+	public Bill getMonthlyBill(Customer customer, Date yearMonth){
+		Bill bill = new Bill();
+		
+		try{
+			//Check if the bill requested is for future month
+			if(OneHashDateUtil.isFutureDate(yearMonth))
+				throw new BusinessLogicException("Select a valid date for bill");
+			
+			if(!OneHashStringUtil.isEmpty(customer.getAccountNumber())){
+				for(Customer cachedCustomer : this.getCustomers()){
+					if(customer.getAccountNumber().equalsIgnoreCase(cachedCustomer.getAccountNumber())){
+						bill = getBillForMonth(cachedCustomer,yearMonth);
+						break;
+					}
+				}
+				
+				//Check if the bill is not previously calculated.
+				//Calculate, Generate and Save.
+				if(bill==null)
+					bill = calculateBill(customer, yearMonth);
+				
+				if(bill==null)
+					throw new BusinessLogicException("Bill for requested period does not exists");
+			}else
+				throw new BusinessLogicException("Coustomer does not exists");
+			
+		}catch(Exception exp){
+			exp.printStackTrace();
+		}
+		return bill;
+	}
+	
+	/**
+     * Method to get the requested monthly bill for a customer
+     * @param Customer, Date
+     * @return Bill
+     */
+	private Bill getBillForMonth(Customer cachedCustomer, Date yearMonth) {
+		try{
+			for(Bill _bill : cachedCustomer.getBill()){
+				if(OneHashDateUtil.isMonthYearOfBill(_bill.getBillDate(),yearMonth))
+					return _bill;
+			}
+		}catch(Exception exp){
+			exp.printStackTrace();
+			return null;
+		}
+		return null;
+	}
+	
+	/**
+     * Calculate monthly bill
+     * @param Customer, Date
+     * @return Bill
+     */
+	private Bill calculateBill(Customer customer, Date yearMonth) {
+		Bill bill = new Bill();
+		try{
+			
+			//Get Service Plan for the customer
+			for(ServicePlan _servicePlan : customer.getServicePlans()){
+				//Check plan type is cable TV
+				if(_servicePlan instanceof CableTvPlan){
+					//TODO Get Service Rate for Cable TV
+				}
+				
+				//Check plan type is Digital Voice
+				if(_servicePlan instanceof DigitalVoicePlan){
+					//TODO Get Service Rate for Digital Voice Plan
+					
+					//Get usage for Digital Voice Plan -Local
+					Long dvLocal = new Long(0);
+					Long dvIDD = new Long(0);
+					for(MonthlyUsage _monthlyUsage : _servicePlan.getMonthlyUsages()){
+						if(OneHashDateUtil.checkMonthYear(_monthlyUsage.getUsageYearMonth(),yearMonth)){
+							dvLocal = _monthlyUsage.getCallUsages(ConstantUsageType.DVL);
+							dvIDD = _monthlyUsage.getCallUsages(ConstantUsageType.DVI);
+						}
+					}
+				}
+
+				//Check plan type is Mobile Voice
+				if(_servicePlan instanceof MobileVoicePlan){
+					//TODO Get usage for Mobile Voice Plan
+					
+					//Get usage for Digital Voice Plan
+					Long mvLocal = new Long(0);
+					Long mvIDD = new Long(0);
+					Long mvRoaming = new Long(0);
+					for(MonthlyUsage _monthlyUsage : _servicePlan.getMonthlyUsages()){
+						if(OneHashDateUtil.checkMonthYear(_monthlyUsage.getUsageYearMonth(),yearMonth)){
+							mvLocal = _monthlyUsage.getCallUsages(ConstantUsageType.MVL);
+							mvIDD = _monthlyUsage.getCallUsages(ConstantUsageType.MVI);
+							mvRoaming = _monthlyUsage.getCallUsages(ConstantUsageType.MVR);
+						}
+					}
+				}
+			}
+		}catch(Exception exp){
+			exp.printStackTrace();
+		}
+		return bill;
+	}
+	
+	/****************************************** BILL RELATED OPERATION - END **************************************************/
 }
