@@ -40,7 +40,7 @@ public class BillDetail extends BaseEntity{
 		return palnName;
 	}
 
-	public void setPalnName(String palnName) {
+	public void setPlanName(String palnName) {
 		this.palnName = palnName;
 	}
 

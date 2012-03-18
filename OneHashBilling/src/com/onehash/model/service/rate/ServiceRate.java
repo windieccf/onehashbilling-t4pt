@@ -26,11 +26,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import org.hamcrest.core.IsInstanceOf;
+
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.model.base.BaseEntity;
+import com.onehash.model.usage.MonthlyUsage;
 
 @SuppressWarnings("serial")
 public abstract class ServiceRate extends BaseEntity{
+	
+	public static final String SUBSCRPTION_CABLE_TV = "TV-S";
+	public static final String SUBSCRPTION_MOBILE_VOICE = "MV-S";
+	public static final String SUBSCRPTION_DIGITAL_VOICE = "DV-S";
+	
+	public static final String PREFIX_CABLE_TV = "TV-";
+	public static final String PREFIX_MOBILE_VOICE = "MV-";
+	public static final String PREFIX_DIGITAL_VOICE = "DV-";
+	
 	
 	private String rateCode;
 	public String getRateCode() {return rateCode;}
@@ -59,10 +71,11 @@ public abstract class ServiceRate extends BaseEntity{
 		 * Load ServiceRate CSV File
 		 */
 		int priority = 0;
+		String rateFile = "";
 		ArrayList<ServiceRate> services = new ArrayList<ServiceRate>();
 		// load Rates.csv
 		try {
-			String rateFile = "data/Rates.csv";
+			rateFile = "data/Rates.csv";
 			BufferedReader br = new BufferedReader(new FileReader(rateFile));
 			StringTokenizer st;
 			String line;
@@ -75,7 +88,7 @@ public abstract class ServiceRate extends BaseEntity{
 			while (st.hasMoreTokens()) {
 				header.put(header.size(), st.nextToken());
 			}
-	
+			
 			ServiceRate temp;
 			// read data
 			while ((line = br.readLine()) != null) {
@@ -88,10 +101,11 @@ public abstract class ServiceRate extends BaseEntity{
 					value.put(columnName, columnValue);
 					index++;
 				}
-				if (value.get("Name").equals("Subscription")) {
+				
+				if (value.get("Desc").indexOf("Subscription") >= 0) {
 					temp = new SubscriptionRate();
 				} else {
-					temp = new UsageRate(UsageRate.getRateUnitFromString(value.get("RateUnit")));
+					temp = new UsageRate(0);
 				}
 				temp.setRateCode(value.get("RateCode"));
 				temp.setRateDescription(value.get("Desc"));
@@ -102,12 +116,12 @@ public abstract class ServiceRate extends BaseEntity{
 			}
 		}
 		catch (Exception e) {
-			System.out.println(e);
+			System.out.println(rateFile+" "+e);
 		}
 		
 		// load TVChannel-Basic.csv
 		try {
-			String rateFile = "data/TVChannel-Basic.txt";
+			rateFile = "data/TVChannel-Basic.txt";
 			BufferedReader br = new BufferedReader(new FileReader(rateFile));
 			String line;
 
@@ -115,7 +129,7 @@ public abstract class ServiceRate extends BaseEntity{
 			// read data
 			while ((line = br.readLine()) != null) {
 				temp = new SubscriptionRate();
-				temp.setRateCode("");
+				temp.setRateCode("TV-C");
 				temp.setRateDescription(line);
 				temp.setRatePrice(new BigDecimal(5));
 				temp.setPriority(priority);
@@ -124,13 +138,13 @@ public abstract class ServiceRate extends BaseEntity{
 			}
 		}
 		catch (Exception e) {
-			System.out.println(e);
+			System.out.println(rateFile+" "+e);
 		}
 
 
 		// load VoiceFeatures.txt
 		try {
-			String rateFile = "data/VoiceFeatures.txt";
+			rateFile = "data/VoiceFeatures.txt";
 			BufferedReader br = new BufferedReader(new FileReader(rateFile));
 			String line;
 
@@ -145,7 +159,7 @@ public abstract class ServiceRate extends BaseEntity{
 				priority++;
 				services.add(temp);
 
-				temp = new UsageRate(UsageRate.perSecond); // voice features has UsageRate
+				temp = new UsageRate(0); // voice features has UsageRate
 				temp.setRateCode(line);
 				temp.setRateDescription(line);
 				temp.setRatePrice(new BigDecimal(5));
@@ -155,9 +169,8 @@ public abstract class ServiceRate extends BaseEntity{
 			}
 		}
 		catch (Exception e) {
-			System.out.println(e);
+			System.out.println(rateFile+" "+e);
 		}
-
 		
 		// Set all ServiceRate
 		OneHashDataCache.getInstance().setAvailableServiceRate(services);

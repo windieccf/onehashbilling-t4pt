@@ -20,12 +20,22 @@
 package com.onehash.view.panel.customer;
 
 
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Vector;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import com.onehash.annotation.PostCreate;
 import com.onehash.constant.ConstantAction;
+import com.onehash.constant.ConstantSummary;
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.exception.BusinessLogicException;
 import com.onehash.exception.InsufficientInputParameterException;
@@ -35,15 +45,22 @@ import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.CheckboxAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
+import com.onehash.model.service.plan.CableTvPlan;
+import com.onehash.model.service.plan.DigitalVoicePlan;
+import com.onehash.model.service.plan.MobileVoicePlan;
+import com.onehash.model.service.plan.ServicePlan;
+import com.onehash.model.service.rate.ServiceRate;
 import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
+import com.onehash.view.component.comboboxitem.ComboBoxItem;
 import com.onehash.view.component.listener.BooleanCheckBoxListener;
 import com.onehash.view.component.listener.ButtonActionListener;
+import com.onehash.view.component.listener.MouseTableListener;
 import com.onehash.view.component.listener.OneHashTextFieldListener;
+import com.onehash.view.component.tablemodel.OneHashTableModel;
 import com.onehash.view.panel.base.BaseOperationImpl;
 import com.onehash.view.panel.base.BasePanel;
-import com.onehash.view.panel.serviceplan.ServicePlanListPanel;
 
 @SuppressWarnings("serial")
 public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
@@ -66,10 +83,22 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 
 	private static final String COMP_BUTTON_NAME_SAVE = "BTN_SAVE";
 	private static final String COMP_BUTTON_NAME_CANCEL = "BTN_CANCEL";
+		
+	private static final String SERVICEPLAN_TABLE = "SERVICEPLAN_TABLE";
+	private static final String SERVICEPLAN_BUTTON_ADD = "SERVICEPLAN_BUTTON_ADD";
+	private static final String SERVICEPLAN_BUTTON_REM = "SERVICEPLAN_BUTTON_REM";
+	private static final String SERVICEPLAN_COMBOBOX_SELECTION = "SERVICEPLAN_COMBOBOX_SELECTION";
+	private static final String SERVICEPLAN_LIST_SELECTED = "SERVICEPLAN_LIST_SELECTED";
+	private static final String SERVICEPLAN_LIST_AVAILABLE = "SERVICEPLAN_LIST_AVAILABLE";
+	private static final String SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN = "SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN";
+	private static final String SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN = "SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN";
+	private static final String SERVICEPLAN_BUTTON_ADD_OPTIONS = "SERVICEPLAN_BUTTON_ADD_OPTIONS";
+	private static final String SERVICEPLAN_BUTTON_REMOVE_OPTIONS = "SERVICEPLAN_BUTTON_REMOVE_OPTIONS";
 	
-	private static final String COMP_BUTTON_NAME_MANAGE_SERVICEPLAN = "BTN_MANAGE_SERVICEPLAN";
-	
-	
+	private List<ServiceRate> selectedServiceRates = new ArrayList<ServiceRate>();
+
+	private List<ServicePlan> servicePlans = new ArrayList<ServicePlan>();
+
 	private Customer customer  = new Customer(); // for data binding
 	
 	public CustomerEditPanel(OneHashGui mainFrame) {
@@ -118,7 +147,65 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		super.registerComponent(COMP_BUTTON_NAME_SAVE , FactoryComponent.createButton("Save", new ButtonAttributeScalar(136, 250, 100, 23 , new ButtonActionListener(this,"saveCustomer"))));
 		super.registerComponent(COMP_BUTTON_NAME_CANCEL , FactoryComponent.createButton("Cancel", new ButtonAttributeScalar(256, 250, 100, 23 , new ButtonActionListener(this,"cancel"))));
 		
-		super.registerComponent(COMP_BUTTON_NAME_MANAGE_SERVICEPLAN , FactoryComponent.createButton("Manage Subscription", new ButtonAttributeScalar(136, 290, 220, 23 , new ButtonActionListener(this,"loadManageServicePlanScreen"))));
+
+		// Add ServicePlanListPanel
+		JTable table = new JTable();
+        table.setPreferredScrollableViewportSize(new Dimension(100, 70));
+        table.setFillsViewportHeight(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setModel(new OneHashTableModel(this.getTableColumnNames() , this.getData()));
+        table.addMouseListener(new MouseTableListener(this,"loadEditScreen"));
+        
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(390,20,400,215);
+		super.registerComponent(SERVICEPLAN_TABLE, scrollPane);
+		JButton addButton = FactoryComponent.createButton("Add", new ButtonAttributeScalar(570, 250, 100, 23 , new ButtonActionListener(this,"addServicePlan")));
+		super.registerComponent(SERVICEPLAN_BUTTON_ADD , addButton);
+		JButton removeButton = FactoryComponent.createButton("Remove", new ButtonAttributeScalar(690, 250, 100, 23 , new ButtonActionListener(this,"removeServicePlan")));
+		super.registerComponent(SERVICEPLAN_BUTTON_REM , removeButton);
+
+		
+		Vector<ComboBoxItem> servicePlanList = new Vector<ComboBoxItem>();
+		servicePlanList.add(new ComboBoxItem(ServiceRate.PREFIX_DIGITAL_VOICE, ConstantSummary.DigitalVoice));
+		servicePlanList.add(new ComboBoxItem(ServiceRate.PREFIX_MOBILE_VOICE, ConstantSummary.MobileVoice));
+		servicePlanList.add(new ComboBoxItem(ServiceRate.PREFIX_CABLE_TV, ConstantSummary.CableTV));
+
+		JComboBox servicePlanSelection = FactoryComponent.createComboBox(servicePlanList, new ButtonAttributeScalar(390, 20, 100, 23 , new ButtonActionListener(this,"updateServiceRateBySelectedServicePlan")));
+		super.registerComponent(SERVICEPLAN_COMBOBOX_SELECTION , servicePlanSelection);
+		super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION).setVisible(false);
+		
+		table = new JTable();
+        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
+        table.setFillsViewportHeight(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setModel(new OneHashTableModel(this.getSelectedServiceRateColumnNames() , this.getSelectedServiceRate()));
+        scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(390,50,200,185);
+		super.registerComponent(SERVICEPLAN_LIST_SELECTED, scrollPane);
+		super.getComponent(SERVICEPLAN_LIST_SELECTED).setVisible(false);
+
+		table = new JTable();
+        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
+        table.setFillsViewportHeight(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setModel(new OneHashTableModel(this.getAvailableServiceRateColumnNames() , this.getAvailableServiceRate()));
+        scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(600,50,200,185);
+		super.registerComponent(SERVICEPLAN_LIST_AVAILABLE, scrollPane);
+		super.getComponent(SERVICEPLAN_LIST_AVAILABLE).setVisible(false);
+
+		super.registerComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN , FactoryComponent.createButton("Save Subscription", new ButtonAttributeScalar(520, 20, 150, 23 , new ButtonActionListener(this,"saveServicePlan"))));
+		super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setVisible(false);
+
+		super.registerComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN , FactoryComponent.createButton("Cancel", new ButtonAttributeScalar(680, 20, 100, 23 , new ButtonActionListener(this,"cancelServicePlan"))));
+		super.getComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN).setVisible(false);
+
+		super.registerComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS , FactoryComponent.createButton("Add Option", new ButtonAttributeScalar(600, 250, 120, 23 , new ButtonActionListener(this,"addOptions"))));
+		super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(false);
+
+		super.registerComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS , FactoryComponent.createButton("Remove Option", new ButtonAttributeScalar(390, 250, 120, 23 , new ButtonActionListener(this,"removeOptions"))));
+		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(false);
+
 	}
 	
 	@Override
@@ -182,9 +269,205 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		}
 		
 	}
+	
+	public void addServicePlan() {
+		this.updateSelectedServiceRate();
+		this.updateAvailableServiceRate();
+		super.getComponent(SERVICEPLAN_TABLE).setVisible(false);
+		super.getComponent(SERVICEPLAN_BUTTON_ADD).setVisible(false);
+		super.getComponent(SERVICEPLAN_BUTTON_REM).setVisible(false);
+		super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION).setVisible(true);
+		super.getComponent(SERVICEPLAN_LIST_SELECTED).setVisible(true);
+		super.getComponent(SERVICEPLAN_LIST_AVAILABLE).setVisible(true);
+		super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setVisible(true);
+		super.getComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN).setVisible(true);
+		super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(true);
+		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(true);
+	}
+	
+	public void cancelServicePlan() {
+		this.selectedServiceRates = null;
+		super.getComponent(SERVICEPLAN_TABLE).setVisible(true);
+		super.getComponent(SERVICEPLAN_BUTTON_ADD).setVisible(true);
+		super.getComponent(SERVICEPLAN_BUTTON_REM).setVisible(true);
+		super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION).setVisible(false);
+		super.getComponent(SERVICEPLAN_LIST_SELECTED).setVisible(false);
+		super.getComponent(SERVICEPLAN_LIST_AVAILABLE).setVisible(false);
+		super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setVisible(false);
+		super.getComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN).setVisible(false);
+		super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(false);
+		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(false);
+	}
+	
+	public void saveServicePlan() throws Exception {
+		try {
+			JComboBox component = (JComboBox)super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION);
+			ComboBoxItem prefix = (ComboBoxItem)component.getSelectedItem();
+			ServicePlan servicePlan = new MobileVoicePlan();
+			if (prefix.equals(ServiceRate.PREFIX_MOBILE_VOICE))
+				servicePlan = new MobileVoicePlan();
+			else if (prefix.equals(ServiceRate.PREFIX_DIGITAL_VOICE))
+				servicePlan = new DigitalVoicePlan();
+			else if (prefix.equals(ServiceRate.PREFIX_CABLE_TV))
+				servicePlan = new CableTvPlan();
+			servicePlan.setPlanName(prefix.getValue());
+			servicePlan.setServiceRates(selectedServiceRates);
+			this.customer.addServicePlan(servicePlan);
+			OneHashDataCache.getInstance().saveCustomer(this.customer);
+			JOptionPane.showMessageDialog(this, "Subscriptions Successfully Saved");
+			this.cancelServicePlan();
+		}catch(Exception e){
+			if(e instanceof BusinessLogicException)
+				JOptionPane.showMessageDialog(this, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+			
+			throw e;
+		}
+	}
 
-	public void loadManageServicePlanScreen() {
-		this.getMainFrame().doLoadScreen(ServicePlanListPanel.class, ConstantAction.MANAGE, customer.getAccountNumber());
+	public void updateServiceRateBySelectedServicePlan() {
+		this.selectedServiceRates = new ArrayList<ServiceRate>();
+		this.updateSelectedServiceRate();
+		this.updateAvailableServiceRate();
+	}
+	
+	public void updateAvailableServiceRate() {
+		JTable table = new JTable();
+        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
+        table.setFillsViewportHeight(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setModel(new OneHashTableModel(this.getAvailableServiceRateColumnNames() , this.getAvailableServiceRate()));
+		JScrollPane scrollPane = (JScrollPane) super.getComponent(SERVICEPLAN_LIST_AVAILABLE);
+		scrollPane.setViewportView(table);
+	}
+	public void updateSelectedServiceRate() {
+		JTable table = new JTable();
+        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
+        table.setFillsViewportHeight(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setModel(new OneHashTableModel(this.getSelectedServiceRateColumnNames() , this.getSelectedServiceRate()));
+		JScrollPane scrollPane = (JScrollPane) super.getComponent(SERVICEPLAN_LIST_SELECTED);
+		scrollPane.setViewportView(table);
+	}
+	
+	public void addOptions() {
+		JScrollPane availableOptionsScrollPane = (JScrollPane)super.getComponent(SERVICEPLAN_LIST_AVAILABLE);
+		JTable availableOptionsJTable = (JTable)availableOptionsScrollPane.getViewport().getView();
+
+		HashSet<ServiceRate> selectedServiceRatesHashMap = new HashSet<ServiceRate>(selectedServiceRates);
+		JScrollPane selectedOptionsScrollPane = (JScrollPane)super.getComponent(SERVICEPLAN_LIST_SELECTED);
+
+		if (availableOptionsJTable.getSelectedRow() >= 0 && availableOptionsJTable.getSelectedColumn() >= 0) {
+			String selectedValue = (String) availableOptionsJTable.getValueAt(availableOptionsJTable.getSelectedRow(), availableOptionsJTable.getSelectedColumn());
+			for (ServiceRate serviceRate:OneHashDataCache.getInstance().getAvailableServiceRate()) {
+				if (selectedValue.equals(serviceRate.getRateCode()+": "+serviceRate.getRateDescription()) && !selectedServiceRatesHashMap.contains(serviceRate)) {
+					selectedServiceRates.add(serviceRate);
+					break;
+				}
+			}
+		}
+
+		JTable newTable = new JTable();
+		newTable.setPreferredScrollableViewportSize(new Dimension(200, 70));
+        newTable.setFillsViewportHeight(true);
+        newTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        newTable.setModel(new OneHashTableModel(this.getSelectedServiceRateColumnNames() , this.getSelectedServiceRate()));
+		selectedOptionsScrollPane.setViewportView(newTable);
+		updateAvailableServiceRate();
+	}
+	
+	public void removeOptions() {
+		JScrollPane selectedOptionsScrollPane = (JScrollPane)super.getComponent(SERVICEPLAN_LIST_SELECTED);
+		JTable selectedOptionsJTable = (JTable)selectedOptionsScrollPane.getViewport().getView();
+
+		if (selectedOptionsJTable.getSelectedRow() >= 0 && selectedOptionsJTable.getSelectedColumn() >= 0) {
+			String selectedValue = (String) selectedOptionsJTable.getValueAt(selectedOptionsJTable.getSelectedRow(), selectedOptionsJTable.getSelectedColumn());
+			int selectedServiceRateSize = selectedServiceRates.size();
+			for (int i=0; i<selectedServiceRateSize; i++) {
+				ServiceRate sr = selectedServiceRates.get(i);
+				if (selectedValue.equals(sr.getRateCode()+": "+sr.getRateDescription())) {
+					selectedServiceRates.remove(i);
+					break;
+				}
+			}
+		}
+
+		JTable newTable = new JTable();
+		newTable.setPreferredScrollableViewportSize(new Dimension(200, 70));
+        newTable.setFillsViewportHeight(true);
+        newTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        newTable.setModel(new OneHashTableModel(this.getSelectedServiceRateColumnNames() , this.getSelectedServiceRate()));
+		selectedOptionsScrollPane.setViewportView(newTable);
+		updateAvailableServiceRate();
+	}
+
+	/******************************** TABLE UTILITY******************************************/
+	public Object[][] getData(){
+		Object[][] rowData = new String[1][4];
+		if (servicePlans == null)
+			servicePlans = new ArrayList<ServicePlan>();
+		if(servicePlans.isEmpty()){
+			rowData = new Object[0][4];
+		}else{
+			rowData = new Object[servicePlans.size()][4];
+			for(int i = 0 ; i < servicePlans.size(); i++){
+				ServicePlan servicePlan = servicePlans.get(i);
+				rowData[i][0] = servicePlan.getPlanId();
+				rowData[i][1] = servicePlan.getPlanName();
+				rowData[i][2] = servicePlan.getStartDate();
+				rowData[i][3] = servicePlan.getEndDate();
+			}
+		}
+		
+		return rowData;
+	}
+	
+	public String[] getSelectedServiceRateColumnNames(){
+		return new String[]{"Selected Options"};
+	}
+	public Object[][] getSelectedServiceRate() {
+		Object[][] rowData = new String[1][1];
+		if (selectedServiceRates == null)
+			selectedServiceRates = new ArrayList<ServiceRate>();
+		rowData = new String[selectedServiceRates.size()][1];
+		int idx = 0;
+		for(ServiceRate serviceRate:selectedServiceRates) {
+			rowData[idx][0] = serviceRate.getRateCode()+": "+serviceRate.getRateDescription();
+			idx++;
+		}
+		return rowData;
+	}
+	
+	public Object[][] getAvailableServiceRate() {
+		Object[][] rowData = new String[1][1];
+		List<ServiceRate> serviceRates = OneHashDataCache.getInstance().getAvailableServiceRate();
+		rowData = new String[serviceRates.toArray().length][1];
+
+		ArrayList<String> _availableServiceRate = new ArrayList<String>();
+		JComboBox component = (JComboBox)super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION);
+		ComboBoxItem prefix = (ComboBoxItem)component.getSelectedItem();
+		HashSet<ServiceRate> selectedServiceRatesHashMap = new HashSet<ServiceRate>(selectedServiceRates);
+		int maxIdx = 0, idx = 0;
+		for(ServiceRate serviceRate:serviceRates) {
+			if (!serviceRate.getRateCode().startsWith(prefix.getKey()) || selectedServiceRatesHashMap.contains(serviceRate))
+				continue;
+			_availableServiceRate.add(serviceRate.getRateCode()+": "+serviceRate.getRateDescription());
+			maxIdx++;
+		}
+		
+		rowData = new String[maxIdx][1];
+		idx = 0;
+		for (String s:_availableServiceRate) {
+			rowData[idx][0] = s;
+			idx++;
+		}
+		return rowData;
+	}
+	public String[] getAvailableServiceRateColumnNames(){
+		return new String[]{"Available Options"};
+	}
+
+	public String[] getTableColumnNames(){
+		return new String[]{"Subs. Num.", "Name", "Start" , "End"};
 	}
 
 }

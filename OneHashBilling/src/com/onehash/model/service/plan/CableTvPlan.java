@@ -19,6 +19,13 @@
  */
 package com.onehash.model.service.plan;
 
+import java.util.ArrayList;
+
+import com.onehash.constant.ConstantSummary;
+import com.onehash.controller.OneHashDataCache;
+import com.onehash.model.service.rate.ServiceRate;
+
+
 @SuppressWarnings("serial")
 public class CableTvPlan extends ServicePlan{
 
@@ -26,8 +33,17 @@ public class CableTvPlan extends ServicePlan{
 	public int getWaiveCount() {return waiveCount;}
 	public void setWaiveCount(int waiveCount) {this.waiveCount = waiveCount;}
 
-	@Override
-	public void calculateBill() {
+	public CableTvPlan() {
+		ArrayList<ServiceRate> serviceRate = new ArrayList<ServiceRate>();
+		this.setPlanName(ConstantSummary.CableTV);
+		for(ServiceRate _serviceRate:OneHashDataCache.getInstance().getAvailableServiceRate()) {
+			if (_serviceRate.getRateCode().equals(ServiceRate.SUBSCRPTION_CABLE_TV)) {
+				serviceRate.add(_serviceRate);
+			}
+			else if (_serviceRate.getRateCode().startsWith(ServiceRate.PREFIX_CABLE_TV)) {
+				serviceRate.add(_serviceRate);
+			}
+		}
 	}
 
 }

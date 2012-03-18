@@ -95,6 +95,23 @@ public abstract class BasePanel extends JPanel implements Runnable{
 		componentMap.put(componentName, component);
 	}
 	
+	public final Component getComponent(String componentName) {
+		if(componentName == null) throw new IllegalArgumentException("component must not be null");
+		if(OneHashStringUtil.isEmpty(componentName)) throw new IllegalArgumentException("componentName is required");
+		if(componentMap.containsKey(componentName)) {
+			return componentMap.get(componentName);
+		}
+		throw new IllegalArgumentException("Component name " + componentName + " is not exist");
+	}
+	
+	public final void setComponent(String componentName , Component component) {
+		if(component == null) throw new IllegalArgumentException("component must not be null");
+		if(OneHashStringUtil.isEmpty(componentName)) throw new IllegalArgumentException("componentName is required");
+		if (componentMap.containsKey(componentName))
+			componentMap.remove(componentName);
+		componentMap.put(componentName, component);
+	}
+	
 	public final JTextField getTextFieldComponent(String componentName){return (JTextField)componentMap.get(componentName);}
 	public final JTextArea getTextAreaComponent(String componentName){return (JTextArea)componentMap.get(componentName);}
 	public final JLabel getLabelComponent(String componentName){return (JLabel)componentMap.get(componentName);}

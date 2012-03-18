@@ -26,7 +26,9 @@ public class SubscriptionRate extends ServiceRate{
 
 	@Override
 	public BigDecimal calculateMonthlyRate() {
-		return null;
+		if (this.isFreeCharge())
+			return new BigDecimal(0);
+		return this.getRatePrice();
 	}
 
 }

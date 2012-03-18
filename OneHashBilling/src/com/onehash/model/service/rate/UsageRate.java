@@ -21,28 +21,9 @@ package com.onehash.model.service.rate;
 
 import java.math.BigDecimal;
 
-import com.onehash.exception.BusinessLogicException;
-
 @SuppressWarnings("serial")
 public class UsageRate extends ServiceRate {
-	public static int perSecond = 1;
-	public static int perMinute = 2;
-	public static int perDay = 3;
-	public static int perMonth = 4;
-
 	private int rateUnit;
-	public static int getRateUnitFromString(String rateUnit) throws Exception {
-		if (rateUnit.equals("Second"))
-			return UsageRate.perSecond;
-		else if (rateUnit.equals("Minute"))
-			return UsageRate.perMinute;
-		else if (rateUnit.equals("Day"))
-			return UsageRate.perDay;
-		else if (rateUnit.equals("Month"))
-			return UsageRate.perMonth;
-		else
-			throw new BusinessLogicException("rateUnit: '"+rateUnit+"' is unknown.");
-	}
 	public long getRateUnit() {return rateUnit;}
 	public void setRateUnit(int rateUnit) {this.rateUnit = rateUnit;}
 
@@ -52,7 +33,9 @@ public class UsageRate extends ServiceRate {
 	
 	@Override
 	public BigDecimal calculateMonthlyRate() {
-		return null;
+		if (this.isFreeCharge())
+			return new BigDecimal(0);
+		return this.getRatePrice().multiply(new BigDecimal(this.getRateUnit()));
 	}
 
 }
