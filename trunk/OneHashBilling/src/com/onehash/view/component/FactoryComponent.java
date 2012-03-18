@@ -21,6 +21,7 @@
 package com.onehash.view.component;
 
 import java.awt.Color;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -35,6 +36,7 @@ import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.CheckboxAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
+import com.onehash.view.component.comboboxitem.ComboBoxItem;
 
 public class FactoryComponent {
 	
@@ -97,11 +99,13 @@ public class FactoryComponent {
 		return chckbxNewCheckBox;
 	}
 	
-	public static JComboBox createComboBox(PositionScalar pos){
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(pos.getPosX(), pos.getPosY(), pos.getWidth(), pos.getHeight());
-		return comboBox;
+	public static JComboBox createComboBox(Vector<ComboBoxItem> labelName , ButtonAttributeScalar scalar){
+		JComboBox jComboBox = new JComboBox(labelName);
+		jComboBox.setBounds(scalar.getPosX(), scalar.getPosY(), scalar.getWidth(), scalar.getHeight());
+		if(scalar.getActionListener()!=null)
+			jComboBox.addActionListener(scalar.getActionListener());
+		
+		return jComboBox;
 	}
-	
 
 }

@@ -24,7 +24,7 @@ import java.util.List;
 import com.onehash.model.base.BaseEntity;
 
 @SuppressWarnings("serial")
-public abstract class MonthlyUsage extends BaseEntity{
+public class MonthlyUsage extends BaseEntity{
 	
 	private String usageYearMonth;
 	

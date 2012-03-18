@@ -19,11 +19,26 @@
  */
 package com.onehash.model.service.plan;
 
+import java.util.ArrayList;
+
+import com.onehash.constant.ConstantSummary;
+import com.onehash.controller.OneHashDataCache;
+import com.onehash.model.service.rate.ServiceRate;
+
 @SuppressWarnings("serial")
 public class MobileVoicePlan extends VoicePlan{
 
-	@Override
-	public void calculateBill() {
+	public MobileVoicePlan() {
+		ArrayList<ServiceRate> serviceRate = new ArrayList<ServiceRate>();
+		this.setPlanName(ConstantSummary.MobileVoice);
+		for(ServiceRate _serviceRate:OneHashDataCache.getInstance().getAvailableServiceRate()) {
+			if (_serviceRate.getRateCode().equals(ServiceRate.SUBSCRPTION_MOBILE_VOICE)) {
+				serviceRate.add(_serviceRate);
+			}
+			else if (_serviceRate.getRateCode().startsWith(ServiceRate.PREFIX_MOBILE_VOICE)) {
+				serviceRate.add(_serviceRate);
+			}
+		}
 	}
 
 }
