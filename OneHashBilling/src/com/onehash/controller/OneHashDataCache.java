@@ -267,12 +267,16 @@ public class OneHashDataCache {
 						BigDecimal cableTVAddChannelCharge = new BigDecimal(0);
 						List<BillSummary> billSummaryList = new ArrayList <BillSummary>();
 						
-						//TODO Get Service Rate for Cable TV
+						int freeChannel = 0;
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
 							if(_serviceRate instanceof SubscriptionRate){
-								//TODO Check SubscriptionRate and AddChannelCharge
-								cableTVSubscriptionRate = _serviceRate.getRatePrice();
-								cableTVAddChannelCharge  = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("TV-S"))
+									cableTVSubscriptionRate = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("TV-C")){
+									freeChannel = freeChannel+1;
+									if(freeChannel>3)
+										cableTVAddChannelCharge  = _serviceRate.getRatePrice();
+								}
 							}
 						}
 						BillSummary billSummaryCableTV = new BillSummary(ConstantSummary.Subscriptioncharges,cableTVSubscriptionRate);
@@ -290,17 +294,21 @@ public class OneHashDataCache {
 						BigDecimal dvSubscriptionRate = new BigDecimal(0);
 						BigDecimal usageRateLocal = new BigDecimal(0);
 						BigDecimal usageRateIDD = new BigDecimal(0);
+						BigDecimal usageRateCallTransfer = new BigDecimal(0);
 						List<BillSummary> billSummaryList = new ArrayList <BillSummary>();
 						
-						//TODO Get Service Rate for Digital Voice Plan
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
 							if(_serviceRate instanceof SubscriptionRate){
-								dvSubscriptionRate = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-S"))
+									dvSubscriptionRate = _serviceRate.getRatePrice();
 							}
 							if(_serviceRate instanceof UsageRate){
-								//TODO Check Local and IDD
-								usageRateLocal = _serviceRate.getRatePrice();
-								usageRateIDD = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-L"))
+									usageRateLocal = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-I"))
+									usageRateIDD = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-C"))
+									usageRateCallTransfer = _serviceRate.getRatePrice();
 							}
 						}
 						BillSummary billSummaryDVSummary = new BillSummary(ConstantSummary.Subscriptioncharges,dvSubscriptionRate);
@@ -316,7 +324,8 @@ public class OneHashDataCache {
 							}
 						}
 						BigDecimal usageCharges = usageRateLocal.multiply(BigDecimal.valueOf(dvLocal)).
-													add(usageRateIDD.multiply(BigDecimal.valueOf(dvIDD))); 
+													add(usageRateIDD.multiply(BigDecimal.valueOf(dvIDD))).
+													add(usageRateCallTransfer); 
 						BillSummary billSummaryDVUsage = new BillSummary(ConstantSummary.Usagecharges,usageCharges);
 						billSummaryList.add(billSummaryDVUsage);
 						
@@ -331,18 +340,23 @@ public class OneHashDataCache {
 						BigDecimal usageRateLocal = new BigDecimal(0);
 						BigDecimal usageRateIDD = new BigDecimal(0);
 						BigDecimal usageRateRoaming = new BigDecimal(0);
+						BigDecimal usageRateDataService = new BigDecimal(0);
 						List<BillSummary> billSummaryList = new ArrayList <BillSummary>();
 						
-						//TODO Get usage for Mobile Voice Plan
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
 							if(_serviceRate instanceof SubscriptionRate){
-								mvSubscriptionRate = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-S"))
+									mvSubscriptionRate = _serviceRate.getRatePrice();
 							}
 							if(_serviceRate instanceof UsageRate){
-								//TODO Check Local and IDD
-								usageRateLocal = _serviceRate.getRatePrice();
-								usageRateIDD = _serviceRate.getRatePrice();
-								usageRateRoaming = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-L"))
+									usageRateLocal = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-I"))
+									usageRateIDD = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-R"))
+									usageRateRoaming = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-D"))
+									usageRateDataService  = _serviceRate.getRatePrice();
 							}
 						}
 						BillSummary billSummaryDVSummary = new BillSummary(ConstantSummary.Subscriptioncharges,mvSubscriptionRate);
@@ -361,7 +375,8 @@ public class OneHashDataCache {
 						}
 						BigDecimal usageCharges = usageRateLocal.multiply(BigDecimal.valueOf(mvLocal)).
 													add(usageRateIDD.multiply(BigDecimal.valueOf(mvIDD))).
-													add(usageRateRoaming.multiply(BigDecimal.valueOf(mvRoaming))); 
+													add(usageRateRoaming.multiply(BigDecimal.valueOf(mvRoaming))).
+													add(usageRateDataService); 
 						BillSummary billSummaryMVUsage = new BillSummary(ConstantSummary.Usagecharges,usageCharges);
 						billSummaryList.add(billSummaryMVUsage);
 						
