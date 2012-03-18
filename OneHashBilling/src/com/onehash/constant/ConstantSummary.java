@@ -28,5 +28,6 @@ public class ConstantSummary {
 	public static final String MobileVoice = "Mobile Voice";
 	public static final String CableTV = "Cable TV";
 	public static final String Subscriptioncharges = "Subscription charges";
+	public static final String Usagecharges = "Usage charges";
 	public static final String AddChannelcharges = "Add. Channel charges";
 }
