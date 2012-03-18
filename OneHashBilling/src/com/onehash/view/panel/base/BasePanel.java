@@ -29,12 +29,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-//import javax.swing.SwingUtilities;
 
 import com.onehash.constant.ConstantGUIAttribute;
 import com.onehash.model.scalar.PositionScalar;
@@ -116,8 +116,7 @@ public abstract class BasePanel extends JPanel implements Runnable{
 	public final JTextArea getTextAreaComponent(String componentName){return (JTextArea)componentMap.get(componentName);}
 	public final JLabel getLabelComponent(String componentName){return (JLabel)componentMap.get(componentName);}
 	public final JCheckBox getCheckboxComponent(String componentName){return (JCheckBox)componentMap.get(componentName);}
-	
-	
+	public final JComboBox getComboBoxComponent(String componentName){return (JComboBox)componentMap.get(componentName);}
 	
 	protected boolean isEnableHeader(){return true;}
 	
