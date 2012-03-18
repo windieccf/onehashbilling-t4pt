@@ -270,7 +270,7 @@ public class OneHashDataCache {
 						int freeChannel = 0;
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
 							if(_serviceRate instanceof SubscriptionRate){
-								if(_serviceRate.getRateCode().equalsIgnoreCase("TV-S"))
+								if(_serviceRate.getRateCode().equalsIgnoreCase(ServiceRate.SUBSCRPTION_CABLE_TV))
 									cableTVSubscriptionRate = _serviceRate.getRatePrice();
 								if(_serviceRate.getRateCode().equalsIgnoreCase("TV-C")){
 									freeChannel = freeChannel+1;
@@ -299,7 +299,7 @@ public class OneHashDataCache {
 						
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
 							if(_serviceRate instanceof SubscriptionRate){
-								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-S"))
+								if(_serviceRate.getRateCode().equalsIgnoreCase(ServiceRate.SUBSCRPTION_DIGITAL_VOICE))
 									dvSubscriptionRate = _serviceRate.getRatePrice();
 							}
 							if(_serviceRate instanceof UsageRate){
@@ -345,17 +345,17 @@ public class OneHashDataCache {
 						
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
 							if(_serviceRate instanceof SubscriptionRate){
-								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-S"))
+								if(_serviceRate.getRateCode().equalsIgnoreCase(ServiceRate.SUBSCRPTION_MOBILE_VOICE))
 									mvSubscriptionRate = _serviceRate.getRatePrice();
 							}
 							if(_serviceRate instanceof UsageRate){
-								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-L"))
+								if(_serviceRate.getRateCode().equalsIgnoreCase("MV-L"))
 									usageRateLocal = _serviceRate.getRatePrice();
-								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-I"))
+								if(_serviceRate.getRateCode().equalsIgnoreCase("MV-I"))
 									usageRateIDD = _serviceRate.getRatePrice();
-								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-R"))
+								if(_serviceRate.getRateCode().equalsIgnoreCase("MV-R"))
 									usageRateRoaming = _serviceRate.getRatePrice();
-								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-D"))
+								if(_serviceRate.getRateCode().equalsIgnoreCase("MV-D"))
 									usageRateDataService  = _serviceRate.getRatePrice();
 							}
 						}
