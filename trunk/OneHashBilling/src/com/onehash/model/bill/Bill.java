@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.onehash.model.base.BaseEntity;
-import com.onehash.model.customer.Customer;
 
 @SuppressWarnings("serial")
 public class Bill extends BaseEntity{
