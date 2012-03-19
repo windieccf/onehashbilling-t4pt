@@ -42,6 +42,10 @@ public abstract class ServicePlan extends BaseEntity {
 	public String getPlanCode() {return planCode;}
 	public void setPlanCode(String planCode) {this.planCode = planCode;}
 	
+	private Boolean deletedStatus = false;
+	public Boolean getDeletedStatus() {return deletedStatus;}
+	public void setDeletedStatus(Boolean deletedStatus) {this.deletedStatus = deletedStatus;}
+	
 	private String planName;
 	public String getPlanName() {return planName;}
 	public void setPlanName(String planName) {this.planName = planName;}

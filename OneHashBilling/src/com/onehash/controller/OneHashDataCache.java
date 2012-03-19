@@ -174,6 +174,7 @@ public class OneHashDataCache {
 					cachedCustomer.setPhoneNumber(customer.getPhoneNumber());
 					cachedCustomer.setAddress(customer.getAddress());
 					cachedCustomer.setStatus(customer.isActivated());
+					cachedCustomer.setServicePlans(customer.getServicePlans());
 				}
 			}
 		}
