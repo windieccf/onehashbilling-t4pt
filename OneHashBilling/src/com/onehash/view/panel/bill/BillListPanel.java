@@ -11,8 +11,8 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 12 March 2012    Robin Foe	    0.1				Class creating
- * 													
- * 													
+ * 13 March 2012	Aman Sharma		0.2				Added Bill Functionalities
+ * 													Search/History/Reset																									
  * 													
  * 													
  * 
@@ -34,6 +34,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
+import com.onehash.constant.ConstantAction;
 import com.onehash.constant.ConstantSummary;
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.exception.BusinessLogicException;
@@ -51,6 +52,7 @@ import com.onehash.view.component.listener.ButtonActionListener;
 import com.onehash.view.component.listener.MouseTableListener;
 import com.onehash.view.component.tablemodel.OneHashTableModel;
 import com.onehash.view.panel.base.BasePanel;
+import com.onehash.view.panel.customer.CustomerEditPanel;
 
 @SuppressWarnings("serial")
 public class BillListPanel extends BasePanel {
@@ -67,6 +69,14 @@ public class BillListPanel extends BasePanel {
 	private static final String COMP_BUTTON_SEARCHHISTORY = "BTN_SEARCHHISTORY";
 	private static final String COMP_BILL_TABLE = "BILL_TABLE";
 	
+	private static final String COMP_LBL_NAME = "COMP_LBL_NAME";
+	private static final String COMP_LBL_AMOUNT = "COMP_LBL_AMOUNT";
+	private static final String COMP_LBL_TOTAL = "COMP_LBL_TOTAL";
+	
+	private static final String COMP_LBL_SPD = "COMP_LBL_SPD";
+	private static final String COMP_LBL_PR = "COMP_LBL_PR";
+	private static final String COMP_LBL_SCC = "COMP_LBL_SCC";
+	
 	private static final String COMP_LBL_DV = "COMP_LBL_DV";
 	private static final String COMP_LBL_MV = "COMP_LBL_MV";
 	private static final String COMP_LBL_CT = "COMP_LBL_CT";
@@ -77,6 +87,9 @@ public class BillListPanel extends BasePanel {
 	private static final String COMP_LBL_CS = "COMP_LBL_CS";
 	private static final String COMP_LBL_CU = "COMP_LBL_CU";
 	
+	private static final String COMP_LBL_GST = "COMP_LBL_GST";
+	private static final String COMP_LBL_TCC = "COMP_LBL_TCC";
+	
 	private Calendar chosenDate;
 	
 	public BillListPanel(OneHashGui mainFrame) {
@@ -85,22 +98,22 @@ public class BillListPanel extends BasePanel {
 	
 	@Override
 	protected void init() {
-		disableBillDetailsToView();
-		super.registerComponent(COMP_LBL_ACCOUNTNUMBER , FactoryComponent.createLabel("Account No.", new PositionScalar(38,26,79,14)));
-		super.registerComponent(COMP_LBL_BILLDATE , FactoryComponent.createLabel("Bill Date", new PositionScalar(38,51,79,14)));
-		super.registerComponent(COMP_TXT_ACCOUNTNUMBER, FactoryComponent.createTextField( new TextFieldAttributeScalar(160, 23, 126, 20,10) ));
+
+		super.registerComponent(COMP_LBL_ACCOUNTNUMBER , FactoryComponent.createLabel("Account No.", new PositionScalar(20,26,79,14)));
+		super.registerComponent(COMP_LBL_BILLDATE , FactoryComponent.createLabel("Bill Date", new PositionScalar(20,51,79,14)));
+		super.registerComponent(COMP_TXT_ACCOUNTNUMBER, FactoryComponent.createTextField( new TextFieldAttributeScalar(120, 23, 126, 20,10) ));
 		
 		final String[] months = new String[12];
         for(int i=0;i<months.length;i++){
         	months[i] = ""+(i+1);
         }
         
-        super.registerComponent(COMP_LBL_BILLMONTH , FactoryComponent.createLabel("Month : ", new PositionScalar(160,48,50,20)));
+        super.registerComponent(COMP_LBL_BILLMONTH , FactoryComponent.createLabel("Month :", new PositionScalar(120,51,50,20)));
         chosenDate = Calendar.getInstance();
         
         JComboBox monthSelector = new JComboBox(months);
         monthSelector.setSelectedIndex(chosenDate.get(Calendar.MONTH));
-        monthSelector.setBounds(210, 48, 50, 20);
+        monthSelector.setBounds(170, 51, 50, 20);
         monthSelector.setUI(new BasicComboBoxUI() { 
         	@Override 
      	    protected JButton createArrowButton() { 
@@ -109,14 +122,14 @@ public class BillListPanel extends BasePanel {
         }); 
         super.registerComponent(COMP_DATE_BILLMONTH , monthSelector);
         
-        super.registerComponent(COMP_LBL_BILLYEAR , FactoryComponent.createLabel("Year : ", new PositionScalar(300, 48, 40, 20)));
+        super.registerComponent(COMP_LBL_BILLYEAR , FactoryComponent.createLabel("Year :", new PositionScalar(250, 51, 50, 20)));
         JComboBox yearSelector = new JComboBox();
         final Integer[] years = getYears(chosenDate.get(Calendar.YEAR));
         for (int i = 0; i < years.length; i++) {
         	yearSelector.addItem(years[i]);
         }
         yearSelector.setSelectedItem(new Integer(chosenDate.get(Calendar.YEAR)));
-        yearSelector.setBounds(340, 48, 60, 20);
+        yearSelector.setBounds(290, 51, 50, 20);
         yearSelector.setUI(new BasicComboBoxUI() { 
         	@Override 
      	    protected JButton createArrowButton() { 
@@ -125,12 +138,48 @@ public class BillListPanel extends BasePanel {
         }); 
         super.registerComponent(COMP_DATE_BILYEAR , yearSelector);
         
-		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Search", new ButtonAttributeScalar(160, 100, 96, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
-		super.registerComponent(COMP_BUTTON_RESET , FactoryComponent.createButton("Reset", new ButtonAttributeScalar(280, 100, 96, 23 , new ButtonActionListener(this,"resetSearchCriteria"))));
-		super.registerComponent(COMP_BUTTON_SEARCHHISTORY , FactoryComponent.createButton("Bill History", new ButtonAttributeScalar(400, 100, 100, 23 , new ButtonActionListener(this,"viewBillHistory"))));
+        //Registering Search/History/Refresh Button
+		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Search", new ButtonAttributeScalar(20, 100, 96, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
+		super.registerComponent(COMP_BUTTON_SEARCHHISTORY , FactoryComponent.createButton("Bill History", new ButtonAttributeScalar(140, 100, 96, 23 , new ButtonActionListener(this,"viewBillHistory"))));
+		super.registerComponent(COMP_BUTTON_RESET , FactoryComponent.createButton("Reset", new ButtonAttributeScalar(260, 100, 96, 23 , new ButtonActionListener(this,"resetSearchCriteria"))));
+
+		//Bill History Panel
+		Object[][] rowData = new String[0][4];
+		JTable table = new JTable();
+        table.setPreferredScrollableViewportSize(new Dimension(100, 70));
+        table.setFillsViewportHeight(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setModel(new OneHashTableModel(this.getTableColumnNames() , rowData));
+        table.addMouseListener(new MouseTableListener(this,"searchCusomerBill"));
+        
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(20,150,335,215);
+		super.registerComponent(COMP_BILL_TABLE, scrollPane);
 		
-		//Create fields to display bill details
+		//View Bill Details - Header
+		super.registerComponent(COMP_LBL_NAME , FactoryComponent.createLabel("One#", new PositionScalar(370,20,50,20)));
+		super.registerComponent(COMP_LBL_AMOUNT , FactoryComponent.createLabel("Amount (S$)", new PositionScalar(650,20,70,20)));
+		super.registerComponent(COMP_LBL_TOTAL , FactoryComponent.createLabel("Total (S$)", new PositionScalar(750,20,70,20)));
 		
+		//Summary Payment Details
+		super.registerComponent(COMP_LBL_SPD , FactoryComponent.createLabel("Summary - Payment Details", new PositionScalar(370,50,300,20)));
+		super.registerComponent(COMP_LBL_PR , FactoryComponent.createLabel("Payment received", new PositionScalar(370,70,200,20)));
+		
+		//Summary Current Charges
+		super.registerComponent(COMP_LBL_SCC , FactoryComponent.createLabel("Summary Current Charges", new PositionScalar(370,100,300,20)));
+		super.registerComponent(COMP_LBL_DV , FactoryComponent.createLabel("Digital Voice", new PositionScalar(370,120,100,20)));
+		super.registerComponent(COMP_LBL_DVS , FactoryComponent.createLabel("Subscription charges", new PositionScalar(390,140,200,20)));
+		super.registerComponent(COMP_LBL_DVU , FactoryComponent.createLabel("Usage charges", new PositionScalar(390,160,150,20)));
+		super.registerComponent(COMP_LBL_MV , FactoryComponent.createLabel("Mobile Voice", new PositionScalar(370,190,100,20)));
+		super.registerComponent(COMP_LBL_MVS , FactoryComponent.createLabel("Subscription charges", new PositionScalar(390,210,200,20)));
+		super.registerComponent(COMP_LBL_MVU , FactoryComponent.createLabel("Usage charges", new PositionScalar(390,230,150,20)));
+		super.registerComponent(COMP_LBL_CT , FactoryComponent.createLabel("Cable TV", new PositionScalar(370,260,100,20)));
+		super.registerComponent(COMP_LBL_CS , FactoryComponent.createLabel("Subscription charges", new PositionScalar(390,280,200,20)));
+		super.registerComponent(COMP_LBL_CU , FactoryComponent.createLabel("Add. Channel charges", new PositionScalar(390,300,300,20)));
+		
+		//GST - TOTAL CHARGES.
+		super.registerComponent(COMP_LBL_GST , FactoryComponent.createLabel("Total GST", new PositionScalar(370,330,300,20)));
+		super.registerComponent(COMP_LBL_TCC , FactoryComponent.createLabel("Total Current Charges", new PositionScalar(370,350,300,20)));
 	}
 	
 	private Integer[] getYears(int chosenYear) {
@@ -146,7 +195,18 @@ public class BillListPanel extends BasePanel {
 	
 	public void resetSearchCriteria() throws Exception {
 		try{
-			disableBillDetailsToView();
+			Object[][] rowData = new String[0][4];
+			JTable table = new JTable();
+	        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
+	        table.setFillsViewportHeight(true);
+	        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	        table.setModel(new OneHashTableModel(this.getTableColumnNames() , rowData));
+	        table.addMouseListener(new MouseTableListener(this,"searchCusomerBill"));
+			JScrollPane scrollPane = (JScrollPane) super.getComponent(COMP_BILL_TABLE);
+			scrollPane.setViewportView(table);
+			
+			JTextField jTextField = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
+			jTextField.setText(null);
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
@@ -217,45 +277,46 @@ public class BillListPanel extends BasePanel {
 		}
 	}
 	
-	public void viewBillHistory() {
+	public Object[][] viewBillHistory() {
+		Object[][] rowData = new String[0][4];
 		try{
-			
 			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
 			String accountNumber = (String)accountComponent.getText();
-			if(OneHashStringUtil.isEmpty(accountNumber))
-				throw new InsufficientInputParameterException("Accout Number is required");
 			
 			Customer customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
 			if(customer!=null){
-				Object[][] rowData = new String[1][4];
 				if(customer.getBill()!=null && customer.getBill().size()>0){
 					List<Bill> billList = customer.getBill();
 					rowData = new Object[billList.size()][4];
 					for(int i = 0 ; i < billList.size(); i++){
 						Bill _bill = billList.get(i);
-						rowData[i][0] = customer.getAccountNumber();
-						rowData[i][1] = customer.getName();
+						rowData[i][0] = customer.getName();
+						rowData[i][1] = customer.getNric();
 						rowData[i][2] = _bill.getBillDate();
 						rowData[i][3] = _bill.getTotalBill();
 					}
 				}
-				
+				rowData = new Object[40][4];
+				for(int i = 0 ; i < 40; i++){
+					rowData[i][0] = "Name"+i;
+					rowData[i][1] = "Nric"+i;
+					rowData[i][2] = "29/10/2012";
+					rowData[i][3] = "100"+i;
+				}
 				JTable table = new JTable();
-		        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+		        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
 		        table.setFillsViewportHeight(true);
 		        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		        table.setModel(new OneHashTableModel(this.getTableColumnNames() , rowData));
 		        table.addMouseListener(new MouseTableListener(this,"searchCusomerBill"));
-		        
-		        JScrollPane scrollPane = new JScrollPane(table);
-		        scrollPane.setBounds(15,150,700,200);
-		        
-				super.registerComponent(COMP_BILL_TABLE, scrollPane);
-				super.getComponent(COMP_BILL_TABLE).setVisible(true);
+				JScrollPane scrollPane = (JScrollPane) super.getComponent(COMP_BILL_TABLE);
+				scrollPane.setViewportView(table);
 			}
+			
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
+		return rowData;
 	}
 	
 	public void enableBillDetailsToView() {
@@ -285,8 +346,12 @@ public class BillListPanel extends BasePanel {
 		}catch(Exception exp){}
 	}
 	
+	public void updateAvailableServiceRate() {
+		
+	}
+	
 	public String[] getTableColumnNames(){
-		return new String[]{"Account Number", "Name","Bill Date" , "Amount"};
+		return new String[]{"Name","Nric","Bill Date" , "Amount"};
 	}
 	
 	@Override
