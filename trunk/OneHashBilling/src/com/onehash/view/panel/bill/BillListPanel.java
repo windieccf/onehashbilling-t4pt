@@ -21,6 +21,7 @@ package com.onehash.view.panel.bill;
 
 import java.awt.Dimension;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
-import com.onehash.constant.ConstantAction;
 import com.onehash.constant.ConstantSummary;
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.exception.BusinessLogicException;
@@ -52,7 +52,6 @@ import com.onehash.view.component.listener.ButtonActionListener;
 import com.onehash.view.component.listener.MouseTableListener;
 import com.onehash.view.component.tablemodel.OneHashTableModel;
 import com.onehash.view.panel.base.BasePanel;
-import com.onehash.view.panel.customer.CustomerEditPanel;
 
 @SuppressWarnings("serial")
 public class BillListPanel extends BasePanel {
@@ -144,13 +143,13 @@ public class BillListPanel extends BasePanel {
 		super.registerComponent(COMP_BUTTON_RESET , FactoryComponent.createButton("Reset", new ButtonAttributeScalar(260, 100, 96, 23 , new ButtonActionListener(this,"resetSearchCriteria"))));
 
 		//Bill History Panel
-		Object[][] rowData = new String[0][4];
+		Object[][] rowData = new String[0][2];
 		JTable table = new JTable();
         table.setPreferredScrollableViewportSize(new Dimension(100, 70));
         table.setFillsViewportHeight(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setModel(new OneHashTableModel(this.getTableColumnNames() , rowData));
-        table.addMouseListener(new MouseTableListener(this,"searchCusomerBill"));
+        table.addMouseListener(new MouseTableListener(this,"viewBillDetail"));
         
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(20,150,335,215);
@@ -195,13 +194,13 @@ public class BillListPanel extends BasePanel {
 	
 	public void resetSearchCriteria() throws Exception {
 		try{
-			Object[][] rowData = new String[0][4];
+			Object[][] rowData = new String[0][2];
 			JTable table = new JTable();
 	        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
 	        table.setFillsViewportHeight(true);
 	        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	        table.setModel(new OneHashTableModel(this.getTableColumnNames() , rowData));
-	        table.addMouseListener(new MouseTableListener(this,"searchCusomerBill"));
+	        table.addMouseListener(new MouseTableListener(this,"viewBillDetail"));
 			JScrollPane scrollPane = (JScrollPane) super.getComponent(COMP_BILL_TABLE);
 			scrollPane.setViewportView(table);
 			
@@ -247,10 +246,9 @@ public class BillListPanel extends BasePanel {
 				JOptionPane.showMessageDialog(this, exp.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
+	
 	public void populateBillDetailsToView(Bill bill) {
-		enableBillDetailsToView();
-		
+	
 		Map<String,List<BillSummary>> billSummaryMap = bill.getBillSummaryMap();
 		List<BillSummary> tvSummaryList = billSummaryMap.get(ConstantSummary.CableTV);
 		for(BillSummary _billSummary : tvSummaryList){
@@ -278,7 +276,7 @@ public class BillListPanel extends BasePanel {
 	}
 	
 	public Object[][] viewBillHistory() {
-		Object[][] rowData = new String[0][4];
+		Object[][] rowData = new String[0][2];
 		try{
 			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
 			String accountNumber = (String)accountComponent.getText();
@@ -287,28 +285,20 @@ public class BillListPanel extends BasePanel {
 			if(customer!=null){
 				if(customer.getBill()!=null && customer.getBill().size()>0){
 					List<Bill> billList = customer.getBill();
-					rowData = new Object[billList.size()][4];
+					rowData = new Object[billList.size()][2];
 					for(int i = 0 ; i < billList.size(); i++){
 						Bill _bill = billList.get(i);
-						rowData[i][0] = customer.getName();
-						rowData[i][1] = customer.getNric();
-						rowData[i][2] = _bill.getBillDate();
-						rowData[i][3] = _bill.getTotalBill();
+						rowData[i][0] = _bill.getBillDate();
+						rowData[i][1] = _bill.getTotalBill();
 					}
 				}
-				rowData = new Object[40][4];
-				for(int i = 0 ; i < 40; i++){
-					rowData[i][0] = "Name"+i;
-					rowData[i][1] = "Nric"+i;
-					rowData[i][2] = "29/10/2012";
-					rowData[i][3] = "100"+i;
-				}
+				
 				JTable table = new JTable();
 		        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
 		        table.setFillsViewportHeight(true);
 		        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		        table.setModel(new OneHashTableModel(this.getTableColumnNames() , rowData));
-		        table.addMouseListener(new MouseTableListener(this,"searchCusomerBill"));
+		        table.addMouseListener(new MouseTableListener(this,"viewBillDetail"));
 				JScrollPane scrollPane = (JScrollPane) super.getComponent(COMP_BILL_TABLE);
 				scrollPane.setViewportView(table);
 			}
@@ -319,39 +309,26 @@ public class BillListPanel extends BasePanel {
 		return rowData;
 	}
 	
-	public void enableBillDetailsToView() {
-		super.getComponent(COMP_LBL_DV).setVisible(true);
-		super.getComponent(COMP_LBL_MV).setVisible(true);
-		super.getComponent(COMP_LBL_CT).setVisible(true);
-		super.getComponent(COMP_LBL_DVS).setVisible(true);
-		super.getComponent(COMP_LBL_DVU).setVisible(true);
-		super.getComponent(COMP_LBL_MVS).setVisible(true);
-		super.getComponent(COMP_LBL_MVU).setVisible(true);
-		super.getComponent(COMP_LBL_CS).setVisible(true);
-		super.getComponent(COMP_LBL_CU).setVisible(true);
-	}
-	
-	public void disableBillDetailsToView() {
+	public void viewBillDetail(String parameters) throws Exception {
 		try{
-			super.getComponent(COMP_LBL_DV).setVisible(false);
-			super.getComponent(COMP_LBL_MV).setVisible(false);
-			super.getComponent(COMP_LBL_CT).setVisible(false);
-			super.getComponent(COMP_LBL_DVS).setVisible(false);
-			super.getComponent(COMP_LBL_DVU).setVisible(false);
-			super.getComponent(COMP_LBL_MVS).setVisible(false);
-			super.getComponent(COMP_LBL_MVU).setVisible(false);
-			super.getComponent(COMP_LBL_CS).setVisible(false);
-			super.getComponent(COMP_LBL_CU).setVisible(false);
-			super.getComponent(COMP_BILL_TABLE).setVisible(false);
-		}catch(Exception exp){}
+			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
+			String accountNumber = (String)accountComponent.getText();
+			
+			Customer customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
+			if(customer!=null){
+				Date billDate = new Date();
+				Bill bill = OneHashDataCache.getInstance().getMonthlyBill(customer, billDate);
+				if(bill!=null){
+					populateBillDetailsToView(bill);
+				}
+			}
+		}catch(Exception exp){
+			exp.printStackTrace();
+		}
 	}
-	
-	public void updateAvailableServiceRate() {
-		
-	}
-	
+
 	public String[] getTableColumnNames(){
-		return new String[]{"Name","Nric","Bill Date" , "Amount"};
+		return new String[]{"Bill Date" , "Bill Amount"};
 	}
 	
 	@Override
