@@ -104,10 +104,14 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 	
 	private List<ComplaintLog> complaintLogs = new ArrayList<ComplaintLog>();
 	
-	private List<ServiceRate> selectedServiceRates = new ArrayList<ServiceRate>();
-
 	private List<ServicePlan> servicePlans = new ArrayList<ServicePlan>();
-	
+
+	private ServicePlan selectedServicePlan;
+	private String servicePlanMode;
+	private static final String SERVICEPLAN_EDIT_MODE = "SERVICEPLAN_EDIT_MODE";
+	private static final String SERVICEPLAN_CREATE_MODE = "SERVICEPLAN_CREATE_MODE";
+
+	private List<ServiceRate> selectedServiceRates = new ArrayList<ServiceRate>();
 
 	private Customer customer  = new Customer(); // for data binding
 	
@@ -157,15 +161,62 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		super.registerComponent(COMP_BUTTON_NAME_SAVE , FactoryComponent.createButton("Save", new ButtonAttributeScalar(136, 250, 100, 23 , new ButtonActionListener(this,"saveCustomer"))));
 		super.registerComponent(COMP_BUTTON_NAME_CANCEL , FactoryComponent.createButton("Cancel", new ButtonAttributeScalar(256, 250, 100, 23 , new ButtonActionListener(this,"cancel"))));
 		
+		// Add ComplaintListPanel
+		JTable complaintTable = new JTable();
+		complaintTable.setPreferredScrollableViewportSize(new Dimension(100, 70));
+		complaintTable.setFillsViewportHeight(true);
+		complaintTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		complaintTable.setModel(new OneHashTableModel(this.getComplaintTableColumnNames() , this.getComplaintData(this.customer)));
+		complaintTable.addMouseListener(new MouseTableListener(this,"loadEditScreen"));
+        
+        JScrollPane complaintScrollPane = new JScrollPane(complaintTable);
+        complaintScrollPane.setBounds(390,280,400,115);
+		super.registerComponent(COMPLAINT_TABLE, complaintScrollPane);
+		JButton complaintaddButton = FactoryComponent.createButton("Add", new ButtonAttributeScalar(570, 400, 100, 23 , new ButtonActionListener(this,"addComplaintLog")));
+		super.registerComponent(COMPLAINT_BUTTON_ADD , complaintaddButton);
+		JButton complaintremoveButton = FactoryComponent.createButton("Remove", new ButtonAttributeScalar(690, 400, 100, 23 , new ButtonActionListener(this,"removeComplaintLog")));
+		super.registerComponent(COMPLAINT_BUTTON_REM , complaintremoveButton);
 
-		// Add ServicePlanListPanel
+
+
+	}
+	
+	@Override
+	protected String getScreenTitle() {return "Customer Maintenance";}
+	
+	@Override
+	public BaseEntity getSelectedEntity() {return this.customer;}
+	
+	
+	@PostCreate
+	public void postCreate(List<String> parameters){
+		if(parameters == null)
+			throw new IllegalArgumentException("CustomerEditPanel.postCreate parameter is required");
+		
+		if(ConstantAction.ADD.equals(parameters.get(0)))
+			customer = new Customer();
+		else{
+			customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(parameters.get(1));
+			servicePlans = new ArrayList<ServicePlan>(customer.getServicePlans());
+			if(customer != null){
+				super.getLabelComponent(COMP_LBL_ACCOUNT).setText(customer.getAccountNumber());
+				super.getTextFieldComponent(COMP_TEXT_NAME).setText(customer.getName());
+				super.getTextFieldComponent(COMP_TEXT_NRIC).setText(customer.getNric());
+				super.getTextFieldComponent(COMP_TEXT_CONTACT).setText(customer.getPhoneNumber());
+				super.getTextAreaComponent(COMP_TEXTAREA_ADDRESS).setText(customer.getAddress());
+			}
+		}
+		super.getCheckboxComponent(COMP_CHECKBOX_ACTIVATED).setSelected(customer.isActivated());
+		
+	
+		// Add ServicePlanListPanel        
 		JTable table = new JTable();
         table.setPreferredScrollableViewportSize(new Dimension(100, 70));
         table.setFillsViewportHeight(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setModel(new OneHashTableModel(this.getTableColumnNames() , this.getData()));
-        table.addMouseListener(new MouseTableListener(this,"loadEditScreen"));
-        
+        table.addMouseListener(new MouseTableListener(this,"loadServicePlanEditScreen"));
+
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(390,20,400,215);
 		super.registerComponent(SERVICEPLAN_TABLE, scrollPane);
@@ -173,7 +224,6 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		super.registerComponent(SERVICEPLAN_BUTTON_ADD , addButton);
 		JButton removeButton = FactoryComponent.createButton("Remove", new ButtonAttributeScalar(690, 250, 100, 23 , new ButtonActionListener(this,"removeServicePlan")));
 		super.registerComponent(SERVICEPLAN_BUTTON_REM , removeButton);
-
 		
 		Vector<ComboBoxItem> servicePlanList = new Vector<ComboBoxItem>();
 		servicePlanList.add(new ComboBoxItem(ServiceRate.PREFIX_DIGITAL_VOICE, ConstantSummary.DigitalVoice));
@@ -215,53 +265,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 
 		super.registerComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS , FactoryComponent.createButton("Remove Option", new ButtonAttributeScalar(390, 250, 120, 23 , new ButtonActionListener(this,"removeOptions"))));
 		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(false);
-		
-		// Add ComplaintListPanel
-		JTable complaintTable = new JTable();
-		complaintTable.setPreferredScrollableViewportSize(new Dimension(100, 70));
-		complaintTable.setFillsViewportHeight(true);
-		complaintTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		complaintTable.setModel(new OneHashTableModel(this.getComplaintTableColumnNames() , this.getComplaintData(this.customer)));
-		complaintTable.addMouseListener(new MouseTableListener(this,"loadEditScreen"));
-        
-        JScrollPane complaintScrollPane = new JScrollPane(complaintTable);
-        complaintScrollPane.setBounds(390,280,400,115);
-		super.registerComponent(COMPLAINT_TABLE, complaintScrollPane);
-		JButton complaintaddButton = FactoryComponent.createButton("Add", new ButtonAttributeScalar(570, 400, 100, 23 , new ButtonActionListener(this,"addComplaintLog")));
-		super.registerComponent(COMPLAINT_BUTTON_ADD , complaintaddButton);
-		JButton complaintremoveButton = FactoryComponent.createButton("Remove", new ButtonAttributeScalar(690, 400, 100, 23 , new ButtonActionListener(this,"removeComplaintLog")));
-		super.registerComponent(COMPLAINT_BUTTON_REM , complaintremoveButton);
-
-
-
-	}
 	
-	@Override
-	protected String getScreenTitle() {return "Customer Maintenance";}
-	
-	@Override
-	public BaseEntity getSelectedEntity() {return this.customer;}
-	
-	
-	@PostCreate
-	public void postCreate(List<String> parameters){
-		if(parameters == null)
-			throw new IllegalArgumentException("CustomerEditPanel.postCreate parameter is required");
-		
-		if(ConstantAction.ADD.equals(parameters.get(0)))
-			customer = new Customer();
-		else{
-			customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(parameters.get(1));
-			if(customer != null){
-				super.getLabelComponent(COMP_LBL_ACCOUNT).setText(customer.getAccountNumber());
-				super.getTextFieldComponent(COMP_TEXT_NAME).setText(customer.getName());
-				super.getTextFieldComponent(COMP_TEXT_NRIC).setText(customer.getNric());
-				super.getTextFieldComponent(COMP_TEXT_CONTACT).setText(customer.getPhoneNumber());
-				super.getTextAreaComponent(COMP_TEXTAREA_ADDRESS).setText(customer.getAddress());
-			}
-		}
-		super.getCheckboxComponent(COMP_CHECKBOX_ACTIVATED).setSelected(customer.isActivated());
-		
 	}
 	
 	
@@ -285,6 +289,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 			if(OneHashStringUtil.isEmpty(this.customer.getAddress()))
 				throw new InsufficientInputParameterException("Customer Address is required");
 			
+			this.customer.setServicePlans(this.servicePlans);
 			OneHashDataCache.getInstance().saveCustomer(this.customer);
 			JOptionPane.showMessageDialog(this, "Customer Successfully Saved");
 			this.cancel();
@@ -297,8 +302,33 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		}
 		
 	}
+
+	public void refreshServicePlansJTable() {
+		JTable table = new JTable();
+        table.setPreferredScrollableViewportSize(new Dimension(100, 70));
+        table.setFillsViewportHeight(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setModel(new OneHashTableModel(this.getTableColumnNames() , this.getData()));
+        table.addMouseListener(new MouseTableListener(this,"loadServicePlanEditScreen"));
+		JScrollPane servicePlansScrollPane = (JScrollPane) super.getComponent(SERVICEPLAN_TABLE);
+		servicePlansScrollPane.setViewportView(table);
+	}
 	
 	public void addServicePlan() {
+		servicePlanMode = SERVICEPLAN_CREATE_MODE;
+		JComboBox component = (JComboBox)super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION);
+		component.setEnabled(true);
+		updateServicePlan();
+	}
+	
+	public void removeServicePlan() {
+		JScrollPane selectedServicePlanScrollPane = (JScrollPane)super.getComponent(SERVICEPLAN_TABLE);
+		JTable ServicePlanJTable = (JTable)selectedServicePlanScrollPane.getViewport().getView();
+		servicePlans.remove(ServicePlanJTable.getSelectedRow());
+		refreshServicePlansJTable();
+	}
+
+	public void updateServicePlan() {
 		this.updateSelectedServiceRate();
 		this.updateAvailableServiceRate();
 		super.getComponent(SERVICEPLAN_TABLE).setVisible(false);
@@ -331,18 +361,33 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		try {
 			JComboBox component = (JComboBox)super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION);
 			ComboBoxItem prefix = (ComboBoxItem)component.getSelectedItem();
-			ServicePlan servicePlan = new MobileVoicePlan();
-			if (prefix.equals(ServiceRate.PREFIX_MOBILE_VOICE))
-				servicePlan = new MobileVoicePlan();
-			else if (prefix.equals(ServiceRate.PREFIX_DIGITAL_VOICE))
-				servicePlan = new DigitalVoicePlan();
-			else if (prefix.equals(ServiceRate.PREFIX_CABLE_TV))
-				servicePlan = new CableTvPlan();
-			servicePlan.setPlanName(prefix.getValue());
-			servicePlan.setServiceRates(selectedServiceRates);
-			this.customer.addServicePlan(servicePlan);
-			OneHashDataCache.getInstance().saveCustomer(this.customer);
-			JOptionPane.showMessageDialog(this, "Subscriptions Successfully Saved");
+			/**
+			 * Determine New or Edit ServicePlan
+			 */
+			if (servicePlanMode.equals(SERVICEPLAN_CREATE_MODE)) {
+				if (prefix.equals(ServiceRate.PREFIX_MOBILE_VOICE))
+					selectedServicePlan = new MobileVoicePlan();
+				else if (prefix.equals(ServiceRate.PREFIX_DIGITAL_VOICE))
+					selectedServicePlan = new DigitalVoicePlan();
+				else
+					selectedServicePlan = new CableTvPlan();
+				selectedServicePlan.setPlanId(prefix.getKey() + (this.customer.getServicePlans().size()+1));
+				selectedServicePlan.setPlanName(prefix.getValue());
+				servicePlans.add(selectedServicePlan);
+			}
+			else {
+				for(ServicePlan servicePlan:servicePlans) {
+					if (servicePlan.getPlanId().equals(selectedServicePlan.getPlanId())) {
+						servicePlan = selectedServicePlan;
+						break;
+					}
+				}
+			}
+			selectedServicePlan.setServiceRates(selectedServiceRates);
+			//use the Save Customer button
+			//OneHashDataCache.getInstance().saveCustomer(this.customer);
+			//JOptionPane.showMessageDialog(this, "Subscriptions Successfully Saved");
+			this.refreshServicePlansJTable();
 			this.cancelServicePlan();
 		}catch(Exception e){
 			if(e instanceof BusinessLogicException)
@@ -428,6 +473,33 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		updateAvailableServiceRate();
 	}
 
+	/**************************** REFLECTION UTILITY **********************************/
+	public void loadServicePlanEditScreen(String parameter){
+		servicePlanMode = SERVICEPLAN_EDIT_MODE;
+		selectedServicePlan = null;
+		JComboBox component = (JComboBox)super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION);
+		int componentCount = component.getItemCount();
+		for(int i=0; i<componentCount; i++) {
+			ComboBoxItem comboBoxItem = (ComboBoxItem) component.getItemAt(i);
+			if (comboBoxItem.getKey().equals(parameter.substring(0, comboBoxItem.getKey().length()))) {
+				component.setSelectedIndex(i);
+				break;
+			}
+		}
+		component.setEnabled(false);
+		for(ServicePlan servicePlan:servicePlans) {
+			if (servicePlan.getPlanId().equals(parameter)) {
+				selectedServicePlan = servicePlan;
+				break;
+			}
+		}
+		if (selectedServicePlan == null)
+			throw new IllegalArgumentException("Could not find the selected ServicePlan : " + parameter);
+		selectedServiceRates = selectedServicePlan.getServiceRates();
+		this.updateServicePlan();
+	}
+	
+	
 	/******************************** TABLE UTILITY******************************************/
 	public Object[][] getData(){
 		Object[][] rowData = new String[1][4];
