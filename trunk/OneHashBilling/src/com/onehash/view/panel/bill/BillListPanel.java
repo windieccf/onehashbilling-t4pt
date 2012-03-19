@@ -213,7 +213,6 @@ public class BillListPanel extends BasePanel {
 	
 	public void searchCusomerBill() throws Exception {
 		try{
-			
 			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
 			String accountNumber = (String)accountComponent.getText();
 			if(OneHashStringUtil.isEmpty(accountNumber))
@@ -248,30 +247,33 @@ public class BillListPanel extends BasePanel {
 	}
 	
 	public void populateBillDetailsToView(Bill bill) {
-	
-		Map<String,List<BillSummary>> billSummaryMap = bill.getBillSummaryMap();
-		List<BillSummary> tvSummaryList = billSummaryMap.get(ConstantSummary.CableTV);
-		for(BillSummary _billSummary : tvSummaryList){
-			if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
-				super.getTextFieldComponent(COMP_LBL_CS).setText(_billSummary.getTotal().toString());
-			if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-				super.getTextAreaComponent(COMP_LBL_CU).setText(_billSummary.getTotal().toString());
-		}
-		
-		List<BillSummary> dvSummaryList = billSummaryMap.get(ConstantSummary.DigitalVoice);
-		for(BillSummary _billSummary : dvSummaryList){
-			if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
-				super.getTextFieldComponent(COMP_LBL_DVS).setText(_billSummary.getTotal().toString());
-			if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-				super.getTextAreaComponent(COMP_LBL_DVU).setText(_billSummary.getTotal().toString());
-		}
-		
-		List<BillSummary> mvSummaryList = billSummaryMap.get(ConstantSummary.DigitalVoice);
-		for(BillSummary _billSummary : mvSummaryList){
-			if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
-				super.getTextFieldComponent(COMP_LBL_MVS).setText(_billSummary.getTotal().toString());
-			if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-				super.getTextAreaComponent(COMP_LBL_MVU).setText(_billSummary.getTotal().toString());
+		try{
+			Map<String,List<BillSummary>> billSummaryMap = bill.getBillSummaryMap();
+			List<BillSummary> tvSummaryList = billSummaryMap.get(ConstantSummary.CableTV);
+			for(BillSummary _billSummary : tvSummaryList){
+				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
+					super.getTextFieldComponent(COMP_LBL_CS).setText(_billSummary.getTotal().toString());
+				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
+					super.getTextAreaComponent(COMP_LBL_CU).setText(_billSummary.getTotal().toString());
+			}
+			
+			List<BillSummary> dvSummaryList = billSummaryMap.get(ConstantSummary.DigitalVoice);
+			for(BillSummary _billSummary : dvSummaryList){
+				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
+					super.getTextFieldComponent(COMP_LBL_DVS).setText(_billSummary.getTotal().toString());
+				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
+					super.getTextAreaComponent(COMP_LBL_DVU).setText(_billSummary.getTotal().toString());
+			}
+			
+			List<BillSummary> mvSummaryList = billSummaryMap.get(ConstantSummary.DigitalVoice);
+			for(BillSummary _billSummary : mvSummaryList){
+				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
+					super.getTextFieldComponent(COMP_LBL_MVS).setText(_billSummary.getTotal().toString());
+				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
+					super.getTextAreaComponent(COMP_LBL_MVU).setText(_billSummary.getTotal().toString());
+			}
+		}catch(Exception exp){
+			exp.printStackTrace();
 		}
 	}
 	
