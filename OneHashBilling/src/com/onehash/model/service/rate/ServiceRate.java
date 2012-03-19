@@ -26,11 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import org.hamcrest.core.IsInstanceOf;
-
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.model.base.BaseEntity;
-import com.onehash.model.usage.MonthlyUsage;
 
 @SuppressWarnings("serial")
 public abstract class ServiceRate extends BaseEntity{
