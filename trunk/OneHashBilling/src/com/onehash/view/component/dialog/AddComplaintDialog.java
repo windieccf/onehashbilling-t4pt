@@ -31,7 +31,7 @@ public class AddComplaintDialog extends OkCancelDialog {
     protected JPanel createFormPanel () {
         JPanel p = new JPanel ();
         p.setLayout (new GridLayout (0, 2));
-        p.add (new JLabel ("Surname"));
+        p.add (new JLabel ("Description"));
         descriptionField = new JTextField (20);
         p.add (descriptionField);
 //        p.add (new JLabel ("First name"));
