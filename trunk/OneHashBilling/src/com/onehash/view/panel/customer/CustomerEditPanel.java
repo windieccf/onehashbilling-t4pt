@@ -13,7 +13,7 @@
  * 15 March 2012    Robin Foe	    0.1				Class creation and screean loading
  * 16 March 2012    Yue Yang	    0.2				Validation and call to save
  * 17 March 2012	Kenny Hartono	0.3				Adding manage ServicePlan													
- * 													
+ * 19 March 2012	Chen Changfeng	0.4				Complaint module start													
  * 
  */
 
@@ -40,6 +40,7 @@ import com.onehash.controller.OneHashDataCache;
 import com.onehash.exception.BusinessLogicException;
 import com.onehash.exception.InsufficientInputParameterException;
 import com.onehash.model.base.BaseEntity;
+import com.onehash.model.complaint.ComplaintLog;
 import com.onehash.model.customer.Customer;
 import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.CheckboxAttributeScalar;
@@ -95,9 +96,17 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 	private static final String SERVICEPLAN_BUTTON_ADD_OPTIONS = "SERVICEPLAN_BUTTON_ADD_OPTIONS";
 	private static final String SERVICEPLAN_BUTTON_REMOVE_OPTIONS = "SERVICEPLAN_BUTTON_REMOVE_OPTIONS";
 	
+	//Complaint Module
+	private static final String COMPLAINT_TABLE = "COMPLAINT_TABLE";
+	private static final String COMPLAINT_BUTTON_ADD = "COMPLAINT_BUTTON_ADD";
+	private static final String COMPLAINT_BUTTON_REM = "COMPLAINT_BUTTON_REM";
+	
+	private List<ComplaintLog> complaintLogs = new ArrayList<ComplaintLog>();
+	
 	private List<ServiceRate> selectedServiceRates = new ArrayList<ServiceRate>();
 
 	private List<ServicePlan> servicePlans = new ArrayList<ServicePlan>();
+	
 
 	private Customer customer  = new Customer(); // for data binding
 	
@@ -205,6 +214,24 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 
 		super.registerComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS , FactoryComponent.createButton("Remove Option", new ButtonAttributeScalar(390, 250, 120, 23 , new ButtonActionListener(this,"removeOptions"))));
 		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(false);
+		
+		// Add ComplaintListPanel
+		JTable complaintTable = new JTable();
+		complaintTable.setPreferredScrollableViewportSize(new Dimension(100, 70));
+		complaintTable.setFillsViewportHeight(true);
+		complaintTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		complaintTable.setModel(new OneHashTableModel(this.getComplaintTableColumnNames() , this.getComplaintData()));
+		complaintTable.addMouseListener(new MouseTableListener(this,"loadEditScreen"));
+        
+        JScrollPane complaintScrollPane = new JScrollPane(complaintTable);
+        complaintScrollPane.setBounds(390,280,400,115);
+		super.registerComponent(COMPLAINT_TABLE, complaintScrollPane);
+		JButton complaintaddButton = FactoryComponent.createButton("Add", new ButtonAttributeScalar(570, 400, 100, 23 , new ButtonActionListener(this,"addServicePlan")));
+		super.registerComponent(COMPLAINT_BUTTON_ADD , complaintaddButton);
+		JButton complaintremoveButton = FactoryComponent.createButton("Remove", new ButtonAttributeScalar(690, 400, 100, 23 , new ButtonActionListener(this,"removeServicePlan")));
+		super.registerComponent(COMPLAINT_BUTTON_REM , complaintremoveButton);
+
+
 
 	}
 	
@@ -468,6 +495,30 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 
 	public String[] getTableColumnNames(){
 		return new String[]{"Subs. Num.", "Name", "Start" , "End"};
+	}
+	/******************************** COMPLAINT TABLE UTILITY******************************************/
+	public String[] getComplaintTableColumnNames(){
+		return new String[]{"Issue No.", "Complaint Date" , "Closed Date", "Status"};
+	}
+	
+	public Object[][] getComplaintData(){
+		Object[][] rowData = new String[1][4];
+		if (complaintLogs == null)
+			complaintLogs = new ArrayList<ComplaintLog>();
+		if(complaintLogs.isEmpty()){
+			rowData = new Object[0][4];
+		}else{
+			rowData = new Object[complaintLogs.size()][4];
+			for(int i = 0 ; i < complaintLogs.size(); i++){
+				ComplaintLog complaintLog = complaintLogs.get(i);
+				rowData[i][0] = complaintLog.getIssueNo();
+				rowData[i][1] = complaintLog.getComplaintDate();
+				rowData[i][2] = complaintLog.getClosedDate();
+				rowData[i][3] = complaintLog.getStatus();
+			}
+		}
+		
+		return rowData;
 	}
 
 }
