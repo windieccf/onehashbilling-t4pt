@@ -42,17 +42,13 @@ public class ComplaintLogTest {
 	public void createComplaintLogissueNoList() {
 		issueNoListPreSetting.add("COMP201203100000");
 
-		compLog1 = new ComplaintLog("Complain 1", OneHashDateUtil.getDate(),
-				issueNoListPreSetting);
+		compLog1 = new ComplaintLog("Complain 1", issueNoListPreSetting);
 		issueNoListPreSetting.add(compLog1.getIssueNo());
-		compLog2 = new ComplaintLog("Complain 2", OneHashDateUtil.getDate(),
-				issueNoListPreSetting);
+		compLog2 = new ComplaintLog("Complain 2", issueNoListPreSetting);
 		issueNoListPreSetting.add(compLog2.getIssueNo());
-		compLog3 = new ComplaintLog("Complain 3", OneHashDateUtil.getDate(),
-				issueNoListPreSetting);
+		compLog3 = new ComplaintLog("Complain 3", issueNoListPreSetting);
 		issueNoListPreSetting.add(compLog3.getIssueNo());
-		compLog4 = new ComplaintLog("Complain 4", OneHashDateUtil.getDate(),
-				issueNoListPreSetting);
+		compLog4 = new ComplaintLog("Complain 4", issueNoListPreSetting);
 		issueNoListPreSetting.add(compLog4.getIssueNo());
 
 		issueNoList.add(compLog1.getIssueNo());
@@ -80,7 +76,7 @@ public class ComplaintLogTest {
 	@Test
 	public void testNextGeneratedIssueNo() {
 		ComplaintLog compLog5 = new ComplaintLog("Complain 5",
-				OneHashDateUtil.getDate(), issueNoListPreSetting);
+				issueNoListPreSetting);
 		assertEquals(compLog5.getIssueNo(), "COMP201203100005");
 	}
 	

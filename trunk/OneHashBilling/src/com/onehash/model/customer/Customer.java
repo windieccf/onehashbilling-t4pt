@@ -68,6 +68,7 @@ public class Customer extends BaseEntity{
 	private List<ComplaintLog> complaintLogs = new  ArrayList<ComplaintLog>();
 	public List<ComplaintLog> getComplaintLogs() {return complaintLogs;}
 	public void setComplaintLogs(List<ComplaintLog> complaintLogs) {this.complaintLogs = complaintLogs;}
+	public void addComplaintLog(ComplaintLog complaintLog) {complaintLogs.add(complaintLog);}
 	
 	private List<Bill> bill = new ArrayList<Bill>();
 	public List<Bill> getBill() {return bill;}

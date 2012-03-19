@@ -431,4 +431,22 @@ public class OneHashDataCache {
 	}
 	
 	/****************************************** BILL RELATED OPERATION - END **************************************************/
+	
+	/****************************************** COMPLAINT RELATED OPERATION **************************************************/
+	public ArrayList<ComplaintLog> getComplaintsByAccountNumber(String accountNumber) {
+		for(Customer customer : this.getCustomers()){
+			if(customer.getAccountNumber().equalsIgnoreCase(accountNumber)){
+				// will create a replicate of the customer
+				return (ArrayList<ComplaintLog>) customer.getComplaintLogs();
+			}
+				
+		}
+		return null;
+	}
+	
+	public void createComplaint(Customer customer, String issueDescription, ArrayList<String> allIssueNoList) throws Exception{
+		ComplaintLog complaintLog = new ComplaintLog(issueDescription,allIssueNoList);
+		System.out.println("com" + complaintLog.getIssueNo());
+		customer.addComplaintLog(complaintLog);
+	}
 }
