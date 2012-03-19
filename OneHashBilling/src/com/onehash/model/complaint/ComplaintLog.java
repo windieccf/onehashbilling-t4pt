@@ -45,7 +45,7 @@ public class ComplaintLog extends BaseEntity{
 	 * @param complaintDate
 	 * @param allIssueNoList
 	 */
-	public ComplaintLog(String issueDescription, Date complaintDate, ArrayList<String> allIssueNoList) {
+	public ComplaintLog(String issueDescription, ArrayList<String> allIssueNoList) {
 		String complaintDateNo = null;
 		String strDate = OneHashDateUtil.format(OneHashDateUtil.getDate(),
 				"yyyyMMdd");
@@ -55,7 +55,7 @@ public class ComplaintLog extends BaseEntity{
 				todayIssueNo);
 
 		this.setIssueNo(COMPLAINT_PREFIX + complaintDateNo);
-		this.setComplaintDate(complaintDate);
+		this.setComplaintDate(OneHashDateUtil.getDate());
 		this.setIssueDescription(issueDescription);
 	}
 	

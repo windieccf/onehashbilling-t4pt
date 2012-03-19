@@ -55,6 +55,7 @@ import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
 import com.onehash.view.component.comboboxitem.ComboBoxItem;
+import com.onehash.view.component.dialog.AddComplaintDialog;
 import com.onehash.view.component.listener.BooleanCheckBoxListener;
 import com.onehash.view.component.listener.ButtonActionListener;
 import com.onehash.view.component.listener.MouseTableListener;
@@ -220,15 +221,15 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		complaintTable.setPreferredScrollableViewportSize(new Dimension(100, 70));
 		complaintTable.setFillsViewportHeight(true);
 		complaintTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		complaintTable.setModel(new OneHashTableModel(this.getComplaintTableColumnNames() , this.getComplaintData()));
+		complaintTable.setModel(new OneHashTableModel(this.getComplaintTableColumnNames() , this.getComplaintData(this.customer)));
 		complaintTable.addMouseListener(new MouseTableListener(this,"loadEditScreen"));
         
         JScrollPane complaintScrollPane = new JScrollPane(complaintTable);
         complaintScrollPane.setBounds(390,280,400,115);
 		super.registerComponent(COMPLAINT_TABLE, complaintScrollPane);
-		JButton complaintaddButton = FactoryComponent.createButton("Add", new ButtonAttributeScalar(570, 400, 100, 23 , new ButtonActionListener(this,"addServicePlan")));
+		JButton complaintaddButton = FactoryComponent.createButton("Add", new ButtonAttributeScalar(570, 400, 100, 23 , new ButtonActionListener(this,"addComplaintLog")));
 		super.registerComponent(COMPLAINT_BUTTON_ADD , complaintaddButton);
-		JButton complaintremoveButton = FactoryComponent.createButton("Remove", new ButtonAttributeScalar(690, 400, 100, 23 , new ButtonActionListener(this,"removeServicePlan")));
+		JButton complaintremoveButton = FactoryComponent.createButton("Remove", new ButtonAttributeScalar(690, 400, 100, 23 , new ButtonActionListener(this,"removeComplaintLog")));
 		super.registerComponent(COMPLAINT_BUTTON_REM , complaintremoveButton);
 
 
@@ -501,7 +502,13 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		return new String[]{"Issue No.", "Complaint Date" , "Closed Date", "Status"};
 	}
 	
-	public Object[][] getComplaintData(){
+	public Object[][] getComplaintData(Customer customer){
+		System.out.println("comeh ere"+customer.getAccountNumber());
+		complaintLogs = customer.getComplaintLogs();
+		for (ComplaintLog c : complaintLogs) {
+			System.out.println(c.getIssueNo());
+			
+		}
 		Object[][] rowData = new String[1][4];
 		if (complaintLogs == null)
 			complaintLogs = new ArrayList<ComplaintLog>();
@@ -519,6 +526,12 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		}
 		
 		return rowData;
+	}
+	
+	public void addComplaintLog() {
+		AddComplaintDialog complaintDialog = new AddComplaintDialog(this);
+		complaintDialog.pack();
+		complaintDialog.setVisible (true);
 	}
 
 }
