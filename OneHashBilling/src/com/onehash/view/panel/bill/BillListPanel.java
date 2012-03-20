@@ -21,7 +21,6 @@ package com.onehash.view.panel.bill;
 
 import java.awt.Dimension;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -357,6 +356,14 @@ public class BillListPanel extends BasePanel{
 					}
 				}
 				
+				rowData = new Object[40][2];
+				for(int i = 0 ; i < 40; i++){
+					Date date = new Date();
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					rowData[i][0] = sdf.format(date);
+					rowData[i][1] = (11+i);
+				}
+				
 				JTable table = new JTable();
 		        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
 		        table.setFillsViewportHeight(true);
@@ -380,10 +387,7 @@ public class BillListPanel extends BasePanel{
 			
 			Customer customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
 			if(customer!=null){
-				DateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
-				Date billRequestDate = (Date)formatter.parse(parameters);
-				
-				Bill bill = OneHashDataCache.getInstance().getMonthlyBill(customer, billRequestDate);
+				Bill bill = OneHashDataCache.getInstance().getMonthlyBill(customer, parserDate(parameters));
 				if(bill!=null){
 					populateBillDetailsToView(bill);
 				}
@@ -392,7 +396,21 @@ public class BillListPanel extends BasePanel{
 			exp.printStackTrace();
 		}
 	}
-
+	
+	public Date parserDate(String strDate){
+		String[] arryDate = strDate.split("/");
+		int day = new Integer(arryDate[0]).intValue();
+		int month = new Integer(arryDate[1]).intValue();
+		int year = new Integer(arryDate[2]).intValue();
+		
+		Calendar calendarDate = Calendar.getInstance();
+		calendarDate.set(Calendar.DATE, day);
+		calendarDate.set(Calendar.MONTH, (month-1));
+		calendarDate.set(Calendar.YEAR, year);
+		
+		return calendarDate.getTime();
+	}
+	
 	public String[] getTableColumnNames(){
 		return new String[]{"Bill Date" , "Bill Amount"};
 	}
