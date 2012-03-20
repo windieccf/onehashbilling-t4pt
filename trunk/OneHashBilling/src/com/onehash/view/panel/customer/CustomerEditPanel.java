@@ -398,7 +398,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		super.getComponent(SERVICEPLAN_LIST_SELECTED).setVisible(true);
 		super.getComponent(SERVICEPLAN_LIST_AVAILABLE).setVisible(true);
 		super.getComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN).setVisible(true);
-		if (selectedServicePlan.getDeletedStatus().equals(false)) {
+		if (selectedServicePlan == null || selectedServicePlan.getDeletedStatus().equals(false)) {
 			super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setVisible(true);
 			super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(true);
 			super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(true);
@@ -443,7 +443,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 					selectedServicePlan = new DigitalVoicePlan();
 				else
 					selectedServicePlan = new CableTvPlan();
-				selectedServicePlan.setPlanId(prefix.getKey() + (this.customer.getServicePlans().size()+1));
+				selectedServicePlan.setPlanId(prefix.getKey() + (servicePlans.size()+1));
 				selectedServicePlan.setPlanName(prefix.getValue());
 				servicePlans.add(selectedServicePlan);
 			}
