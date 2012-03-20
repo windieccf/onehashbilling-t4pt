@@ -21,6 +21,7 @@ package com.onehash.model.service.plan;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -44,17 +45,21 @@ public abstract class ServicePlan extends BaseEntity {
 	
 	private Boolean deletedStatus = false;
 	public Boolean getDeletedStatus() {return deletedStatus;}
-	public void setDeletedStatus(Boolean deletedStatus) {this.deletedStatus = deletedStatus;}
+	public void setDeletedStatus(Boolean deletedStatus) {
+		this.deletedStatus = deletedStatus;
+		Calendar calendar = Calendar.getInstance();
+		this.setEndDate(calendar.getTime());
+	}
 	
 	private String planName;
 	public String getPlanName() {return planName;}
 	public void setPlanName(String planName) {this.planName = planName;}
 	
-	private Date startDate;
+	private Date startDate = new Date();
 	public Date getStartDate() {return startDate;}
 	public void setStartDate(Date startDate) {this.startDate = startDate;}
 	
-	private Date endDate;
+	private Date endDate = new Date();
 	public Date getEndDate() {return endDate;}
 	public void setEndDate(Date endDate) {this.endDate = endDate;}
 	

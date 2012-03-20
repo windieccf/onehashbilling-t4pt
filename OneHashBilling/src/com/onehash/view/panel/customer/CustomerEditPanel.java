@@ -22,6 +22,8 @@ package com.onehash.view.panel.customer;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Vector;
@@ -32,6 +34,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.plaf.basic.BasicArrowButton;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import com.onehash.annotation.PostCreate;
 import com.onehash.constant.ConstantAction;
@@ -96,6 +100,12 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 	private static final String SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN = "SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN";
 	private static final String SERVICEPLAN_BUTTON_ADD_OPTIONS = "SERVICEPLAN_BUTTON_ADD_OPTIONS";
 	private static final String SERVICEPLAN_BUTTON_REMOVE_OPTIONS = "SERVICEPLAN_BUTTON_REMOVE_OPTIONS";
+	private static final String SERVICEPLAN_LABEL_STARTDATE = "SERVICEPLAN_LABEL_STARTDATE";
+	private static final String SERVICEPLAN_LABEL_MONTH = "SERVICEPLAN_LABEL_MONTH";
+	private static final String SERVICEPLAN_COMBOBOX_MONTH = "SERVICEPLAN_COMBOBOX_MONTH";
+	private static final String SERVICEPLAN_LABEL_YEAR = "SERVICEPLAN_LABEL_YEAR";
+	private static final String SERVICEPLAN_COMBOBOX_YEAR = "SERVICEPLAN_COMBOBOX_YEAR";
+
 	
 	//Complaint Module
 	private static final String COMPLAINT_TABLE = "COMPLAINT_TABLE";
@@ -110,7 +120,8 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 	private String servicePlanMode;
 	private static final String SERVICEPLAN_EDIT_MODE = "SERVICEPLAN_EDIT_MODE";
 	private static final String SERVICEPLAN_CREATE_MODE = "SERVICEPLAN_CREATE_MODE";
-
+	private Date selectedStartDate;
+	
 	private List<ServiceRate> selectedServiceRates = new ArrayList<ServiceRate>();
 
 	private Customer customer  = new Customer(); // for data binding
@@ -216,6 +227,8 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setModel(new OneHashTableModel(this.getTableColumnNames() , this.getData()));
         table.addMouseListener(new MouseTableListener(this,"loadServicePlanEditScreen"));
+        table.getColumnModel().getColumn(0).setPreferredWidth(40);
+        table.getColumnModel().getColumn(1).setPreferredWidth(60);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(390,20,400,215);
@@ -240,7 +253,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setModel(new OneHashTableModel(this.getSelectedServiceRateColumnNames() , this.getSelectedServiceRate()));
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(390,50,200,185);
+        scrollPane.setBounds(390,80,200,155);
 		super.registerComponent(SERVICEPLAN_LIST_SELECTED, scrollPane);
 		super.getComponent(SERVICEPLAN_LIST_SELECTED).setVisible(false);
 
@@ -250,7 +263,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setModel(new OneHashTableModel(this.getAvailableServiceRateColumnNames() , this.getAvailableServiceRate()));
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(600,50,200,185);
+        scrollPane.setBounds(600,80,200,155);
 		super.registerComponent(SERVICEPLAN_LIST_AVAILABLE, scrollPane);
 		super.getComponent(SERVICEPLAN_LIST_AVAILABLE).setVisible(false);
 
@@ -265,7 +278,46 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 
 		super.registerComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS , FactoryComponent.createButton("Remove Option", new ButtonAttributeScalar(390, 250, 120, 23 , new ButtonActionListener(this,"removeOptions"))));
 		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(false);
-	
+
+		
+        super.registerComponent(SERVICEPLAN_LABEL_STARTDATE , FactoryComponent.createLabel("Start date:", new PositionScalar(390,50,100,20)));
+		super.getComponent(SERVICEPLAN_LABEL_STARTDATE).setVisible(false);
+        super.registerComponent(SERVICEPLAN_LABEL_MONTH , FactoryComponent.createLabel("Month :", new PositionScalar(490,50,50,20)));
+		super.getComponent(SERVICEPLAN_LABEL_MONTH).setVisible(false);
+        final Integer[] months = new Integer[12];
+        for(int i=0;i<months.length;i++){
+        	months[i] = (i+1);
+        }
+        JComboBox monthSelector = new JComboBox(months);
+        monthSelector.setBounds(540, 50, 50, 20);
+        monthSelector.setUI(new BasicComboBoxUI() { 
+        	@Override 
+     	    protected JButton createArrowButton() { 
+     	        return new BasicArrowButton(BasicArrowButton.SOUTH); 
+     	    } 
+        }); 
+        super.registerComponent(SERVICEPLAN_COMBOBOX_MONTH , monthSelector);
+		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setVisible(false);
+        
+        super.registerComponent(SERVICEPLAN_LABEL_YEAR , FactoryComponent.createLabel("Year :", new PositionScalar(620, 50, 50, 20)));
+		super.getComponent(SERVICEPLAN_LABEL_YEAR).setVisible(false);
+        JComboBox yearSelector = new JComboBox();
+        Integer[] years = new Integer[200];
+        for (int i=2000; i<2100; i++)
+        	years[i-2000] = i;
+        for (int i = 0; i < years.length; i++) {
+        	yearSelector.addItem(years[i]);
+        }
+        yearSelector.setBounds(660, 50, 50, 20);
+        yearSelector.setUI(new BasicComboBoxUI() { 
+        	@Override 
+     	    protected JButton createArrowButton() { 
+     	        return new BasicArrowButton(BasicArrowButton.SOUTH); 
+     	    } 
+        }); 
+        super.registerComponent(SERVICEPLAN_COMBOBOX_YEAR , yearSelector);
+		super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setVisible(false);
+		
 	}
 	
 	
@@ -309,6 +361,8 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
         table.setFillsViewportHeight(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setModel(new OneHashTableModel(this.getTableColumnNames() , this.getData()));
+        table.getColumnModel().getColumn(0).setPreferredWidth(40);
+        table.getColumnModel().getColumn(1).setPreferredWidth(60);
         table.addMouseListener(new MouseTableListener(this,"loadServicePlanEditScreen"));
 		JScrollPane servicePlansScrollPane = (JScrollPane) super.getComponent(SERVICEPLAN_TABLE);
 		servicePlansScrollPane.setViewportView(table);
@@ -318,13 +372,19 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		servicePlanMode = SERVICEPLAN_CREATE_MODE;
 		JComboBox component = (JComboBox)super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION);
 		component.setEnabled(true);
+		selectedStartDate = new Date();
 		updateServicePlan();
 	}
 	
 	public void removeServicePlan() {
 		JScrollPane selectedServicePlanScrollPane = (JScrollPane)super.getComponent(SERVICEPLAN_TABLE);
 		JTable ServicePlanJTable = (JTable)selectedServicePlanScrollPane.getViewport().getView();
-		servicePlans.remove(ServicePlanJTable.getSelectedRow());
+		
+		/**
+		 * Disable removing permanent ServicePlan, flag to deleted 
+		 */
+		//servicePlans.remove(ServicePlanJTable.getSelectedRow());
+		servicePlans.get(ServicePlanJTable.getSelectedRow()).setDeletedStatus(true);
 		refreshServicePlansJTable();
 	}
 
@@ -337,10 +397,17 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION).setVisible(true);
 		super.getComponent(SERVICEPLAN_LIST_SELECTED).setVisible(true);
 		super.getComponent(SERVICEPLAN_LIST_AVAILABLE).setVisible(true);
-		super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setVisible(true);
 		super.getComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN).setVisible(true);
-		super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(true);
-		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(true);
+		if (selectedServicePlan.getDeletedStatus().equals(false)) {
+			super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setVisible(true);
+			super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(true);
+			super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(true);
+		}
+		super.getComponent(SERVICEPLAN_LABEL_STARTDATE).setVisible(true);
+		super.getComponent(SERVICEPLAN_LABEL_MONTH).setVisible(true);
+		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setVisible(true);
+		super.getComponent(SERVICEPLAN_LABEL_YEAR).setVisible(true);
+		super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setVisible(true);
 	}
 	
 	public void cancelServicePlan() {
@@ -355,6 +422,11 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		super.getComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN).setVisible(false);
 		super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(false);
 		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(false);
+		super.getComponent(SERVICEPLAN_LABEL_STARTDATE).setVisible(false);
+		super.getComponent(SERVICEPLAN_LABEL_MONTH).setVisible(false);
+		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setVisible(false);
+		super.getComponent(SERVICEPLAN_LABEL_YEAR).setVisible(false);
+		super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setVisible(false);
 	}
 	
 	public void saveServicePlan() throws Exception {
@@ -383,6 +455,17 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 					}
 				}
 			}
+
+			Calendar calendar = Calendar.getInstance();
+			JComboBox monthComboBox = (JComboBox) super.getComponent(SERVICEPLAN_COMBOBOX_MONTH);
+			JComboBox yearComboBox = (JComboBox) super.getComponent(SERVICEPLAN_COMBOBOX_YEAR);
+			Integer selectedYear = (Integer) yearComboBox.getSelectedItem();
+			Integer selectedMonth = (Integer) monthComboBox.getSelectedItem();
+			Integer selectedDayOfMonth = 1;
+			
+			calendar.set(selectedYear , selectedMonth, selectedDayOfMonth);
+			selectedServicePlan.setStartDate(calendar.getTime());
+
 			selectedServicePlan.setServiceRates(selectedServiceRates);
 			//use the Save Customer button
 			//OneHashDataCache.getInstance().saveCustomer(this.customer);
@@ -489,13 +572,21 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		component.setEnabled(false);
 		for(ServicePlan servicePlan:servicePlans) {
 			if (servicePlan.getPlanId().equals(parameter)) {
-				selectedServicePlan = servicePlan;
+				selectedServicePlan = (ServicePlan) servicePlan.clone();
 				break;
 			}
 		}
 		if (selectedServicePlan == null)
 			throw new IllegalArgumentException("Could not find the selected ServicePlan : " + parameter);
 		selectedServiceRates = selectedServicePlan.getServiceRates();
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(selectedServicePlan.getStartDate());
+        JComboBox jComboBoxMonth = (JComboBox) super.getComponent(SERVICEPLAN_COMBOBOX_MONTH);
+        jComboBoxMonth.setSelectedItem(calendar.get(Calendar.MONTH));
+        JComboBox jComboBoxYear = (JComboBox) super.getComponent(SERVICEPLAN_COMBOBOX_YEAR);
+        jComboBoxYear.setSelectedItem(calendar.get(Calendar.YEAR));
+
 		this.updateServicePlan();
 	}
 	
@@ -508,13 +599,28 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		if(servicePlans.isEmpty()){
 			rowData = new Object[0][4];
 		}else{
-			rowData = new Object[servicePlans.size()][4];
+			int servicePlansSize = 0;
+			for(int i = 0 ; i < servicePlans.size(); i++) {
+				//if (servicePlans.get(i).getDeletedStatus().equals(false))
+					servicePlansSize++;
+			}
+			rowData = new Object[servicePlansSize][4];
+			int idtServicePlan = 0;
+			Calendar calendar = Calendar.getInstance();
 			for(int i = 0 ; i < servicePlans.size(); i++){
 				ServicePlan servicePlan = servicePlans.get(i);
-				rowData[i][0] = servicePlan.getPlanId();
-				rowData[i][1] = servicePlan.getPlanName();
-				rowData[i][2] = servicePlan.getStartDate();
-				rowData[i][3] = servicePlan.getEndDate();
+				//if (servicePlan.getDeletedStatus().equals(true)) continue;
+				rowData[idtServicePlan][0] = servicePlan.getPlanId();
+				rowData[idtServicePlan][1] = servicePlan.getPlanName();
+				calendar.setTime(servicePlan.getStartDate());
+				rowData[idtServicePlan][2] = calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH);
+				String endDateString = "";
+				if (servicePlan.getDeletedStatus().equals(true)) {
+					calendar.setTime(servicePlan.getEndDate());
+					endDateString = calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DAY_OF_MONTH);
+				}
+				rowData[idtServicePlan][3] = endDateString;
+				idtServicePlan++;
 			}
 		}
 		
@@ -605,5 +711,17 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		complaintDialog.pack();
 		complaintDialog.setVisible (true);
 	}
+
+	/******************************** OTHER UTILITY******************************************/
+	private Integer[] getYears(int chosenYear) {
+        final int size = 20 * 2 + 1;
+        final int start = chosenYear - 20;
+
+        final Integer[] years = new Integer[size];
+        for (int i = 0; i < size; i++) {
+            years[i] = new Integer(i + start);
+        }
+        return years;
+    }
 
 }
