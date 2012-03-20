@@ -20,6 +20,9 @@
 package com.onehash.view.panel.bill;
 
 import java.awt.Dimension;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +44,7 @@ import com.onehash.exception.BusinessLogicException;
 import com.onehash.exception.InsufficientInputParameterException;
 import com.onehash.model.bill.Bill;
 import com.onehash.model.bill.BillSummary;
+import com.onehash.model.bill.PaymentDetail;
 import com.onehash.model.customer.Customer;
 import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
@@ -80,19 +84,31 @@ public class BillListPanel extends BasePanel{
 	private static final String COMP_LBL_SPD = "COMP_LBL_SPD";
 	private static final String COMP_LBL_PR = "COMP_LBL_PR";
 	private static final String COMP_LBL_SCC = "COMP_LBL_SCC";
+	private static final String COMP_TEXT_SPD = "COMP_TEXT_SPD";
+	private static final String COMP_TEXT_PR = "COMP_TEXT_PR";
 	
 	private static final String COMP_LBL_DV = "COMP_LBL_DV";
-	private static final String COMP_LBL_MV = "COMP_LBL_MV";
-	private static final String COMP_LBL_CT = "COMP_LBL_CT";
 	private static final String COMP_LBL_DVS = "COMP_LBL_DVS";
 	private static final String COMP_LBL_DVU = "COMP_LBL_DVU";
+	private static final String COMP_TEXT_DVS = "COMP_TEXT_DVS";
+	private static final String COMP_TEXT_DVU = "COMP_TEXT_DVU";
+	
+	private static final String COMP_LBL_MV = "COMP_LBL_MV";
 	private static final String COMP_LBL_MVS = "COMP_LBL_MVS";
 	private static final String COMP_LBL_MVU = "COMP_LBL_MVU";
+	private static final String COMP_TEXT_MVS = "COMP_TEXT_MVS";
+	private static final String COMP_TEXT_MVU = "COMP_TEXT_MVU";
+	
+	private static final String COMP_LBL_CT = "COMP_LBL_CT";
 	private static final String COMP_LBL_CS = "COMP_LBL_CS";
 	private static final String COMP_LBL_CU = "COMP_LBL_CU";
+	private static final String COMP_TEXT_CS = "COMP_TEXT_CS";
+	private static final String COMP_TEXT_CU = "COMP_TEXT_CU";
 	
 	private static final String COMP_LBL_GST = "COMP_LBL_GST";
 	private static final String COMP_LBL_TCC = "COMP_LBL_TCC";
+	private static final String COMP_TEXT_GST = "COMP_TEXT_GST";
+	private static final String COMP_TEXT_TCC = "COMP_TEXT_TCC";
 	
 	private Calendar chosenDate;
 	
@@ -173,22 +189,38 @@ public class BillListPanel extends BasePanel{
 		//Summary Payment Details
 		super.registerComponent(COMP_LBL_SPD , FactoryComponent.createLabel("Summary - Payment Details", new PositionScalar(370,50,300,20)));
 		super.registerComponent(COMP_LBL_PR , FactoryComponent.createLabel("Payment received", new PositionScalar(370,70,200,20)));
+		super.registerComponent(COMP_TEXT_SPD , FactoryComponent.createLabel("",new PositionScalar(650, 70,100,20)));
+		super.registerComponent(COMP_TEXT_PR , FactoryComponent.createLabel("",new PositionScalar(750, 70,100,20)));
 		
 		//Summary Current Charges
 		super.registerComponent(COMP_LBL_SCC , FactoryComponent.createLabel("Summary Current Charges", new PositionScalar(370,100,300,20)));
-		super.registerComponent(COMP_LBL_DV , FactoryComponent.createLabel("Digital Voice", new PositionScalar(370,120,100,20)));
+		
+		//Summary Current Charges - Digital Voice
+		super.registerComponent(COMP_LBL_DV , FactoryComponent.createLabel("Digital Voice", new PositionScalar(370,120,100,20)));	
 		super.registerComponent(COMP_LBL_DVS , FactoryComponent.createLabel("Subscription charges", new PositionScalar(390,140,200,20)));
 		super.registerComponent(COMP_LBL_DVU , FactoryComponent.createLabel("Usage charges", new PositionScalar(390,160,150,20)));
+		super.registerComponent(COMP_TEXT_DVS , FactoryComponent.createLabel("",new PositionScalar(650, 140,100,20)));
+		super.registerComponent(COMP_TEXT_DVU , FactoryComponent.createLabel("",new PositionScalar(650, 160,100,20)));
+		
+		//Summary Current Charges - Mobile Voice
 		super.registerComponent(COMP_LBL_MV , FactoryComponent.createLabel("Mobile Voice", new PositionScalar(370,190,100,20)));
 		super.registerComponent(COMP_LBL_MVS , FactoryComponent.createLabel("Subscription charges", new PositionScalar(390,210,200,20)));
 		super.registerComponent(COMP_LBL_MVU , FactoryComponent.createLabel("Usage charges", new PositionScalar(390,230,150,20)));
+		super.registerComponent(COMP_TEXT_MVS , FactoryComponent.createLabel("",new PositionScalar(650, 210,100,20)));
+		super.registerComponent(COMP_TEXT_MVU , FactoryComponent.createLabel("",new PositionScalar(650, 230,100,20)));
+		
+		//Summary Current Charges - Cable TV
 		super.registerComponent(COMP_LBL_CT , FactoryComponent.createLabel("Cable TV", new PositionScalar(370,260,100,20)));
 		super.registerComponent(COMP_LBL_CS , FactoryComponent.createLabel("Subscription charges", new PositionScalar(390,280,200,20)));
 		super.registerComponent(COMP_LBL_CU , FactoryComponent.createLabel("Add. Channel charges", new PositionScalar(390,300,300,20)));
+		super.registerComponent(COMP_TEXT_CS , FactoryComponent.createLabel("",new PositionScalar(650, 280,100,20)));
+		super.registerComponent(COMP_TEXT_CU , FactoryComponent.createLabel("",new PositionScalar(650, 300,100,20)));
 		
 		//GST - TOTAL CHARGES.
 		super.registerComponent(COMP_LBL_GST , FactoryComponent.createLabel("Total GST", new PositionScalar(370,330,300,20)));
 		super.registerComponent(COMP_LBL_TCC , FactoryComponent.createLabel("Total Current Charges", new PositionScalar(370,350,300,20)));
+		super.registerComponent(COMP_TEXT_GST , FactoryComponent.createLabel("",new PositionScalar(750, 330,100,20)));
+		super.registerComponent(COMP_TEXT_TCC , FactoryComponent.createLabel("",new PositionScalar(750, 350,100,20)));
 	}
 	
 	private Integer[] getYears(int chosenYear) {
@@ -266,30 +298,42 @@ public class BillListPanel extends BasePanel{
 	
 	public void populateBillDetailsToView(Bill bill) {
 		try{
+			List<PaymentDetail> paymentDetails = bill.getPaymentDetails();
+			BigDecimal totalPayment = new BigDecimal(0);
+			if(paymentDetails!=null && paymentDetails.size()>0){
+				for(PaymentDetail _paymentDetail : paymentDetails){
+					totalPayment.add(_paymentDetail.getAmount());
+				}
+			}
+			super.getLabelComponent(COMP_TEXT_PR).setText(totalPayment.toString());
+			super.getLabelComponent(COMP_TEXT_SPD).setText(totalPayment.toString());
+			
 			Map<String,List<BillSummary>> billSummaryMap = bill.getBillSummaryMap();
 			List<BillSummary> tvSummaryList = billSummaryMap.get(ConstantSummary.CableTV);
 			for(BillSummary _billSummary : tvSummaryList){
 				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
-					super.getTextFieldComponent(COMP_LBL_CS).setText(_billSummary.getTotal().toString());
+					super.getLabelComponent(COMP_TEXT_CS).setText(_billSummary.getTotal().toString());
 				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-					super.getTextAreaComponent(COMP_LBL_CU).setText(_billSummary.getTotal().toString());
+					super.getLabelComponent(COMP_TEXT_CU).setText(_billSummary.getTotal().toString());
 			}
 			
 			List<BillSummary> dvSummaryList = billSummaryMap.get(ConstantSummary.DigitalVoice);
 			for(BillSummary _billSummary : dvSummaryList){
 				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
-					super.getTextFieldComponent(COMP_LBL_DVS).setText(_billSummary.getTotal().toString());
+					super.getLabelComponent(COMP_TEXT_DVS).setText(_billSummary.getTotal().toString());
 				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-					super.getTextAreaComponent(COMP_LBL_DVU).setText(_billSummary.getTotal().toString());
+					super.getLabelComponent(COMP_TEXT_DVU).setText(_billSummary.getTotal().toString());
 			}
 			
-			List<BillSummary> mvSummaryList = billSummaryMap.get(ConstantSummary.DigitalVoice);
+			List<BillSummary> mvSummaryList = billSummaryMap.get(ConstantSummary.MobileVoice);
 			for(BillSummary _billSummary : mvSummaryList){
 				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
-					super.getTextFieldComponent(COMP_LBL_MVS).setText(_billSummary.getTotal().toString());
+					super.getLabelComponent(COMP_TEXT_MVS).setText(_billSummary.getTotal().toString());
 				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-					super.getTextAreaComponent(COMP_LBL_MVU).setText(_billSummary.getTotal().toString());
+					super.getLabelComponent(COMP_TEXT_MVU).setText(_billSummary.getTotal().toString());
 			}
+			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getGstRate().toString());
+			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getTotalBill().toString());
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
@@ -336,8 +380,10 @@ public class BillListPanel extends BasePanel{
 			
 			Customer customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
 			if(customer!=null){
-				Date billDate = new Date();
-				Bill bill = OneHashDataCache.getInstance().getMonthlyBill(customer, billDate);
+				DateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
+				Date billRequestDate = (Date)formatter.parse(parameters);
+				
+				Bill bill = OneHashDataCache.getInstance().getMonthlyBill(customer, billRequestDate);
 				if(bill!=null){
 					populateBillDetailsToView(bill);
 				}
