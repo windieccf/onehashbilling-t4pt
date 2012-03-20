@@ -317,20 +317,29 @@ public class BillListPanel extends BasePanel{
 			}
 			
 			List<BillSummary> dvSummaryList = billSummaryMap.get(ConstantSummary.DigitalVoice);
+			BigDecimal subscriptionchargesDV = new BigDecimal(0);
 			for(BillSummary _billSummary : dvSummaryList){
-				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
-					super.getLabelComponent(COMP_TEXT_DVS).setText(_billSummary.getTotal().toString());
+				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
+						|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.CallTransfer))
+					subscriptionchargesDV = subscriptionchargesDV.add(_billSummary.getTotal());
+				super.getLabelComponent(COMP_TEXT_DVS).setText(subscriptionchargesDV.toString());
+				
 				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
 					super.getLabelComponent(COMP_TEXT_DVU).setText(_billSummary.getTotal().toString());
 			}
 			
 			List<BillSummary> mvSummaryList = billSummaryMap.get(ConstantSummary.MobileVoice);
+			BigDecimal subscriptionchargesMV = new BigDecimal(0);
 			for(BillSummary _billSummary : mvSummaryList){
-				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
-					super.getLabelComponent(COMP_TEXT_MVS).setText(_billSummary.getTotal().toString());
+				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
+						|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.DataServices))
+					subscriptionchargesMV = subscriptionchargesMV.add(_billSummary.getTotal());
+				super.getLabelComponent(COMP_TEXT_MVS).setText(subscriptionchargesMV.toString());
+				
 				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
 					super.getLabelComponent(COMP_TEXT_MVU).setText(_billSummary.getTotal().toString());
 			}
+			
 			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getGstRate().toString());
 			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getTotalBill().toString());
 		}catch(Exception exp){
