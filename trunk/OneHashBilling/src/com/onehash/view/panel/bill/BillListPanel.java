@@ -20,7 +20,6 @@
 package com.onehash.view.panel.bill;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +45,6 @@ import com.onehash.model.customer.Customer;
 import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
-import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
