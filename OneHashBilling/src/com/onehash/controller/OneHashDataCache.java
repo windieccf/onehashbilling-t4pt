@@ -268,25 +268,23 @@ public class OneHashDataCache {
 						BigDecimal cableTVSubscriptionRate = new BigDecimal(0);
 						BigDecimal cableTVAddChannelCharge = new BigDecimal(0);
 						List<BillSummary> billSummaryList = new ArrayList <BillSummary>();
-						
-						int freeChannel = 0;
+
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
 							if (_serviceRate.isFreeCharge()) 
 								continue;
 							
 							if(_serviceRate instanceof SubscriptionRate){
-								if(_serviceRate.getRateCode().equalsIgnoreCase(ServiceRate.SUBSCRPTION_CABLE_TV))
+								if(_serviceRate.getRateCode().equalsIgnoreCase("TV-S"))
 									cableTVSubscriptionRate = _serviceRate.getRatePrice();
 								if(_serviceRate.getRateCode().equalsIgnoreCase("TV-C")){
-									freeChannel = freeChannel+1;
-									if(freeChannel>3)
-										cableTVAddChannelCharge  = _serviceRate.getRatePrice();
+									cableTVAddChannelCharge  = cableTVAddChannelCharge.add(_serviceRate.getRatePrice());
 								}
 							}
 						}
+						
 						BillSummary billSummaryCableTV = new BillSummary(ConstantSummary.Subscriptioncharges,cableTVSubscriptionRate);
-						billSummaryList.add(billSummaryCableTV);
 						BillSummary addChannelChargeCableTV = new BillSummary(ConstantSummary.AddChannelcharges,cableTVAddChannelCharge);
+						billSummaryList.add(billSummaryCableTV);
 						billSummaryList.add(addChannelChargeCableTV);
 						
 						billSummaryMap.put(ConstantSummary.CableTV,billSummaryList);
@@ -295,32 +293,41 @@ public class OneHashDataCache {
 					
 					//Check plan type is Digital Voice
 					if(_servicePlan instanceof DigitalVoicePlan){
-						
+						//Subscription
 						BigDecimal dvSubscriptionRate = new BigDecimal(0);
+						BigDecimal dvCallTransferRate = new BigDecimal(0);
+						
+						//Usage
 						BigDecimal usageRateLocal = new BigDecimal(0);
 						BigDecimal usageRateIDD = new BigDecimal(0);
-						BigDecimal usageRateCallTransfer = new BigDecimal(0);
-						List<BillSummary> billSummaryList = new ArrayList <BillSummary>();
+						BigDecimal totalUsage = new BigDecimal(0);
 						
+						//Get service rates
+						List<BillSummary> billSummaryList = new ArrayList <BillSummary>();
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
-
+							//Get service rates - Subscription
 							if(_serviceRate instanceof SubscriptionRate){
-								if(_serviceRate.getRateCode().equalsIgnoreCase(ServiceRate.SUBSCRPTION_DIGITAL_VOICE))
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-S"))
 									dvSubscriptionRate = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-C"))
+									dvCallTransferRate = _serviceRate.getRatePrice();
 							}
+							//Get service rates - Usage
 							if(_serviceRate instanceof UsageRate){
 								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-L"))
 									usageRateLocal = _serviceRate.getRatePrice();
 								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-I"))
 									usageRateIDD = _serviceRate.getRatePrice();
-								if(_serviceRate.getRateCode().equalsIgnoreCase("DV-C"))
-									usageRateCallTransfer = _serviceRate.getRatePrice();
 							}
 						}
-						BillSummary billSummaryDVSummary = new BillSummary(ConstantSummary.Subscriptioncharges,dvSubscriptionRate);
-						billSummaryList.add(billSummaryDVSummary);
 						
-						//Get usage for Digital Voice Plan -Local
+						//Set Summary Rates
+						BillSummary billSummaryDVSummary = new BillSummary(ConstantSummary.Subscriptioncharges,dvSubscriptionRate);
+						BillSummary billSummaryDVCallTransfer = new BillSummary(ConstantSummary.CallTransfer,dvCallTransferRate);
+						billSummaryList.add(billSummaryDVSummary);
+						billSummaryList.add(billSummaryDVCallTransfer);
+						
+						//Get usage for Digital Voice Plan -Local and IDD
 						Long dvLocal = new Long(0);
 						Long dvIDD = new Long(0);
 						for(MonthlyUsage _monthlyUsage : _servicePlan.getMonthlyUsages()){
@@ -329,31 +336,47 @@ public class OneHashDataCache {
 								dvIDD = _monthlyUsage.getCallUsages(ConstantUsageType.DVI);
 							}
 						}
-						BigDecimal usageCharges = usageRateLocal.multiply(BigDecimal.valueOf(dvLocal)).
-													add(usageRateIDD.multiply(BigDecimal.valueOf(dvIDD))).
-													add(usageRateCallTransfer); 
-						BillSummary billSummaryDVUsage = new BillSummary(ConstantSummary.Usagecharges,usageCharges);
+						
+						//Setting usages to BillSummary
+						usageRateLocal = usageRateLocal.multiply(BigDecimal.valueOf(dvLocal));
+						usageRateIDD = usageRateIDD.multiply(BigDecimal.valueOf(dvIDD));
+						totalUsage = usageRateLocal.add(usageRateIDD);
+						
+						BillSummary billSummaryDVLUsage = new BillSummary(ConstantSummary.UsagechargesLocal,usageRateLocal);
+						BillSummary billSummaryDVIUsage = new BillSummary(ConstantSummary.UsagechargesIDD,usageRateIDD);
+						BillSummary billSummaryDVUsage = new BillSummary(ConstantSummary.Usagecharges,totalUsage);
+						
+						billSummaryList.add(billSummaryDVLUsage);
+						billSummaryList.add(billSummaryDVIUsage);
 						billSummaryList.add(billSummaryDVUsage);
 						
 						billSummaryMap.put(ConstantSummary.DigitalVoice,billSummaryList);
-						currentBill = currentBill.add(dvSubscriptionRate.add(usageCharges));
+						currentBill = currentBill.add(totalUsage);
 					}
 
 					//Check plan type is Mobile Voice
 					if(_servicePlan instanceof MobileVoicePlan){
-						
+						//Subscription
 						BigDecimal mvSubscriptionRate = new BigDecimal(0);
+						BigDecimal mvDataServiceRate = new BigDecimal(0);
+						
+						//Usage
 						BigDecimal usageRateLocal = new BigDecimal(0);
 						BigDecimal usageRateIDD = new BigDecimal(0);
 						BigDecimal usageRateRoaming = new BigDecimal(0);
-						BigDecimal usageRateDataService = new BigDecimal(0);
-						List<BillSummary> billSummaryList = new ArrayList <BillSummary>();
+						BigDecimal totalUsage = new BigDecimal(0);
 						
+						//Get service rates
+						List<BillSummary> billSummaryList = new ArrayList <BillSummary>();
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
+							//Get service rates - Subscription
 							if(_serviceRate instanceof SubscriptionRate){
-								if(_serviceRate.getRateCode().equalsIgnoreCase(ServiceRate.SUBSCRPTION_MOBILE_VOICE))
+								if(_serviceRate.getRateCode().equalsIgnoreCase("MV-S"))
 									mvSubscriptionRate = _serviceRate.getRatePrice();
+								if(_serviceRate.getRateCode().equalsIgnoreCase("MV-D"))
+									mvDataServiceRate = _serviceRate.getRatePrice();
 							}
+							//Get service rates - Usage
 							if(_serviceRate instanceof UsageRate){
 								if(_serviceRate.getRateCode().equalsIgnoreCase("MV-L"))
 									usageRateLocal = _serviceRate.getRatePrice();
@@ -361,12 +384,14 @@ public class OneHashDataCache {
 									usageRateIDD = _serviceRate.getRatePrice();
 								if(_serviceRate.getRateCode().equalsIgnoreCase("MV-R"))
 									usageRateRoaming = _serviceRate.getRatePrice();
-								if(_serviceRate.getRateCode().equalsIgnoreCase("MV-D"))
-									usageRateDataService  = _serviceRate.getRatePrice();
 							}
 						}
+						
+						//Set Summary Rates
 						BillSummary billSummaryDVSummary = new BillSummary(ConstantSummary.Subscriptioncharges,mvSubscriptionRate);
+						BillSummary billSummaryDVDataService = new BillSummary(ConstantSummary.DataServices,mvDataServiceRate);
 						billSummaryList.add(billSummaryDVSummary);
+						billSummaryList.add(billSummaryDVDataService);
 						
 						//Get usage for Digital Voice Plan
 						Long mvLocal = new Long(0);
@@ -379,18 +404,29 @@ public class OneHashDataCache {
 								mvRoaming = _monthlyUsage.getCallUsages(ConstantUsageType.MVR);
 							}
 						}
-						BigDecimal usageCharges = usageRateLocal.multiply(BigDecimal.valueOf(mvLocal)).
-													add(usageRateIDD.multiply(BigDecimal.valueOf(mvIDD))).
-													add(usageRateRoaming.multiply(BigDecimal.valueOf(mvRoaming))).
-													add(usageRateDataService); 
-						BillSummary billSummaryMVUsage = new BillSummary(ConstantSummary.Usagecharges,usageCharges);
+						
+						//Setting usages to BillSummary
+						usageRateLocal = usageRateLocal.multiply(BigDecimal.valueOf(mvLocal));
+						usageRateIDD = 	usageRateIDD.multiply(BigDecimal.valueOf(mvIDD));
+						usageRateRoaming = usageRateRoaming.multiply(BigDecimal.valueOf(mvRoaming));
+						totalUsage = usageRateLocal.add(usageRateIDD).add(usageRateRoaming);
+						
+						BillSummary billSummaryMVLUsage = new BillSummary(ConstantSummary.UsagechargesLocal,usageRateLocal);
+						BillSummary billSummaryMVIUsage = new BillSummary(ConstantSummary.UsagechargesIDD,usageRateIDD);
+						BillSummary billSummaryMVRUsage = new BillSummary(ConstantSummary.UsagechargesRoamin,usageRateRoaming);
+						BillSummary billSummaryMVUsage = new BillSummary(ConstantSummary.Usagecharges,totalUsage);
+						
+						billSummaryList.add(billSummaryMVLUsage);
+						billSummaryList.add(billSummaryMVIUsage);
+						billSummaryList.add(billSummaryMVRUsage);
 						billSummaryList.add(billSummaryMVUsage);
 						
 						billSummaryMap.put(ConstantSummary.MobileVoice,billSummaryList);
-						currentBill = currentBill.add(mvSubscriptionRate.add(usageCharges));
+						currentBill = currentBill.add(totalUsage);
 					}
 				}
 			}
+			
 			bill.setBillSummaryMap(billSummaryMap);
 			bill.setCurrentBill(currentBill);
 			BigDecimal carryForwardAmount = checkCarryForward(customer, yearMonth);
