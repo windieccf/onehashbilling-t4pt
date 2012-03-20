@@ -83,9 +83,9 @@ public class OneHashDataCache {
 	public List<ServiceRate> getAvailableServiceRate() {return availableServiceRate;}
 	public void setAvailableServiceRate(List<ServiceRate> availableServiceRate) {this.availableServiceRate = availableServiceRate;}
 	
-	private List<ComplaintLog> complaintLog;
-	public List<ComplaintLog> ComplaintLog() {return complaintLog;}
-	public void setComplaintLog(List<ComplaintLog> complaintLog) {this.complaintLog = complaintLog;}
+	private List<ComplaintLog> complaintLogs = new ArrayList<ComplaintLog>();
+	public void setComplaintLog(List<ComplaintLog> complaintLogs) {this.complaintLogs = complaintLogs;}
+	public List<ComplaintLog> getComplaintLogs() {return complaintLogs;}
 	
 	/************************************ FILE PROCESSING ************************************************/
 	
@@ -434,20 +434,51 @@ public class OneHashDataCache {
 	/****************************************** BILL RELATED OPERATION - END **************************************************/
 	
 	/****************************************** COMPLAINT RELATED OPERATION **************************************************/
-	public ArrayList<ComplaintLog> getComplaintsByAccountNumber(String accountNumber) {
-		for(Customer customer : this.getCustomers()){
-			if(customer.getAccountNumber().equalsIgnoreCase(accountNumber)){
+	
+	/**
+	 * Follow up field will be mandatory only when status is set to (F)Followup
+	 * Closed date will be the date issue set to closed status
+	 * @param complaintLog
+	 * @param status
+	 * @param followup
+	 * @throws BusinessLogicException
+	 */
+	public void updateComplaintLog(ComplaintLog complaintLog, String status, String followup) throws BusinessLogicException {
+		if (status.equals("F") && followup.isEmpty()) throw new BusinessLogicException("Followup field is mandatory when status is 'Follow up'");
+		if (status.equals("C")) complaintLog.setClosedDate(OneHashDateUtil.getDate());
+		if (!followup.isEmpty()) complaintLog.setFollowUp(followup);
+		complaintLog.setStatus(status);
+	}
+	
+	/**
+	 * Default complaint date will be sysdate
+	 * Default issue status will be A(active)
+	 * @param customer
+	 * @param issueDescription
+	 * @param allIssueNoList
+	 * @throws Exception
+	 */
+	public void createComplaint(Customer customer, String issueDescription, ArrayList<String> allIssueNoList) throws BusinessLogicException{
+		if (issueDescription.isEmpty()) throw new BusinessLogicException("Description field is mandatory.");
+		ComplaintLog complaintLog = new ComplaintLog(issueDescription,allIssueNoList);
+		System.out.println("com" + complaintLog.getIssueNo());
+		customer.addComplaintLog(complaintLog);
+	}
+	
+	/**
+	 * Retrieve complaintLog object by issue number
+	 * @param issueNo
+	 * @return
+	 * @throws Exception
+	 */
+	public ComplaintLog getComplaintLogByIssueNo(String issueNo) throws Exception{
+		for(ComplaintLog complaintLog : this.getComplaintLogs()){
+			if(complaintLog.getIssueNo().equalsIgnoreCase(issueNo)){
 				// will create a replicate of the customer
-				return (ArrayList<ComplaintLog>) customer.getComplaintLogs();
+				return (ComplaintLog) complaintLog.clone();
 			}
 				
 		}
 		return null;
-	}
-	
-	public void createComplaint(Customer customer, String issueDescription, ArrayList<String> allIssueNoList) throws Exception{
-		ComplaintLog complaintLog = new ComplaintLog(issueDescription,allIssueNoList);
-		System.out.println("com" + complaintLog.getIssueNo());
-		customer.addComplaintLog(complaintLog);
 	}
 }
