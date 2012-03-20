@@ -20,6 +20,7 @@
 package com.onehash.view.panel.bill;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +46,7 @@ import com.onehash.model.customer.Customer;
 import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
+import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
@@ -54,7 +56,7 @@ import com.onehash.view.component.tablemodel.OneHashTableModel;
 import com.onehash.view.panel.base.BasePanel;
 
 @SuppressWarnings("serial")
-public class BillListPanel extends BasePanel {
+public class BillListPanel extends BasePanel{
 
 	private static final String COMP_LBL_ACCOUNTNUMBER = "LBL_USER_ACCOUNTNUMBER";
 	private static final String COMP_LBL_BILLDATE = "LBL_USER_BILLDATE";
@@ -67,6 +69,11 @@ public class BillListPanel extends BasePanel {
 	private static final String COMP_BUTTON_RESET = "BTN_RESET";
 	private static final String COMP_BUTTON_SEARCHHISTORY = "BTN_SEARCHHISTORY";
 	private static final String COMP_BILL_TABLE = "BILL_TABLE";
+	
+	private static final String COMP_LBL_CUSTOMERNAME = "COMP_LBL_CUSTOMERNAME";
+	private static final String COMP_LBL_CUSTOMERNRIC = "COMP_LBL_CUSTOMERNRIC";
+	private static final String COMP_TEXT_CUSTOMERNAME = "COMP_TEXT_CUSTOMERNAME";
+	private static final String COMP_TEXT_CUSTOMERNRIC = "COMP_TEXT_CUSTOMERNRIC";
 	
 	private static final String COMP_LBL_NAME = "COMP_LBL_NAME";
 	private static final String COMP_LBL_AMOUNT = "COMP_LBL_AMOUNT";
@@ -138,10 +145,15 @@ public class BillListPanel extends BasePanel {
         super.registerComponent(COMP_DATE_BILYEAR , yearSelector);
         
         //Registering Search/History/Refresh Button
-		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Search", new ButtonAttributeScalar(20, 100, 96, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
-		super.registerComponent(COMP_BUTTON_SEARCHHISTORY , FactoryComponent.createButton("Bill History", new ButtonAttributeScalar(140, 100, 96, 23 , new ButtonActionListener(this,"viewBillHistory"))));
-		super.registerComponent(COMP_BUTTON_RESET , FactoryComponent.createButton("Reset", new ButtonAttributeScalar(260, 100, 96, 23 , new ButtonActionListener(this,"resetSearchCriteria"))));
-
+		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Search", new ButtonAttributeScalar(20, 80, 96, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
+		super.registerComponent(COMP_BUTTON_SEARCHHISTORY , FactoryComponent.createButton("Bill History", new ButtonAttributeScalar(140, 80, 96, 23 , new ButtonActionListener(this,"viewBillHistory"))));
+		super.registerComponent(COMP_BUTTON_RESET , FactoryComponent.createButton("Reset", new ButtonAttributeScalar(260, 80, 96, 23 , new ButtonActionListener(this,"resetSearchCriteria"))));
+		
+		super.registerComponent(COMP_LBL_CUSTOMERNAME , FactoryComponent.createLabel("Customer Name : ", new PositionScalar(20,120,200,30)));
+		super.registerComponent(COMP_LBL_CUSTOMERNRIC , FactoryComponent.createLabel("Customer NRIC   : ", new PositionScalar(20,140,200,30)));
+		super.registerComponent(COMP_TEXT_CUSTOMERNAME , FactoryComponent.createLabel("",new PositionScalar(130, 120,300,30)));
+		super.registerComponent(COMP_TEXT_CUSTOMERNRIC , FactoryComponent.createLabel("",new PositionScalar(130, 140,300,30)));
+		
 		//Bill History Panel
 		Object[][] rowData = new String[0][2];
 		JTable table = new JTable();
@@ -152,7 +164,7 @@ public class BillListPanel extends BasePanel {
         table.addMouseListener(new MouseTableListener(this,"viewBillDetail"));
         
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(20,150,335,215);
+        scrollPane.setBounds(20,170,335,215);
 		super.registerComponent(COMP_BILL_TABLE, scrollPane);
 		
 		//View Bill Details - Header
@@ -206,6 +218,10 @@ public class BillListPanel extends BasePanel {
 			
 			JTextField jTextField = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
 			jTextField.setText(null);
+			
+			super.getTextFieldComponent(COMP_TEXT_CUSTOMERNAME).setText(null);
+			super.getTextFieldComponent(COMP_TEXT_CUSTOMERNRIC).setText(null);
+			
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
@@ -220,6 +236,10 @@ public class BillListPanel extends BasePanel {
 			
 			Customer customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
 			if(customer!=null){
+				
+				super.getLabelComponent(COMP_TEXT_CUSTOMERNAME).setText(customer.getName());
+				super.getLabelComponent(COMP_TEXT_CUSTOMERNRIC).setText(customer.getNric());
+				
 				JComboBox monthComponent = (JComboBox)super.getComponent(COMP_DATE_BILLMONTH);
 				String monthTxt = (String)monthComponent.getSelectedItem();
 				int month = new Integer(monthTxt).intValue();
