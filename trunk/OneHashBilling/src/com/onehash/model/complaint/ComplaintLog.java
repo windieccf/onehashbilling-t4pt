@@ -57,6 +57,7 @@ public class ComplaintLog extends BaseEntity{
 		this.setIssueNo(COMPLAINT_PREFIX + complaintDateNo);
 		this.setComplaintDate(OneHashDateUtil.getDate());
 		this.setIssueDescription(issueDescription);
+		this.setStatus(EnumComplaint.STS_ACTIVE.getStatus());
 	}
 	
 	public ComplaintLog () {

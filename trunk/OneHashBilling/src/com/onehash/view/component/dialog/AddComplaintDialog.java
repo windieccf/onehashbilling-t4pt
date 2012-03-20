@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.onehash.controller.OneHashDataCache;
@@ -18,9 +19,7 @@ public class AddComplaintDialog extends OkCancelDialog {
 
 	private OneHashDataCache dataCache;
 	private CustomerEditPanel customerEdit;
-//    private JTextField firstField;
-//    private JTextField secondField;
-    private JTextField descriptionField;
+    private JTextArea descriptionField;
 
     public AddComplaintDialog (CustomerEditPanel customerEdit) {
         super (customerEdit.getMainFrame(), "Add Complaint");
@@ -32,27 +31,13 @@ public class AddComplaintDialog extends OkCancelDialog {
         JPanel p = new JPanel ();
         p.setLayout (new GridLayout (0, 2));
         p.add (new JLabel ("Description"));
-        descriptionField = new JTextField (20);
+        descriptionField = new JTextArea();
         p.add (descriptionField);
-//        p.add (new JLabel ("First name"));
-//        firstField = new JTextField (20);
-//        p.add (firstField);
-//        p.add (new JLabel ("Second name"));
-//        secondField = new JTextField (20);
-//        p.add (secondField);
         return p;
     }
 
     protected boolean performOkAction () {
         String surname = descriptionField.getText();
-//        String first = firstField.getText();
-//        if ((surname.length() == 0) || (first.length() == 0)) {
-//            return false;
-//        }
-//        String second = secondField.getText();
-//        if (second.length() == 0) {
-//            second = null;
-//        }
         try {
         	ArrayList<String> issueNoListPreSetting = new ArrayList<String>();
         	issueNoListPreSetting.add("COMP201203100000");
