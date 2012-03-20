@@ -27,7 +27,12 @@ public class ConstantSummary {
 	public static final String DigitalVoice = "Digital Voice";
 	public static final String MobileVoice = "Mobile Voice";
 	public static final String CableTV = "Cable TV";
-	public static final String Subscriptioncharges = "Subscription charges";
+	public static final String Subscriptioncharges = "Subscription Charges";
+	public static final String CallTransfer = "Call Transfer";
+	public static final String DataServices = "Data Services";
 	public static final String Usagecharges = "Usage charges";
+	public static final String UsagechargesLocal = "Local Calls";
+	public static final String UsagechargesIDD = "IDD Calls";
+	public static final String UsagechargesRoamin = "Roamin Calls";
 	public static final String AddChannelcharges = "Add. Channel charges";
 }
