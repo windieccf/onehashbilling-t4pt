@@ -261,6 +261,7 @@ public class OneHashDataCache {
 			//Get Service Plan for the customer
 			for(ServicePlan _servicePlan : customer.getServicePlans()){
 				if(_servicePlan.getEndDate().after(yearMonth)){
+					
 					//Check plan type is cable TV
 					if(_servicePlan instanceof CableTvPlan){
 						
@@ -270,6 +271,9 @@ public class OneHashDataCache {
 						
 						int freeChannel = 0;
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
+							if (_serviceRate.isFreeCharge()) 
+								continue;
+							
 							if(_serviceRate instanceof SubscriptionRate){
 								if(_serviceRate.getRateCode().equalsIgnoreCase(ServiceRate.SUBSCRPTION_CABLE_TV))
 									cableTVSubscriptionRate = _serviceRate.getRatePrice();
@@ -299,6 +303,7 @@ public class OneHashDataCache {
 						List<BillSummary> billSummaryList = new ArrayList <BillSummary>();
 						
 						for(ServiceRate _serviceRate : _servicePlan.getServiceRates()){
+
 							if(_serviceRate instanceof SubscriptionRate){
 								if(_serviceRate.getRateCode().equalsIgnoreCase(ServiceRate.SUBSCRPTION_DIGITAL_VOICE))
 									dvSubscriptionRate = _serviceRate.getRatePrice();
@@ -398,6 +403,7 @@ public class OneHashDataCache {
 			
 		}catch(Exception exp){
 			exp.printStackTrace();
+			return null;
 		}
 		return bill;
 	}
