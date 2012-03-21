@@ -452,6 +452,8 @@ public class BillListPanel extends BasePanel{
 			
 			super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(null);
 			super.getTextFieldComponent(COMP_TXT_NRIC).setText(null);
+			super.getLabelComponent(COMP_TEXT_SPD).setText(null);
+			super.getLabelComponent(COMP_TEXT_PR).setText(null);
 			super.getLabelComponent(COMP_TEXT_DVS).setText(null);
 			super.getLabelComponent(COMP_TEXT_DVU).setText(null);
 			super.getLabelComponent(COMP_TEXT_MVS).setText(null);
