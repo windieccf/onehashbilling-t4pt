@@ -20,6 +20,7 @@
 package com.onehash.model.service.plan;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,11 +57,29 @@ public abstract class ServicePlan extends BaseEntity {
 	public void setPlanName(String planName) {this.planName = planName;}
 	
 	private Date startDate = new Date();
-	public Date getStartDate() {return startDate;}
+	public Date getStartDate() {
+		return new OverloadedDate(this.startDate, true);
+	}
 	public void setStartDate(Date startDate) {this.startDate = startDate;}
 	
 	private Date endDate = new Date();
-	public Date getEndDate() {return endDate;}
+	public Date getEndDate() {
+		return new OverloadedDate(this.endDate, this.getDeletedStatus());
+	}
+	private class OverloadedDate extends Date {
+		Date date;
+		Boolean deleted;
+		public OverloadedDate(Date date, Boolean deleted) {
+			this.deleted = deleted;
+			this.date = date;
+		}
+		public String toString() {
+			if (this.deleted.equals(false))
+				return "";
+			DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+			return df.format(this.date);
+		}
+	}
 	public void setEndDate(Date endDate) {this.endDate = endDate;}
 	
 	private List<ServiceRate> serviceRates;
