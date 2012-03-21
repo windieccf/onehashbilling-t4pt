@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -212,6 +213,24 @@ public class OneHashDataCache {
 			//Get Service Plan for the customer
 			if(customer.getServicePlans()!=null && customer.getServicePlans().size()>0)
 			for(ServicePlan _servicePlan : customer.getServicePlans()){
+				
+				if(_servicePlan.getEndDate().before(yearMonth)){
+					SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
+					SimpleDateFormat sdfMonth = new SimpleDateFormat("MM");
+					
+					Integer yearSP = new Integer(sdfYear.format(_servicePlan.getEndDate()));
+					Integer monthSP = new Integer(sdfMonth.format(_servicePlan.getEndDate()));
+					
+					Integer yearRD = new Integer(sdfYear.format(yearMonth));
+					Integer mothRD = new Integer(sdfMonth.format(yearMonth));
+
+					if(yearSP<yearRD)
+						continue;
+					else if(monthSP<mothRD)
+						continue;
+				}
+					
+				
 				//Check plan type is cable TV
 				if(_servicePlan instanceof CableTvPlan){
 					
