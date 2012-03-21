@@ -72,13 +72,12 @@ public class CustomerListPanel extends BasePanel {
 	
 	/**************************** REFLECTION UTILITY **********************************/
 	public void loadAddScreen(){
-		this.getMainFrame().doLoadScreen(CustomerEditPanel.class, ConstantAction.ADD);
+		this.getMainFrame().doLoadScreen(CustomerTabPanel.class, ConstantAction.ADD);
 	}
 	
 	public void loadEditScreen(String parameter){
-		this.getMainFrame().doLoadScreen(CustomerEditPanel.class, ConstantAction.EDIT,parameter);
+		this.getMainFrame().doLoadScreen(CustomerTabPanel.class, ConstantAction.EDIT,parameter);
 	}
-	
 	
 	/******************************** TABLE UTILITY******************************************/
 	public Object[][] getData(){

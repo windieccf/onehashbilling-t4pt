@@ -51,8 +51,8 @@ public abstract class BasePanel extends JPanel implements Runnable{
 	public OneHashGui getMainFrame() {return mainFrame;}
 
 	public BasePanel(OneHashGui mainFrame){
-		this.draw();
 		this.mainFrame = mainFrame;
+		this.draw();
 	}
 	
 	@Override

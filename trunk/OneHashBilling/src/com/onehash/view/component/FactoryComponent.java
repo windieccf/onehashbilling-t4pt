@@ -99,8 +99,8 @@ public class FactoryComponent {
 		return chckbxNewCheckBox;
 	}
 	
-	public static JComboBox createComboBox(Vector<ComboBoxItem> labelName , ButtonAttributeScalar scalar){
-		JComboBox jComboBox = new JComboBox(labelName);
+	public static JComboBox createComboBox(Vector<ComboBoxItem> comboBoxes , ButtonAttributeScalar scalar){
+		JComboBox jComboBox = new JComboBox(comboBoxes);
 		jComboBox.setBounds(scalar.getPosX(), scalar.getPosY(), scalar.getWidth(), scalar.getHeight());
 		if(scalar.getActionListener()!=null)
 			jComboBox.addActionListener(scalar.getActionListener());

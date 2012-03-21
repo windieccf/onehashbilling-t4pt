@@ -23,4 +23,5 @@ import com.onehash.model.base.BaseEntity;
 
 public interface BaseOperationImpl {
 	public BaseEntity getSelectedEntity();
+	public void setSelectedEntity(BaseEntity baseEntity);
 }
