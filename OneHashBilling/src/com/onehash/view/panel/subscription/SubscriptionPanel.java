@@ -244,7 +244,11 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 	public void removeServicePlan() {
 		JScrollPane selectedServicePlanScrollPane = (JScrollPane)super.getComponent(SERVICEPLAN_TABLE);
 		JTable ServicePlanJTable = (JTable)selectedServicePlanScrollPane.getViewport().getView();
-		servicePlans.remove(ServicePlanJTable.getSelectedRow());
+		/**
+		 * Disable removing permanent ServicePlan, flag to deleted 
+		 */
+		//servicePlans.remove(ServicePlanJTable.getSelectedRow());
+		servicePlans.get(ServicePlanJTable.getSelectedRow()).setDeletedStatus(true);
 		refreshServicePlansJTable();
 	}
 
