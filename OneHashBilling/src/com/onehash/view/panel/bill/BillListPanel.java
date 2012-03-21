@@ -262,7 +262,6 @@ public class BillListPanel extends BasePanel{
 				throw new BusinessLogicException("Select a valid date for bill");
 			
 			Customer customer = null;
-			
 			if(!OneHashStringUtil.isEmpty(accountNumber))
 				customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
 			else if(!OneHashStringUtil.isEmpty(nric))
@@ -365,8 +364,24 @@ public class BillListPanel extends BasePanel{
 			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
 			String accountNumber = (String)accountComponent.getText();
 			
-			Customer customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
+			JTextField nricComponent = (JTextField)super.getComponent(COMP_TXT_NRIC);
+			String nric = (String)nricComponent.getText();
+			
+			if(OneHashStringUtil.isEmpty(accountNumber)
+					&& OneHashStringUtil.isEmpty(nric)){
+				throw new InsufficientInputParameterException("Accout Number or NRIC is required");
+			}
+			
+			Customer customer = null;
+			if(!OneHashStringUtil.isEmpty(accountNumber))
+				customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
+			else if(!OneHashStringUtil.isEmpty(nric))
+				customer = OneHashDataCache.getInstance().getCustomerByNric(nric);
+			
 			if(customer!=null){
+				super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(customer.getName());
+				super.getTextFieldComponent(COMP_TXT_NRIC).setText(customer.getNric());
+				
 				if(customer.getBill()!=null && customer.getBill().size()>0){
 					List<Bill> billList = customer.getBill();
 					rowData = new Object[billList.size()][2];
