@@ -303,6 +303,23 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 		super.getComponent(SERVICEPLAN_LABEL_YEAR).setVisible(true);
 		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setVisible(true);
 		super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setVisible(true);
+		
+		if (selectedServicePlan != null && selectedServicePlan.getDeletedStatus().equals(true)) {
+			super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setEnabled(false);
+			super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setEnabled(false);
+			super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setEnabled(false);
+
+			super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setEnabled(false);
+			super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setEnabled(false);
+		}
+		else {
+			super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setEnabled(true);
+			super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setEnabled(true);
+			super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setEnabled(true);
+
+			super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setEnabled(true);
+			super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setEnabled(true);
+		}
 	}
 	
 	public void saveServicePlan() throws Exception {
