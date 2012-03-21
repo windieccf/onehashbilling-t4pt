@@ -126,51 +126,19 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 		JComboBox servicePlanSelection = FactoryComponent.createComboBox(servicePlanList, new ButtonAttributeScalar(120, 10, 100, 23 , new ButtonActionListener(this,"updateServiceRateBySelectedServicePlan")));
 		super.registerComponent(SERVICEPLAN_COMBOBOX_SELECTION , servicePlanSelection);
 		
-		
-		super.registerComponent(LBL_SERVICE_RATE, FactoryComponent.createLabel("Available Rates", new PositionScalar(20,50,100,10)));
-		
-		JTable table = new JTable();
-        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
-        table.setFillsViewportHeight(true);
-        table.setRowSelectionAllowed(true);
-        table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        table.setModel(new OneHashTableModel(this.getSelectedServiceRateColumnNames() , this.getSelectedServiceRate()));
-        
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(20,70,200,185);
-		super.registerComponent(SERVICEPLAN_LIST_SELECTED, scrollPane);
-		
-		super.registerComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS , FactoryComponent.createButton("<<", new ButtonAttributeScalar(235, 100, 50, 23 , new ButtonActionListener(this,"addOptions"))));
-		super.registerComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS , FactoryComponent.createButton(">>", new ButtonAttributeScalar(235, 130, 50, 23 , new ButtonActionListener(this,"removeOptions"))));
-		
-
-		table = new JTable();
-        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
-        table.setFillsViewportHeight(true);
-        table.setRowSelectionAllowed(true);
-        table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        table.setModel(new OneHashTableModel(this.getAvailableServiceRateColumnNames() , this.getAvailableServiceRate()));
-        scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(300,70,200,185);
-        
-		super.registerComponent(SERVICEPLAN_LIST_AVAILABLE, scrollPane);
-
-		super.registerComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN , FactoryComponent.createButton("Save Subscription", new ButtonAttributeScalar(20, 270, 150, 23 , new ButtonActionListener(this,"saveServicePlan"))));
-
-		super.registerComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN , FactoryComponent.createButton("Cancel", new ButtonAttributeScalar(180, 270, 100, 23 , new ButtonActionListener(this,"showServicePlanListPage"))));
-		
-		
-		
-		super.registerComponent(SERVICEPLAN_LABEL_STARTDATE , FactoryComponent.createLabel("Start date:", new PositionScalar(390,50,100,20)));
+		super.registerComponent(SERVICEPLAN_LABEL_STARTDATE , FactoryComponent.createLabel("Start date:", new PositionScalar(20,50,100,10)));
 		super.getComponent(SERVICEPLAN_LABEL_STARTDATE).setVisible(false);
-        super.registerComponent(SERVICEPLAN_LABEL_MONTH , FactoryComponent.createLabel("Month :", new PositionScalar(490,50,50,20)));
+		
+        super.registerComponent(SERVICEPLAN_LABEL_MONTH , FactoryComponent.createLabel("Month :", new PositionScalar(120,50,100,10)));
 		super.getComponent(SERVICEPLAN_LABEL_MONTH).setVisible(false);
-        final Integer[] months = new Integer[12];
+		
+
+		final Integer[] months = new Integer[12];
         for(int i=0;i<months.length;i++){
         	months[i] = (i+1);
         }
         JComboBox monthSelector = new JComboBox(months);
-        monthSelector.setBounds(540, 50, 50, 20);
+        monthSelector.setBounds(180, 45, 50, 20);
         monthSelector.setUI(new BasicComboBoxUI() { 
         	@Override 
      	    protected JButton createArrowButton() { 
@@ -180,7 +148,8 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
         super.registerComponent(SERVICEPLAN_COMBOBOX_MONTH , monthSelector);
 		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setVisible(false);
         
-        super.registerComponent(SERVICEPLAN_LABEL_YEAR , FactoryComponent.createLabel("Year :", new PositionScalar(620, 50, 50, 20)));
+		
+        super.registerComponent(SERVICEPLAN_LABEL_YEAR , FactoryComponent.createLabel("Year :", new PositionScalar(250, 50, 50, 10)));
 		super.getComponent(SERVICEPLAN_LABEL_YEAR).setVisible(false);
         JComboBox yearSelector = new JComboBox();
         Integer[] years = new Integer[100];
@@ -189,7 +158,7 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
         for (int i = 0; i < years.length; i++) {
         	yearSelector.addItem(years[i]);
         }
-        yearSelector.setBounds(660, 50, 50, 20);
+        yearSelector.setBounds(300, 45, 50, 20);
         yearSelector.setUI(new BasicComboBoxUI() { 
         	@Override 
      	    protected JButton createArrowButton() { 
@@ -198,6 +167,43 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
         }); 
         super.registerComponent(SERVICEPLAN_COMBOBOX_YEAR , yearSelector);
 		super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setVisible(false);
+		
+		
+		
+		
+		super.registerComponent(LBL_SERVICE_RATE, FactoryComponent.createLabel("Available Rates", new PositionScalar(20,80,100,10)));
+		
+		JTable table = new JTable();
+        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
+        table.setFillsViewportHeight(true);
+        table.setRowSelectionAllowed(true);
+        table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        table.setModel(new OneHashTableModel(this.getSelectedServiceRateColumnNames() , this.getSelectedServiceRate()));
+        
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(20,100, 200,185);
+		super.registerComponent(SERVICEPLAN_LIST_SELECTED, scrollPane);
+		
+		super.registerComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS , FactoryComponent.createButton("<<", new ButtonAttributeScalar(235, 130, 50, 23 , new ButtonActionListener(this,"addOptions"))));
+		super.registerComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS , FactoryComponent.createButton(">>", new ButtonAttributeScalar(235, 160, 50, 23 , new ButtonActionListener(this,"removeOptions"))));
+		
+
+		table = new JTable();
+        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
+        table.setFillsViewportHeight(true);
+        table.setRowSelectionAllowed(true);
+        table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        table.setModel(new OneHashTableModel(this.getAvailableServiceRateColumnNames() , this.getAvailableServiceRate()));
+        scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(300,100,200,185);
+        
+		super.registerComponent(SERVICEPLAN_LIST_AVAILABLE, scrollPane);
+
+		super.registerComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN , FactoryComponent.createButton("Save Subscription", new ButtonAttributeScalar(20, 300, 150, 23 , new ButtonActionListener(this,"saveServicePlan"))));
+
+		super.registerComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN , FactoryComponent.createButton("Cancel", new ButtonAttributeScalar(180, 300, 100, 23 , new ButtonActionListener(this,"showServicePlanListPage"))));
+		
+		
 	}
 	
 	
