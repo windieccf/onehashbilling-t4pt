@@ -48,6 +48,7 @@ import com.onehash.model.customer.Customer;
 import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
+import com.onehash.utility.OneHashDateUtil;
 import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
@@ -63,18 +64,17 @@ public class BillListPanel extends BasePanel{
 	private static final String COMP_LBL_BILLDATE = "LBL_USER_BILLDATE";
 	private static final String COMP_LBL_BILLMONTH = "LBL_USER_BILLMONTH";
 	private static final String COMP_LBL_BILLYEAR = "LBL_USER_BILLYEAR";
-	private static final String COMP_TXT_ACCOUNTNUMBER = "TXT_ACCOUNT_NUMBER";
+	private static final String COMP_TXT_ACCOUNTNUMBER = "COMP_TXT_ACCOUNTNUMBER";
+	private static final String COMP_LBL_NRIC = "COMP_LBL_NRIC";
+	private static final String COMP_TXT_NRIC = "COMP_TXT_NRIC";
+	private static final String COMP_LBL_OR = "COMP_LBL_OR";
+	
 	private static final String COMP_DATE_BILLMONTH = "DATE_BILL_MONTH";
 	private static final String COMP_DATE_BILYEAR = "DATE_BILL_YEAR";
 	private static final String COMP_BUTTON_SEARCH = "BTN_SEARCH";
 	private static final String COMP_BUTTON_RESET = "BTN_RESET";
 	private static final String COMP_BUTTON_SEARCHHISTORY = "BTN_SEARCHHISTORY";
 	private static final String COMP_BILL_TABLE = "BILL_TABLE";
-	
-	private static final String COMP_LBL_CUSTOMERNAME = "COMP_LBL_CUSTOMERNAME";
-	private static final String COMP_LBL_CUSTOMERNRIC = "COMP_LBL_CUSTOMERNRIC";
-	private static final String COMP_TEXT_CUSTOMERNAME = "COMP_TEXT_CUSTOMERNAME";
-	private static final String COMP_TEXT_CUSTOMERNRIC = "COMP_TEXT_CUSTOMERNRIC";
 	
 	private static final String COMP_LBL_NAME = "COMP_LBL_NAME";
 	private static final String COMP_LBL_AMOUNT = "COMP_LBL_AMOUNT";
@@ -119,20 +119,22 @@ public class BillListPanel extends BasePanel{
 	protected void init() {
 
 		super.registerComponent(COMP_LBL_ACCOUNTNUMBER , FactoryComponent.createLabel("Account No.", new PositionScalar(20,26,79,14)));
-		super.registerComponent(COMP_LBL_BILLDATE , FactoryComponent.createLabel("Bill Date", new PositionScalar(20,51,79,14)));
 		super.registerComponent(COMP_TXT_ACCOUNTNUMBER, FactoryComponent.createTextField( new TextFieldAttributeScalar(120, 23, 126, 20,10) ));
+		super.registerComponent(COMP_LBL_OR , FactoryComponent.createLabel("OR", new PositionScalar(250,35,50,20)));
+		super.registerComponent(COMP_LBL_NRIC , FactoryComponent.createLabel("NRIC ", new PositionScalar(20,46,79,14)));
+		super.registerComponent(COMP_TXT_NRIC, FactoryComponent.createTextField( new TextFieldAttributeScalar(120, 43, 126, 20,10) ));
 		
+		super.registerComponent(COMP_LBL_BILLDATE , FactoryComponent.createLabel("Bill Date", new PositionScalar(20,71,79,14)));
 		final String[] months = new String[12];
         for(int i=0;i<months.length;i++){
         	months[i] = ""+(i+1);
-        }
-        
-        super.registerComponent(COMP_LBL_BILLMONTH , FactoryComponent.createLabel("Month :", new PositionScalar(120,51,50,20)));
+        } 
+        super.registerComponent(COMP_LBL_BILLMONTH , FactoryComponent.createLabel("Month :", new PositionScalar(120,71,50,20)));
         chosenDate = Calendar.getInstance();
         
         JComboBox monthSelector = new JComboBox(months);
         monthSelector.setSelectedIndex(chosenDate.get(Calendar.MONTH));
-        monthSelector.setBounds(170, 51, 50, 20);
+        monthSelector.setBounds(170, 71, 50, 20);
         monthSelector.setUI(new BasicComboBoxUI() { 
         	@Override 
      	    protected JButton createArrowButton() { 
@@ -141,14 +143,14 @@ public class BillListPanel extends BasePanel{
         }); 
         super.registerComponent(COMP_DATE_BILLMONTH , monthSelector);
         
-        super.registerComponent(COMP_LBL_BILLYEAR , FactoryComponent.createLabel("Year :", new PositionScalar(250, 51, 50, 20)));
+        super.registerComponent(COMP_LBL_BILLYEAR , FactoryComponent.createLabel("Year :", new PositionScalar(250, 71, 50, 20)));
         JComboBox yearSelector = new JComboBox();
         final Integer[] years = getYears(chosenDate.get(Calendar.YEAR));
         for (int i = 0; i < years.length; i++) {
         	yearSelector.addItem(years[i]);
         }
         yearSelector.setSelectedItem(new Integer(chosenDate.get(Calendar.YEAR)));
-        yearSelector.setBounds(290, 51, 50, 20);
+        yearSelector.setBounds(290, 71, 50, 20);
         yearSelector.setUI(new BasicComboBoxUI() { 
         	@Override 
      	    protected JButton createArrowButton() { 
@@ -158,14 +160,9 @@ public class BillListPanel extends BasePanel{
         super.registerComponent(COMP_DATE_BILYEAR , yearSelector);
         
         //Registering Search/History/Refresh Button
-		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Search", new ButtonAttributeScalar(20, 80, 96, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
-		super.registerComponent(COMP_BUTTON_SEARCHHISTORY , FactoryComponent.createButton("Bill History", new ButtonAttributeScalar(140, 80, 96, 23 , new ButtonActionListener(this,"viewBillHistory"))));
-		super.registerComponent(COMP_BUTTON_RESET , FactoryComponent.createButton("Reset", new ButtonAttributeScalar(260, 80, 96, 23 , new ButtonActionListener(this,"resetSearchCriteria"))));
-		
-		super.registerComponent(COMP_LBL_CUSTOMERNAME , FactoryComponent.createLabel("Customer Name : ", new PositionScalar(20,120,200,30)));
-		super.registerComponent(COMP_LBL_CUSTOMERNRIC , FactoryComponent.createLabel("Customer NRIC   : ", new PositionScalar(20,140,200,30)));
-		super.registerComponent(COMP_TEXT_CUSTOMERNAME , FactoryComponent.createLabel("",new PositionScalar(130, 120,300,30)));
-		super.registerComponent(COMP_TEXT_CUSTOMERNRIC , FactoryComponent.createLabel("",new PositionScalar(130, 140,300,30)));
+		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Search", new ButtonAttributeScalar(20, 100, 96, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
+		super.registerComponent(COMP_BUTTON_SEARCHHISTORY , FactoryComponent.createButton("Bill History", new ButtonAttributeScalar(140, 100, 96, 23 , new ButtonActionListener(this,"viewBillHistory"))));
+		super.registerComponent(COMP_BUTTON_RESET , FactoryComponent.createButton("Reset", new ButtonAttributeScalar(260, 100, 96, 23 , new ButtonActionListener(this,"resetSearchCriteria"))));
 		
 		//Bill History Panel
 		Object[][] rowData = new String[0][2];
@@ -177,7 +174,7 @@ public class BillListPanel extends BasePanel{
         table.addMouseListener(new MouseTableListener(this,"viewBillDetail"));
         
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(20,170,335,215);
+        scrollPane.setBounds(20,140,335,270);
 		super.registerComponent(COMP_BILL_TABLE, scrollPane);
 		
 		//View Bill Details - Header
@@ -233,65 +230,76 @@ public class BillListPanel extends BasePanel{
         return years;
     }
 	
-	public void resetSearchCriteria() throws Exception {
-		try{
-			Object[][] rowData = new String[0][2];
-			JTable table = new JTable();
-	        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
-	        table.setFillsViewportHeight(true);
-	        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	        table.setModel(new OneHashTableModel(this.getTableColumnNames() , rowData));
-	        table.addMouseListener(new MouseTableListener(this,"viewBillDetail"));
-			JScrollPane scrollPane = (JScrollPane) super.getComponent(COMP_BILL_TABLE);
-			scrollPane.setViewportView(table);
-			
-			JTextField jTextField = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
-			jTextField.setText(null);
-			
-			super.getTextFieldComponent(COMP_TEXT_CUSTOMERNAME).setText(null);
-			super.getTextFieldComponent(COMP_TEXT_CUSTOMERNRIC).setText(null);
-			
-		}catch(Exception exp){
-			exp.printStackTrace();
-		}
-	}
-	
 	public void searchCusomerBill() throws Exception {
 		try{
+			
 			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
 			String accountNumber = (String)accountComponent.getText();
-			if(OneHashStringUtil.isEmpty(accountNumber))
-				throw new InsufficientInputParameterException("Accout Number is required");
 			
-			Customer customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
+			JTextField nricComponent = (JTextField)super.getComponent(COMP_TXT_NRIC);
+			String nric = (String)nricComponent.getText();
+			
+			if(OneHashStringUtil.isEmpty(accountNumber)
+					&& OneHashStringUtil.isEmpty(nric)){
+				throw new InsufficientInputParameterException("Accout Number or NRIC is required");
+			}
+
+			JComboBox monthComponent = (JComboBox)super.getComponent(COMP_DATE_BILLMONTH);
+			String monthTxt = (String)monthComponent.getSelectedItem();
+			int month = new Integer(monthTxt).intValue();
+			
+			JComboBox yearComponent = (JComboBox)super.getComponent(COMP_DATE_BILYEAR);
+			Integer yearTxt = (Integer)yearComponent.getSelectedItem();
+			int year = yearTxt.intValue();
+			
+			Calendar billRequestDate = Calendar.getInstance();
+			billRequestDate.set(Calendar.DATE, 28);
+			billRequestDate.set(Calendar.MONTH, month-1);
+			billRequestDate.set(Calendar.YEAR, year);
+			
+			//Check if the bill requested is for future month
+			if(OneHashDateUtil.isFutureDate(billRequestDate.getTime()))
+				throw new BusinessLogicException("Select a valid date for bill");
+			
+			Customer customer = null;
+			
+			if(!OneHashStringUtil.isEmpty(accountNumber))
+				customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
+			else if(!OneHashStringUtil.isEmpty(nric))
+				customer = OneHashDataCache.getInstance().getCustomerByNric(nric);
+			
 			if(customer!=null){
-				
-				super.getLabelComponent(COMP_TEXT_CUSTOMERNAME).setText(customer.getName());
-				super.getLabelComponent(COMP_TEXT_CUSTOMERNRIC).setText(customer.getNric());
-				
-				JComboBox monthComponent = (JComboBox)super.getComponent(COMP_DATE_BILLMONTH);
-				String monthTxt = (String)monthComponent.getSelectedItem();
-				int month = new Integer(monthTxt).intValue();
-				
-				JComboBox yearComponent = (JComboBox)super.getComponent(COMP_DATE_BILYEAR);
-				Integer yearTxt = (Integer)yearComponent.getSelectedItem();
-				int year = yearTxt.intValue();
-				
-				Calendar billRequestDate = Calendar.getInstance();
-				billRequestDate.set(Calendar.DATE, 28);
-				billRequestDate.set(Calendar.MONTH, month-1);
-				billRequestDate.set(Calendar.YEAR, year);
-				
-				Bill bill = OneHashDataCache.getInstance().getMonthlyBill(customer, billRequestDate.getTime());
+				super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(customer.getName());
+				super.getTextFieldComponent(COMP_TXT_NRIC).setText(customer.getNric());
+
+				Bill bill = checkPreviousBillDetails(customer, billRequestDate.getTime());
 				if(bill!=null){
 					populateBillDetailsToView(bill);
 				}
 			}else
-				throw new InsufficientInputParameterException("Accout Number is not valid");
+				throw new InsufficientInputParameterException("Customer detials not found");
 			
 		}catch(Exception exp){
 			if(exp instanceof BusinessLogicException)
 				JOptionPane.showMessageDialog(this, exp.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+			exp.printStackTrace();
+		}
+	}
+	
+	public void viewBillDetail(String parameters) throws Exception {
+		try{
+			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
+			String accountNumber = (String)accountComponent.getText();
+			
+			Customer customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
+			if(customer!=null){
+				Bill bill = checkPreviousBillDetails(customer, parserDate(parameters));
+				if(bill!=null){
+					populateBillDetailsToView(bill);
+				}
+			}
+		}catch(Exception exp){
+			exp.printStackTrace();
 		}
 	}
 	
@@ -307,39 +315,43 @@ public class BillListPanel extends BasePanel{
 			super.getLabelComponent(COMP_TEXT_PR).setText(totalPayment.toString());
 			super.getLabelComponent(COMP_TEXT_SPD).setText(totalPayment.toString());
 			
-			Map<String,List<BillSummary>> billSummaryMap = bill.getBillSummaryMap();
-			List<BillSummary> tvSummaryList = billSummaryMap.get(ConstantSummary.CableTV);
-			for(BillSummary _billSummary : tvSummaryList){
-				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
-					super.getLabelComponent(COMP_TEXT_CS).setText(_billSummary.getTotal().toString());
-				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-					super.getLabelComponent(COMP_TEXT_CU).setText(_billSummary.getTotal().toString());
-			}
-			
-			List<BillSummary> dvSummaryList = billSummaryMap.get(ConstantSummary.DigitalVoice);
-			BigDecimal subscriptionchargesDV = new BigDecimal(0);
-			for(BillSummary _billSummary : dvSummaryList){
-				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
-						|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.CallTransfer))
-					subscriptionchargesDV = subscriptionchargesDV.add(_billSummary.getTotal());
-				super.getLabelComponent(COMP_TEXT_DVS).setText(subscriptionchargesDV.toString());
+			if(bill.getBillSummaryMap()!=null && bill.getBillSummaryMap().size()>0){
+				Map<String,List<BillSummary>> billSummaryMap = bill.getBillSummaryMap();
+				List<BillSummary> tvSummaryList = billSummaryMap.get(ConstantSummary.CableTV);
+				if(tvSummaryList!=null && tvSummaryList.size()>0)
+				for(BillSummary _billSummary : tvSummaryList){
+					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
+						super.getLabelComponent(COMP_TEXT_CS).setText(_billSummary.getTotal().toString());
+					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
+						super.getLabelComponent(COMP_TEXT_CU).setText(_billSummary.getTotal().toString());
+				}
 				
-				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-					super.getLabelComponent(COMP_TEXT_DVU).setText(_billSummary.getTotal().toString());
-			}
-			
-			List<BillSummary> mvSummaryList = billSummaryMap.get(ConstantSummary.MobileVoice);
-			BigDecimal subscriptionchargesMV = new BigDecimal(0);
-			for(BillSummary _billSummary : mvSummaryList){
-				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
-						|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.DataServices))
-					subscriptionchargesMV = subscriptionchargesMV.add(_billSummary.getTotal());
-				super.getLabelComponent(COMP_TEXT_MVS).setText(subscriptionchargesMV.toString());
+				List<BillSummary> dvSummaryList = billSummaryMap.get(ConstantSummary.DigitalVoice);
+				BigDecimal subscriptionchargesDV = new BigDecimal(0);
+				if(dvSummaryList!=null && dvSummaryList.size()>0)
+				for(BillSummary _billSummary : dvSummaryList){
+					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
+							|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.CallTransfer))
+						subscriptionchargesDV = subscriptionchargesDV.add(_billSummary.getTotal());
+					super.getLabelComponent(COMP_TEXT_DVS).setText(subscriptionchargesDV.toString());
+					
+					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
+						super.getLabelComponent(COMP_TEXT_DVU).setText(_billSummary.getTotal().toString());
+				}
 				
-				if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-					super.getLabelComponent(COMP_TEXT_MVU).setText(_billSummary.getTotal().toString());
+				List<BillSummary> mvSummaryList = billSummaryMap.get(ConstantSummary.MobileVoice);
+				BigDecimal subscriptionchargesMV = new BigDecimal(0);
+				if(mvSummaryList!=null && mvSummaryList.size()>0)
+				for(BillSummary _billSummary : mvSummaryList){
+					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
+							|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.DataServices))
+						subscriptionchargesMV = subscriptionchargesMV.add(_billSummary.getTotal());
+					super.getLabelComponent(COMP_TEXT_MVS).setText(subscriptionchargesMV.toString());
+					
+					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
+						super.getLabelComponent(COMP_TEXT_MVU).setText(_billSummary.getTotal().toString());
+				}
 			}
-			
 			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getGstRate().toString());
 			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getTotalBill().toString());
 		}catch(Exception exp){
@@ -365,14 +377,6 @@ public class BillListPanel extends BasePanel{
 					}
 				}
 				
-				rowData = new Object[40][2];
-				for(int i = 0 ; i < 40; i++){
-					Date date = new Date();
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-					rowData[i][0] = sdf.format(date);
-					rowData[i][1] = (11+i);
-				}
-				
 				JTable table = new JTable();
 		        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
 		        table.setFillsViewportHeight(true);
@@ -389,20 +393,19 @@ public class BillListPanel extends BasePanel{
 		return rowData;
 	}
 	
-	public void viewBillDetail(String parameters) throws Exception {
+	public Bill checkPreviousBillDetails(Customer customer, Date billRequestDate) {
 		try{
-			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
-			String accountNumber = (String)accountComponent.getText();
-			
-			Customer customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
-			if(customer!=null){
-				Bill bill = OneHashDataCache.getInstance().getMonthlyBill(customer, parserDate(parameters));
-				if(bill!=null){
-					populateBillDetailsToView(bill);
+			if(customer.getBill()!=null && customer.getBill().size()>0){
+				for(Bill _bill : customer.getBill()){
+					if(OneHashDateUtil.isMonthYearOfBill(_bill.getBillDate(),billRequestDate)){
+						return _bill;
+					}
 				}
 			}
+			return OneHashDataCache.getInstance().calculateBill(customer, billRequestDate);
 		}catch(Exception exp){
 			exp.printStackTrace();
+			return null;
 		}
 	}
 	
@@ -418,6 +421,34 @@ public class BillListPanel extends BasePanel{
 		calendarDate.set(Calendar.YEAR, year);
 		
 		return calendarDate.getTime();
+	}
+	
+	public void resetSearchCriteria() throws Exception {
+		try{
+			Object[][] rowData = new String[0][2];
+			JTable table = new JTable();
+	        table.setPreferredScrollableViewportSize(new Dimension(200, 70));
+	        table.setFillsViewportHeight(true);
+	        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	        table.setModel(new OneHashTableModel(this.getTableColumnNames() , rowData));
+	        table.addMouseListener(new MouseTableListener(this,"viewBillDetail"));
+			JScrollPane scrollPane = (JScrollPane) super.getComponent(COMP_BILL_TABLE);
+			scrollPane.setViewportView(table);
+			
+			super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(null);
+			super.getTextFieldComponent(COMP_TXT_NRIC).setText(null);
+			super.getLabelComponent(COMP_TEXT_DVS).setText(null);
+			super.getLabelComponent(COMP_TEXT_DVU).setText(null);
+			super.getLabelComponent(COMP_TEXT_MVS).setText(null);
+			super.getLabelComponent(COMP_TEXT_MVU).setText(null);
+			super.getLabelComponent(COMP_TEXT_CS).setText(null);
+			super.getLabelComponent(COMP_TEXT_CU).setText(null);
+			super.getLabelComponent(COMP_TEXT_GST).setText(null);
+			super.getLabelComponent(COMP_TEXT_TCC).setText(null);
+			
+		}catch(Exception exp){
+			exp.printStackTrace();
+		}
 	}
 	
 	public String[] getTableColumnNames(){
