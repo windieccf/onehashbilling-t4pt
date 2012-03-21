@@ -150,6 +150,16 @@ public class OneHashDataCache {
 		return null;
 	}
 	
+	public Customer getCustomerByNric(String nric) {
+		for(Customer customer : this.getCustomers()){
+			if(customer.getNric().equalsIgnoreCase(nric)){
+				// will create a replicate of the customer
+				return (Customer) customer.clone();
+			}
+		}
+		return null;
+	}
+	
 	public void saveCustomer(Customer customer) throws Exception{
 		if(OneHashStringUtil.isEmpty(customer.getAccountNumber())){
 			// means you are new customer, we just assign the account number and append new record into the list
