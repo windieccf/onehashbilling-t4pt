@@ -398,15 +398,20 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		super.getComponent(SERVICEPLAN_LIST_SELECTED).setVisible(true);
 		super.getComponent(SERVICEPLAN_LIST_AVAILABLE).setVisible(true);
 		super.getComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN).setVisible(true);
+		super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setVisible(true);
+		super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(true);
+		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(true);
 		if (servicePlanMode == SERVICEPLAN_CREATE_MODE || selectedServicePlan == null || selectedServicePlan.getDeletedStatus().equals(false)) {
-			super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setVisible(true);
-			super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(true);
-			super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(true);
+			super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setEnabled(true);
+			super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setEnabled(true);
+			super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setEnabled(true);
+			super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setEnabled(true);
+			super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setEnabled(true);
 		}
 		super.getComponent(SERVICEPLAN_LABEL_STARTDATE).setVisible(true);
 		super.getComponent(SERVICEPLAN_LABEL_MONTH).setVisible(true);
-		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setVisible(true);
 		super.getComponent(SERVICEPLAN_LABEL_YEAR).setVisible(true);
+		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setVisible(true);
 		super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setVisible(true);
 	}
 	
@@ -422,10 +427,17 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		super.getComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN).setVisible(false);
 		super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(false);
 		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(false);
+		
+		super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setEnabled(false);
+		super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setEnabled(false);
+		super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setEnabled(false);
+		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setEnabled(false);
+		super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setEnabled(false);
+		
 		super.getComponent(SERVICEPLAN_LABEL_STARTDATE).setVisible(false);
 		super.getComponent(SERVICEPLAN_LABEL_MONTH).setVisible(false);
-		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setVisible(false);
 		super.getComponent(SERVICEPLAN_LABEL_YEAR).setVisible(false);
+		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setVisible(false);
 		super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setVisible(false);
 	}
 	
