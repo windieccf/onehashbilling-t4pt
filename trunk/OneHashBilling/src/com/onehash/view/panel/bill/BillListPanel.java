@@ -21,7 +21,9 @@ package com.onehash.view.panel.bill;
 
 import java.awt.Dimension;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -275,6 +277,13 @@ public class BillListPanel extends BasePanel{
 				if(bill!=null){
 					populateBillDetailsToView(bill);
 				}
+				if(customer.getBill()==null || customer.getBill().size()==0){
+					List<Bill> billList = new ArrayList<Bill>();
+					billList.add(bill);
+				}
+				customer.getBill().add(bill);
+				
+				OneHashDataCache.getInstance().saveCustomer(customer);
 			}else
 				throw new InsufficientInputParameterException("Customer detials not found");
 			
@@ -386,9 +395,10 @@ public class BillListPanel extends BasePanel{
 				if(customer.getBill()!=null && customer.getBill().size()>0){
 					List<Bill> billList = customer.getBill();
 					rowData = new Object[billList.size()][2];
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 					for(int i = 0 ; i < billList.size(); i++){
 						Bill _bill = billList.get(i);
-						rowData[i][0] = _bill.getBillDate();
+						rowData[i][0] = sdf.format(_bill.getBillDate());
 						rowData[i][1] = _bill.getTotalBill();
 					}
 				}
