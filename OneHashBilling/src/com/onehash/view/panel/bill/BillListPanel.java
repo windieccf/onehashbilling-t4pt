@@ -276,14 +276,14 @@ public class BillListPanel extends BasePanel{
 				Bill bill = checkPreviousBillDetails(customer, billRequestDate.getTime());
 				if(bill!=null){
 					populateBillDetailsToView(bill);
+					if(customer.getBill()==null || customer.getBill().size()==0){
+						List<Bill> billList = new ArrayList<Bill>();
+						billList.add(bill);
+					}
+					customer.getBill().add(bill);
+					OneHashDataCache.getInstance().saveCustomer(customer);
 				}
-				if(customer.getBill()==null || customer.getBill().size()==0){
-					List<Bill> billList = new ArrayList<Bill>();
-					billList.add(bill);
-				}
-				customer.getBill().add(bill);
 				
-				OneHashDataCache.getInstance().saveCustomer(customer);
 			}else
 				throw new InsufficientInputParameterException("Customer detials not found");
 			
