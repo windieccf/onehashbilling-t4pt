@@ -268,7 +268,7 @@ public class BillListPanel extends BasePanel{
 				customer = OneHashDataCache.getInstance().getCustomerByNric(nric);
 			
 			if(customer!=null){
-				super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(customer.getName());
+				super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(customer.getAccountNumber());
 				super.getTextFieldComponent(COMP_TXT_NRIC).setText(customer.getNric());
 
 				Bill bill = checkPreviousBillDetails(customer, billRequestDate.getTime());
@@ -351,7 +351,8 @@ public class BillListPanel extends BasePanel{
 						super.getLabelComponent(COMP_TEXT_MVU).setText(_billSummary.getTotal().toString());
 				}
 			}
-			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getGstRate().toString());
+			if(bill.getGstRate()!=null)
+				super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getGstRate().toString());
 			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getTotalBill().toString());
 		}catch(Exception exp){
 			exp.printStackTrace();
@@ -379,7 +380,7 @@ public class BillListPanel extends BasePanel{
 				customer = OneHashDataCache.getInstance().getCustomerByNric(nric);
 			
 			if(customer!=null){
-				super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(customer.getName());
+				super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(customer.getAccountNumber());
 				super.getTextFieldComponent(COMP_TXT_NRIC).setText(customer.getNric());
 				
 				if(customer.getBill()!=null && customer.getBill().size()>0){
