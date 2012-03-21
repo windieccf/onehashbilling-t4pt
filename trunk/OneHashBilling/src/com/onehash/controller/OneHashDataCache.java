@@ -82,11 +82,7 @@ public class OneHashDataCache {
 	private List<ServiceRate> availableServiceRate;
 	public List<ServiceRate> getAvailableServiceRate() {return availableServiceRate;}
 	public void setAvailableServiceRate(List<ServiceRate> availableServiceRate) {this.availableServiceRate = availableServiceRate;}
-	
-	private List<ComplaintLog> complaintLogs = new ArrayList<ComplaintLog>();
-	public void setComplaintLog(List<ComplaintLog> complaintLogs) {this.complaintLogs = complaintLogs;}
-	public List<ComplaintLog> getComplaintLogs() {return complaintLogs;}
-	
+
 	/************************************ FILE PROCESSING ************************************************/
 	
 	/**
@@ -513,10 +509,10 @@ public class OneHashDataCache {
 	 * @return
 	 * @throws Exception
 	 */
-	public ComplaintLog getComplaintLogByIssueNo(String issueNo) throws Exception{
-		for(ComplaintLog complaintLog : this.getComplaintLogs()){
+	public ComplaintLog getComplaintLogByIssueNo(String issueNo, ArrayList<ComplaintLog> complaintLogs) throws Exception{
+		for(ComplaintLog complaintLog : complaintLogs){
 			if(complaintLog.getIssueNo().equalsIgnoreCase(issueNo)){
-				// will create a replicate of the customer
+				// will create a replicate of the complaintLog
 				return (ComplaintLog) complaintLog.clone();
 			}
 				
