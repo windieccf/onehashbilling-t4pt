@@ -7,24 +7,23 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.model.customer.Customer;
 import com.onehash.view.component.dialogUtil.OkCancelDialog;
-import com.onehash.view.panel.customer.CustomerEditPanel;
+import com.onehash.view.panel.complaint.ComplaintEditPanel;
 
 @SuppressWarnings("serial")
 public class AddComplaintDialog extends OkCancelDialog {
 
 	private OneHashDataCache dataCache;
-	private CustomerEditPanel customerEdit;
+	private ComplaintEditPanel complaintEditPanel;
     private JTextArea descriptionField;
 
-    public AddComplaintDialog (CustomerEditPanel customerEdit) {
-        super (customerEdit.getMainFrame(), "Add Complaint");
+    public AddComplaintDialog (ComplaintEditPanel complaintEditPanel) {
+        super (complaintEditPanel.getMainFrame(), "Add Complaint");
         dataCache=OneHashDataCache.getInstance();
-        this.customerEdit = customerEdit;
+        this.complaintEditPanel = complaintEditPanel;
     }
 
     protected JPanel createFormPanel () {
@@ -41,9 +40,9 @@ public class AddComplaintDialog extends OkCancelDialog {
         try {
         	ArrayList<String> issueNoListPreSetting = new ArrayList<String>();
         	issueNoListPreSetting.add("COMP201203100000");
-			dataCache.createComplaint((Customer)customerEdit.getSelectedEntity(), surname, issueNoListPreSetting);
+			dataCache.createComplaint((Customer)complaintEditPanel.getSelectedEntity(), surname, issueNoListPreSetting);
 			System.out.println(descriptionField.getText());
-			Customer cus = (Customer)customerEdit.getSelectedEntity();
+			Customer cus = (Customer)complaintEditPanel.getSelectedEntity();
 			System.out.println("2"+cus.getName());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
