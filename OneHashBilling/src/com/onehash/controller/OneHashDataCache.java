@@ -200,6 +200,7 @@ public class OneHashDataCache {
 		try{
 			
 			//Get Service Plan for the customer
+			if(customer.getServicePlans()!=null && customer.getServicePlans().size()>0)
 			for(ServicePlan _servicePlan : customer.getServicePlans()){
 				//Check plan type is cable TV
 				if(_servicePlan instanceof CableTvPlan){
