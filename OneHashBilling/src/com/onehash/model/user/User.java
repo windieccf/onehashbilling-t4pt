@@ -18,6 +18,8 @@
  */
 package com.onehash.model.user;
 
+import java.util.List;
+
 public abstract class User {
 	
 	private String userId;
@@ -79,9 +81,7 @@ public abstract class User {
         this.memberOf = memberOf;
     }
     
-//    public List<String> getAvailableMenu() {
-//    	
-//    }
+    abstract public List<String> getAvailableMenu();
     
     @Override
     public String toString() {
