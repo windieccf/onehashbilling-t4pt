@@ -313,12 +313,15 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 			 * Determine New or Edit ServicePlan
 			 */
 			if (servicePlanMode.equals(SERVICEPLAN_CREATE_MODE)) {
-				if (prefix.equals(ServiceRate.PREFIX_MOBILE_VOICE))
+				if (prefix.getKey().equals(ServiceRate.PREFIX_MOBILE_VOICE)) {
 					selectedServicePlan = new MobileVoicePlan();
-				else if (prefix.equals(ServiceRate.PREFIX_DIGITAL_VOICE))
+				}
+				else if (prefix.getKey().equals(ServiceRate.PREFIX_DIGITAL_VOICE)) {
 					selectedServicePlan = new DigitalVoicePlan();
-				else
+				}
+				else {
 					selectedServicePlan = new CableTvPlan();
+				}
 				selectedServicePlan.setPlanId(prefix.getKey() + (this.customer.getServicePlans().size()+1));
 				selectedServicePlan.setPlanName(prefix.getValue());
 				servicePlans.add(selectedServicePlan);
