@@ -302,7 +302,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
         super.registerComponent(SERVICEPLAN_LABEL_YEAR , FactoryComponent.createLabel("Year :", new PositionScalar(620, 50, 50, 20)));
 		super.getComponent(SERVICEPLAN_LABEL_YEAR).setVisible(false);
         JComboBox yearSelector = new JComboBox();
-        Integer[] years = new Integer[200];
+        Integer[] years = new Integer[100];
         for (int i=2000; i<2100; i++)
         	years[i-2000] = i;
         for (int i = 0; i < years.length; i++) {
@@ -398,7 +398,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl{
 		super.getComponent(SERVICEPLAN_LIST_SELECTED).setVisible(true);
 		super.getComponent(SERVICEPLAN_LIST_AVAILABLE).setVisible(true);
 		super.getComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN).setVisible(true);
-		if (selectedServicePlan == null || selectedServicePlan.getDeletedStatus().equals(false)) {
+		if (servicePlanMode == SERVICEPLAN_CREATE_MODE || selectedServicePlan == null || selectedServicePlan.getDeletedStatus().equals(false)) {
 			super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setVisible(true);
 			super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setVisible(true);
 			super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setVisible(true);
