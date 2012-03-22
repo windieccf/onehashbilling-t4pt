@@ -67,17 +67,16 @@ public abstract class ServicePlan extends BaseEntity {
 		return new OverloadedDate(this.endDate, this.getDeletedStatus());
 	}
 	private class OverloadedDate extends Date {
-		Date date;
 		Boolean deleted;
 		public OverloadedDate(Date date, Boolean deleted) {
+			super(date.getTime());
 			this.deleted = deleted;
-			this.date = date;
 		}
 		public String toString() {
 			if (this.deleted.equals(false))
 				return "";
 			DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-			return df.format(this.date);
+			return df.format(this);
 		}
 	}
 	public void setEndDate(Date endDate) {this.endDate = endDate;}
