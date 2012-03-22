@@ -25,12 +25,19 @@ public class AgentUser extends User {
 
 	private static ArrayList<String> lstMenu = new ArrayList<String>();
 	
-	public AgentUser () {
-		lstMenu.add("Add Complaint");
-		lstMenu.add("Update Complaint");
-		lstMenu.add("View Customer");
+	public AgentUser(String userId, String firstName, String lastName,
+			String password, String status) {
+		super(userId, firstName, lastName, password, "Agent", status);
+		
+		//System.out.println(lstMenu.isEmpty());
+		// TODO Auto-generated constructor stub
+		if (lstMenu.isEmpty()) {
+			lstMenu.add("Add Complaint");
+			lstMenu.add("Update Complaint");
+			lstMenu.add("View Customer");
+		}
 	}
-	
+
 	@Override
 	public List<String> getAvailableMenu() {
 		// TODO Auto-generated method stub
