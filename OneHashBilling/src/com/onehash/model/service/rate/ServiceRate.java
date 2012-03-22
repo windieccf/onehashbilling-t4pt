@@ -99,7 +99,7 @@ public abstract class ServiceRate extends BaseEntity{
 					index++;
 				}
 				
-				if (value.get("Desc").indexOf("Subscription") >= 0) {
+				if (value.get("Desc").indexOf("Subscription") >= 0 || value.get("RateUnit").equals("Month")) {
 					temp = new SubscriptionRate();
 				} else {
 					temp = new UsageRate(0);
