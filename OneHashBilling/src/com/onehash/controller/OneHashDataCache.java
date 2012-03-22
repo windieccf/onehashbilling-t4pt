@@ -278,11 +278,11 @@ public class OneHashDataCache {
 						if(_serviceRate instanceof SubscriptionRate){
 							if(_serviceRate.getRateCode().equalsIgnoreCase("DV-S"))
 								dvSubscriptionRate = _serviceRate.getRatePrice();
+							if(_serviceRate.getRateCode().equalsIgnoreCase("DV-C"))
+								dvCallTransferRate = _serviceRate.getRatePrice();
 						}
 						//Get service rates - Usage
 						if(_serviceRate instanceof UsageRate){
-							if(_serviceRate.getRateCode().equalsIgnoreCase("DV-C"))
-								dvCallTransferRate = _serviceRate.getRatePrice();
 							if(_serviceRate.getRateCode().equalsIgnoreCase("DV-L"))
 								usageRateLocal = _serviceRate.getRatePrice();
 							if(_serviceRate.getRateCode().equalsIgnoreCase("DV-I"))
@@ -342,11 +342,11 @@ public class OneHashDataCache {
 						if(_serviceRate instanceof SubscriptionRate){
 							if(_serviceRate.getRateCode().equalsIgnoreCase("MV-S"))
 								mvSubscriptionRate = _serviceRate.getRatePrice();
+							if(_serviceRate.getRateCode().equalsIgnoreCase("MV-D"))
+								mvDataServiceRate = _serviceRate.getRatePrice();
 						}
 						//Get service rates - Usage
 						if(_serviceRate instanceof UsageRate){
-							if(_serviceRate.getRateCode().equalsIgnoreCase("MV-D"))
-								mvDataServiceRate = _serviceRate.getRatePrice();
 							if(_serviceRate.getRateCode().equalsIgnoreCase("MV-L"))
 								usageRateLocal = _serviceRate.getRatePrice();
 							if(_serviceRate.getRateCode().equalsIgnoreCase("MV-I"))
