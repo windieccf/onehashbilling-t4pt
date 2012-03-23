@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -275,6 +276,8 @@ public class BillListPanel extends BasePanel{
 				Bill bill = checkPreviousBillDetails(customer, billRequestDate.getTime());
 				if(bill!=null){
 					populateBillDetailsToView(bill);
+					BillReportPanel.populateBillDetailsToView(bill);
+					
 					if(customer.getBill()==null || customer.getBill().size()==0){
 						List<Bill> billList = new ArrayList<Bill>();
 						billList.add(bill);
@@ -322,42 +325,54 @@ public class BillListPanel extends BasePanel{
 			super.getLabelComponent(COMP_TEXT_PR).setText(totalPayment.toString());
 			super.getLabelComponent(COMP_TEXT_SPD).setText(totalPayment.toString());
 			
+			BigDecimal tvSC = new BigDecimal(0);
+			BigDecimal tvAC = new BigDecimal(0);
+			BigDecimal dvSC = new BigDecimal(0);
+			BigDecimal dvUC = new BigDecimal(0);
+			BigDecimal mvSC = new BigDecimal(0);
+			BigDecimal mvUC = new BigDecimal(0);
+			
 			if(bill.getBillSummaryMap()!=null && bill.getBillSummaryMap().size()>0){
 				Map<String,List<BillSummary>> billSummaryMap = bill.getBillSummaryMap();
-				List<BillSummary> tvSummaryList = billSummaryMap.get(ConstantSummary.CableTV);
-				if(tvSummaryList!=null && tvSummaryList.size()>0)
-				for(BillSummary _billSummary : tvSummaryList){
-					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
-						super.getLabelComponent(COMP_TEXT_CS).setText(_billSummary.getTotal().toString());
-					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-						super.getLabelComponent(COMP_TEXT_CU).setText(_billSummary.getTotal().toString());
+				Set<String> keySet = billSummaryMap.keySet();
+				for(String _key : keySet){
+					if(_key.startsWith("TV-")){
+						List<BillSummary> tvSummaryList = billSummaryMap.get(_key);
+						if(tvSummaryList!=null && tvSummaryList.size()>0)
+						for(BillSummary _billSummary : tvSummaryList){
+							if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
+								tvSC = tvSC.add(_billSummary.getTotal());
+							if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.AddChannelcharges))
+								tvAC = tvAC.add(_billSummary.getTotal());
+						}
+					}else if(_key.startsWith("DV-")){
+						List<BillSummary> dvSummaryList = billSummaryMap.get(_key);
+						if(dvSummaryList!=null && dvSummaryList.size()>0)
+						for(BillSummary _billSummary : dvSummaryList){
+							if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
+									|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.CallTransfer))
+								dvSC = dvSC.add(_billSummary.getTotal());
+							if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
+								dvUC = dvUC.add(_billSummary.getTotal());
+						}
+					}else if(_key.startsWith("MV-")){
+						List<BillSummary> mvSummaryList = billSummaryMap.get(_key);
+						if(mvSummaryList!=null && mvSummaryList.size()>0)
+						for(BillSummary _billSummary : mvSummaryList){
+							if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
+									|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.DataServices))
+								mvSC = dvSC.add(_billSummary.getTotal());
+							if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
+								mvUC = dvSC.add(_billSummary.getTotal());
+						}
+					}
 				}
-				
-				List<BillSummary> dvSummaryList = billSummaryMap.get(ConstantSummary.DigitalVoice);
-				BigDecimal subscriptionchargesDV = new BigDecimal(0);
-				if(dvSummaryList!=null && dvSummaryList.size()>0)
-				for(BillSummary _billSummary : dvSummaryList){
-					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
-							|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.CallTransfer))
-						subscriptionchargesDV = subscriptionchargesDV.add(_billSummary.getTotal());
-					super.getLabelComponent(COMP_TEXT_DVS).setText(subscriptionchargesDV.toString());
-					
-					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-						super.getLabelComponent(COMP_TEXT_DVU).setText(_billSummary.getTotal().toString());
-				}
-				
-				List<BillSummary> mvSummaryList = billSummaryMap.get(ConstantSummary.MobileVoice);
-				BigDecimal subscriptionchargesMV = new BigDecimal(0);
-				if(mvSummaryList!=null && mvSummaryList.size()>0)
-				for(BillSummary _billSummary : mvSummaryList){
-					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
-							|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.DataServices))
-						subscriptionchargesMV = subscriptionchargesMV.add(_billSummary.getTotal());
-					super.getLabelComponent(COMP_TEXT_MVS).setText(subscriptionchargesMV.toString());
-					
-					if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-						super.getLabelComponent(COMP_TEXT_MVU).setText(_billSummary.getTotal().toString());
-				}
+				super.getLabelComponent(COMP_TEXT_CS).setText(tvSC.toString());
+				super.getLabelComponent(COMP_TEXT_CU).setText(tvAC.toString());
+				super.getLabelComponent(COMP_TEXT_DVS).setText(dvSC.toString());
+				super.getLabelComponent(COMP_TEXT_DVU).setText(dvUC.toString());
+				super.getLabelComponent(COMP_TEXT_MVS).setText(mvSC.toString());
+				super.getLabelComponent(COMP_TEXT_MVU).setText(mvUC.toString());
 			}
 			if(bill.getGstRate()!=null)
 				super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getGstRate().toString());
