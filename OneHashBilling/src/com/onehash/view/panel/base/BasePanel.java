@@ -32,7 +32,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -42,7 +41,6 @@ import com.onehash.model.scalar.PositionScalar;
 import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
-import com.onehash.view.panel.bill.BillReportPanel;
 
 @SuppressWarnings("serial")
 public abstract class BasePanel extends JPanel implements Runnable{
