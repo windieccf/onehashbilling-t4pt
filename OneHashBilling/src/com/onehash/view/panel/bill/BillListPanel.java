@@ -276,8 +276,6 @@ public class BillListPanel extends BasePanel{
 				Bill bill = checkPreviousBillDetails(customer, billRequestDate.getTime());
 				if(bill!=null){
 					populateBillDetailsToView(bill);
-					BillReportPanel.populateBillDetailsToView(bill);
-					
 					if(customer.getBill()==null || customer.getBill().size()==0){
 						List<Bill> billList = new ArrayList<Bill>();
 						billList.add(bill);
