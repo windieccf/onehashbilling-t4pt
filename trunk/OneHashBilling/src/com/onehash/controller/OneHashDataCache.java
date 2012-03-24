@@ -256,7 +256,7 @@ public class OneHashDataCache {
 					billSummaryList.add(billSummaryCableTV);
 					billSummaryList.add(addChannelChargeCableTV);
 					
-					billSummaryMap.put(_servicePlan.getPlanCode(),billSummaryList);
+					billSummaryMap.put(_servicePlan.getPlanId(),billSummaryList);
 					currentBill = cableTVSubscriptionRate.add(cableTVAddChannelCharge);
 				}
 				
@@ -319,7 +319,7 @@ public class OneHashDataCache {
 					billSummaryList.add(billSummaryDVIUsage);
 					billSummaryList.add(billSummaryDVUsage);
 					
-					billSummaryMap.put(_servicePlan.getPlanCode(),billSummaryList);
+					billSummaryMap.put(_servicePlan.getPlanId(),billSummaryList);
 					currentBill = currentBill.add(totalUsage);
 				}
 
@@ -390,7 +390,7 @@ public class OneHashDataCache {
 					billSummaryList.add(billSummaryMVRUsage);
 					billSummaryList.add(billSummaryMVUsage);
 					
-					billSummaryMap.put(_servicePlan.getPlanCode(),billSummaryList);
+					billSummaryMap.put(_servicePlan.getPlanId(),billSummaryList);
 					currentBill = currentBill.add(totalUsage);
 				}
 			}
