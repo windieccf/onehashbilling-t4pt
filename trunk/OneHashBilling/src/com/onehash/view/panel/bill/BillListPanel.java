@@ -359,9 +359,9 @@ public class BillListPanel extends BasePanel{
 						for(BillSummary _billSummary : mvSummaryList){
 							if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
 									|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.DataServices))
-								mvSC = dvSC.add(_billSummary.getTotal());
+								mvSC = mvSC.add(_billSummary.getTotal());
 							if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
-								mvUC = dvSC.add(_billSummary.getTotal());
+								mvUC = mvUC.add(_billSummary.getTotal());
 						}
 					}
 				}
