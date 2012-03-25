@@ -22,8 +22,14 @@ package com.onehash.view.panel.bill;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,6 +42,7 @@ import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -126,7 +133,7 @@ public class BillReportPanel extends BasePanel {
         super.registerComponent(COMP_DATE_BILYEAR , yearSelector);
         
         //Registering Search/History/Refresh Button
-		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Search", new ButtonAttributeScalar(20, 100, 96, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
+		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Generate And Save", new ButtonAttributeScalar(20, 100, 100, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
 	}
 	
 	private Integer[] getYears(int chosenYear) {
@@ -354,15 +361,54 @@ public class BillReportPanel extends BasePanel {
 		ht.put("TTLCTV",tvAC.add(tvSC));
 		
 		ht.put("TTLBILL",dvUC.add(dvSC).add(mvUC.add(mvSC)).add(tvAC.add(tvSC)));
+		String outputFile = customer.getAccountNumber()+"-"+bill.getBillDate().getTime();
+		File billFile = generateWordDoc(ht, "template/Bill.xml", "template/temp/Bill("+outputFile+").doc");
+		
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fileChooser.setSelectedFile(billFile);
+		
+	    int status = fileChooser.showSaveDialog(null);
+	    if (status == JFileChooser.APPROVE_OPTION){
+	    	try{
+	    		File selectedPfile = fileChooser.getSelectedFile();
+	    		String nameOfFile = billFile.getName();
+	    		if(nameOfFile!=null){
+	    			if(!nameOfFile.endsWith(".doc"))
+	    				throw new BusinessLogicException("Select a valid file(.doc)");
+	    			
+	    			try{
+	    				InputStream in = new FileInputStream(billFile);
+	    				OutputStream out = new FileOutputStream(selectedPfile);
 
-		generateWordDoc(ht, "template/Bill.xml", "template/temp/Bill("+customer.getAccountNumber()+"-"+bill.getBillDate().getTime()+").xml");
+	    				byte[] buf = new byte[1024];
+	    				int len;
+	    				while ((len = in.read(buf)) > 0){
+	    					out.write(buf, 0, len);
+	    				}
+	    				in.close();
+	    				out.close();
+	    				System.out.println("File copied.");
+	    			}catch(FileNotFoundException ex){
+	    				System.out.println(ex.getMessage() + " in the specified directory.");
+	    				System.exit(0);
+				   }catch(IOException e){
+					   System.out.println(e.getMessage());  
+				   }
+	    		}else
+	    			throw new BusinessLogicException("Select a valid file(.doc)");
+	    		
+	    	}catch(Exception exp){
+	    		exp.printStackTrace();
+	    	}
+	    }
+	    deleteFilesFromDirectory();
 	}
 	
-	public static void generateWordDoc(Hashtable<String,Object> ht, String templatePathFilename, String outputPathFilename) {	
+	public static File generateWordDoc(Hashtable<String,Object> ht, String templatePathFilename, String outputPathFilename) {	
+		File destination = new File(outputPathFilename);
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(templatePathFilename));
-			
-			File destination = new File(outputPathFilename);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(destination));
 			
 			String thisLine;
@@ -388,6 +434,7 @@ public class BillReportPanel extends BasePanel {
 		catch (Exception e) {
 			System.out.println("exception!=" + e);
 		}
+		return destination;
 	}
 
 	private static String XmlEncode(String text) {
@@ -396,5 +443,19 @@ public class BillReportPanel extends BasePanel {
 			text = text.replaceAll(String.valueOf((char)charsRequiringEncoding[i]),"&#"+charsRequiringEncoding[i]+";");
 		}
 		return text; 
+	}
+	
+	public static void deleteFilesFromDirectory(){
+		try{
+			File directory = new File("template/temp");
+			File[] files = directory.listFiles();
+			for (File file : files){
+				if (!file.delete()){
+					System.out.println("Failed to delete "+file);
+				}
+			}
+		}catch(Exception exp){
+			exp.printStackTrace();
+		}
 	}
 }
