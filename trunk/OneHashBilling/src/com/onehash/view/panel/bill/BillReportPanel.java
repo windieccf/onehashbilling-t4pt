@@ -133,7 +133,7 @@ public class BillReportPanel extends BasePanel {
         super.registerComponent(COMP_DATE_BILYEAR , yearSelector);
         
         //Registering Search/History/Refresh Button
-		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Generate And Save", new ButtonAttributeScalar(20, 100, 100, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
+		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Generate And Save", new ButtonAttributeScalar(20, 100, 150, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
 	}
 	
 	private Integer[] getYears(int chosenYear) {
@@ -367,6 +367,7 @@ public class BillReportPanel extends BasePanel {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileChooser.setSelectedFile(billFile);
+		fileChooser.setFileHidingEnabled(true);
 		
 	    int status = fileChooser.showSaveDialog(null);
 	    if (status == JFileChooser.APPROVE_OPTION){
