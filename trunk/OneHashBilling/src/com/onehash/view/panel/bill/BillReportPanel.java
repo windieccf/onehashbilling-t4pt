@@ -258,6 +258,20 @@ public class BillReportPanel extends BasePanel {
 		BigDecimal mvSC = new BigDecimal(0);
 		BigDecimal mvUC = new BigDecimal(0);
 		
+		//Subscription
+		BigDecimal dvSubscriptionRate = new BigDecimal(0);
+		BigDecimal dvCallTransferRate = new BigDecimal(0);
+		BigDecimal mvSubscriptionRate = new BigDecimal(0);
+		BigDecimal mvDataServiceRate = new BigDecimal(0);
+		
+		//Usage
+		BigDecimal dvUsageRateLocal = new BigDecimal(0);
+		BigDecimal dvUsageRateIDD = new BigDecimal(0);
+		
+		BigDecimal usageRateLocal = new BigDecimal(0);
+		BigDecimal usageRateIDD = new BigDecimal(0);
+		BigDecimal usageRateRoaming = new BigDecimal(0);
+		
 		if(bill.getBillSummaryMap()!=null && bill.getBillSummaryMap().size()>0){
 			Map<String,List<BillSummary>> billSummaryMap = bill.getBillSummaryMap();
 			Set<String> keySet = billSummaryMap.keySet();
@@ -276,24 +290,56 @@ public class BillReportPanel extends BasePanel {
 					if(dvSummaryList!=null && dvSummaryList.size()>0)
 					for(BillSummary _billSummary : dvSummaryList){
 						if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
-								|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.CallTransfer))
+								|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.CallTransfer)){
 							dvSC = dvSC.add(_billSummary.getTotal());
-						if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
+							if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
+								dvSubscriptionRate = _billSummary.getTotal();
+							else
+								dvCallTransferRate = _billSummary.getTotal();
+						}if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges)){
 							dvUC = dvUC.add(_billSummary.getTotal());
+						}if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.UsagechargesLocal)){
+							dvUsageRateLocal = dvUsageRateLocal.add(_billSummary.getTotal());
+						}if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.UsagechargesIDD)){
+							dvUsageRateIDD = dvUsageRateIDD.add(_billSummary.getTotal());
+						}
 					}
 				}else if(_key.startsWith("MV-")){
 					List<BillSummary> mvSummaryList = billSummaryMap.get(_key);
 					if(mvSummaryList!=null && mvSummaryList.size()>0)
 					for(BillSummary _billSummary : mvSummaryList){
 						if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges)
-								|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.DataServices))
+								|| _billSummary.getDescription().equalsIgnoreCase(ConstantSummary.DataServices)){
 							mvSC = mvSC.add(_billSummary.getTotal());
-						if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges))
+							if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Subscriptioncharges))
+								mvSubscriptionRate = _billSummary.getTotal();
+							else
+								mvDataServiceRate = _billSummary.getTotal();
+						}if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.Usagecharges)){
 							mvUC = mvUC.add(_billSummary.getTotal());
+						}if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.UsagechargesLocal)){
+							usageRateLocal = usageRateLocal.add(_billSummary.getTotal());
+						}if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.UsagechargesIDD)){
+							usageRateIDD = usageRateIDD.add(_billSummary.getTotal());
+						}if(_billSummary.getDescription().equalsIgnoreCase(ConstantSummary.UsagechargesRoamin)){
+							usageRateRoaming = usageRateRoaming.add(_billSummary.getTotal());
+						}
 					}
 				}
 			}
 		}
+		
+		ht.put("DVSL",dvSubscriptionRate);
+		ht.put("DVSCCT",dvCallTransferRate);
+		ht.put("MVSCM",mvSubscriptionRate);
+		ht.put("MVSCD",mvDataServiceRate);
+
+		ht.put("DVSC",dvSC);ht.put("DVUCL",dvUsageRateLocal);
+		ht.put("DVSC",dvSC);ht.put("DVUCIDD",dvUsageRateIDD);
+		
+		ht.put("DVSC",dvSC);ht.put("MVUCL",usageRateLocal);
+		ht.put("DVSC",dvSC);ht.put("MVUCIDD",usageRateIDD);
+		ht.put("DVSC",dvSC);ht.put("MVUCR",usageRateRoaming);
 		
 		ht.put("DVSC",dvSC);
 		ht.put("DVUC",dvUC);
