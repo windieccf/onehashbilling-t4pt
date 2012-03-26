@@ -1,3 +1,21 @@
+/*
+ * CONFIDENTIAL AND PROPRIETARY SOURCE CODE OF
+ * Institute of Systems Science, National University of Singapore
+ *
+ * Copyright 2012 Team 4(Part-Time), ISS, NUS, Singapore. All rights reserved.
+ * Use of this source code is subjected to the terms of the applicable license
+ * agreement.
+ *
+ * -----------------------------------------------------------------
+ * REVISION HISTORY
+ * -----------------------------------------------------------------
+ * DATE             AUTHOR          REVISION		DESCRIPTION
+ * 26 March 2012    Chen Changfeng	0.1				Class creating 													
+ * 													
+ * 													
+ * 													
+ * 
+ */
 package com.onehash.view.component.dialog;
 
 
@@ -21,12 +39,12 @@ public class AddComplaintDialog extends OkCancelDialog {
     private JTextArea descriptionField;
 
     public AddComplaintDialog (ComplaintEditPanel complaintEditPanel) {
-        super (complaintEditPanel.getMainFrame(), "Add Complaint");
+        super (complaintEditPanel.getMainFrame(), "Add Complaint", "", "");
         dataCache=OneHashDataCache.getInstance();
         this.complaintEditPanel = complaintEditPanel;
     }
 
-    protected JPanel createFormPanel () {
+    protected JPanel createFormPanel (String issueDes, String status) {
         JPanel p = new JPanel ();
         p.setLayout (new GridLayout (0, 2));
         p.add (new JLabel ("Description"));
@@ -36,11 +54,11 @@ public class AddComplaintDialog extends OkCancelDialog {
     }
 
     protected boolean performOkAction () {
-        String surname = descriptionField.getText();
+        String description = descriptionField.getText();
         try {
         	ArrayList<String> issueNoListPreSetting = new ArrayList<String>();
         	issueNoListPreSetting.add("COMP201203100000");
-			dataCache.createComplaint((Customer)complaintEditPanel.getSelectedEntity(), surname, issueNoListPreSetting);
+			dataCache.createComplaint((Customer)complaintEditPanel.getSelectedEntity(), description, issueNoListPreSetting);
 			System.out.println(descriptionField.getText());
 			Customer cus = (Customer)complaintEditPanel.getSelectedEntity();
 			System.out.println("2"+cus.getName());
