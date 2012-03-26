@@ -1,4 +1,7 @@
 package com.onehash.constant;
+
+import java.math.BigDecimal;
+
 /*
  * CONFIDENTIAL AND PROPRIETARY SOURCE CODE OF
  * Institute of Systems Science, National University of Singapore
