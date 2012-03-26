@@ -20,12 +20,12 @@
 package com.onehash.model.service.plan;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.onehash.constant.ConstantStatus;
 import com.onehash.model.base.BaseEntity;
 import com.onehash.model.bill.BillDetail;
 import com.onehash.model.service.rate.ServiceRate;
@@ -44,12 +44,14 @@ public abstract class ServicePlan extends BaseEntity {
 	public String getPlanCode() {return planCode;}
 	public void setPlanCode(String planCode) {this.planCode = planCode;}
 	
-	private Boolean deletedStatus = false;
-	public Boolean getDeletedStatus() {return deletedStatus;}
-	public void setDeletedStatus(Boolean deletedStatus) {
-		this.deletedStatus = deletedStatus;
-		Calendar calendar = Calendar.getInstance();
-		this.setEndDate(calendar.getTime());
+	public String status = "";
+	public String getStatus() {return status;}
+	public void setStatus(String status) {
+		this.status=status;
+		if (status.equals(ConstantStatus.SERVICEPLAN_DELETED)) {
+			this.setEndDate(Calendar.getInstance().getTime());
+			this.setDeletedDate(Calendar.getInstance().getTime());
+		}
 	}
 	
 	private String planName;
@@ -57,29 +59,16 @@ public abstract class ServicePlan extends BaseEntity {
 	public void setPlanName(String planName) {this.planName = planName;}
 	
 	private Date startDate = new Date();
-	public Date getStartDate() {
-		return new OverloadedDate(this.startDate, true);
-	}
+	public Date getStartDate() {return startDate;}
 	public void setStartDate(Date startDate) {this.startDate = startDate;}
 	
 	private Date endDate = new Date();
-	public Date getEndDate() {
-		return new OverloadedDate(this.endDate, this.getDeletedStatus());
-	}
-	private class OverloadedDate extends Date {
-		Boolean deleted;
-		public OverloadedDate(Date date, Boolean deleted) {
-			super(date.getTime());
-			this.deleted = deleted;
-		}
-		public String toString() {
-			if (this.deleted.equals(false))
-				return "";
-			DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-			return df.format(this);
-		}
-	}
+	public Date getEndDate() {return endDate;}
 	public void setEndDate(Date endDate) {this.endDate = endDate;}
+	
+	private Date deletedDate = new Date();
+	public Date getDeletedDate() {return deletedDate;}
+	public void setDeletedDate(Date deletedDate) {this.deletedDate = deletedDate;}
 	
 	private List<ServiceRate> serviceRates;
 	public List<ServiceRate> getServiceRates() {return serviceRates;}
