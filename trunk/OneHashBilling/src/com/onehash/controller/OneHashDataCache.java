@@ -401,12 +401,18 @@ public class OneHashDataCache {
 			if(billSummaryMap!=null && billSummaryMap.size()>0){
 				bill.setBillSummaryMap(billSummaryMap);
 				bill.setCurrentBill(currentBill);
+				
 				BigDecimal carryForwardAmount = checkCarryForward(customer, yearMonth);
 				bill.setCarryForward(carryForwardAmount);
-				bill.setTotalBill(currentBill.add(carryForwardAmount));
+				
 				Calendar calBillDate = Calendar.getInstance();
+				calBillDate.setTime(yearMonth);
 				calBillDate.set(Calendar.DATE, 28);
 				bill.setBillDate(calBillDate.getTime());
+				
+				bill.setGstRate(new BigDecimal(ConstantFilePath.GST));
+				currentBill = currentBill.add(carryForwardAmount);
+				bill.setTotalBill(currentBill);
 			}else
 				return null;
 			
