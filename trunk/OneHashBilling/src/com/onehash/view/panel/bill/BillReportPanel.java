@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -360,7 +361,15 @@ public class BillReportPanel extends BasePanel {
 		ht.put("CTVUC",tvAC);
 		ht.put("TTLCTV",tvAC.add(tvSC));
 		
-		ht.put("TTLBILL",dvUC.add(dvSC).add(mvUC.add(mvSC)).add(tvAC.add(tvSC)));
+		BigDecimal gstAmount = new BigDecimal(0);
+		if(bill.getGstRate()!=null){
+			DecimalFormat df = new DecimalFormat("#.##");
+			double gst = bill.getGstRate().doubleValue()/100;
+			double totalBillDec = bill.getTotalBill().doubleValue()*gst;
+			gstAmount = new BigDecimal(df.format(totalBillDec));
+		}
+		ht.put("TTLGST",gstAmount);
+		ht.put("TTLBILL",dvUC.add(dvSC).add(mvUC.add(mvSC)).add(tvAC.add(tvSC)).add(gstAmount));
 		String outputFile = customer.getAccountNumber()+"-"+bill.getBillDate().getTime();
 		File billFile = generateWordDoc(ht, "template/Bill.xml", "template/temp/Bill("+outputFile+").doc");
 		
