@@ -28,4 +28,6 @@ public class ConstantStatus {
 	public static final String COMPLAINT_ACTIVE = "A";
 	public static final String COMPLAINT_CLOSED = "C";
 
+	public static final String SERVICEPLAN_ACTIVE = "A";
+	public static final String SERVICEPLAN_DELETED = "D";
 }

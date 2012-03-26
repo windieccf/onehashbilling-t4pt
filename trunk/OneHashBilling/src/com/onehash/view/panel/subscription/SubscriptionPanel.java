@@ -1,6 +1,7 @@
 package com.onehash.view.panel.subscription;
 
 import java.awt.Dimension;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
+import com.onehash.constant.ConstantStatus;
 import com.onehash.constant.ConstantSummary;
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.exception.BusinessLogicException;
@@ -254,7 +256,7 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 		 * Disable removing permanent ServicePlan, flag to deleted 
 		 */
 		//servicePlans.remove(ServicePlanJTable.getSelectedRow());
-		servicePlans.get(ServicePlanJTable.getSelectedRow()).setDeletedStatus(true);
+		servicePlans.get(ServicePlanJTable.getSelectedRow()).setStatus(ConstantStatus.SERVICEPLAN_DELETED);
 		refreshServicePlansJTable();
 	}
 
@@ -304,7 +306,7 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 		super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setVisible(true);
 		super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setVisible(true);
 		
-		if (selectedServicePlan != null && selectedServicePlan.getDeletedStatus().equals(true)) {
+		if (selectedServicePlan != null && selectedServicePlan.getStatus().equals(ConstantStatus.SERVICEPLAN_DELETED)) {
 			super.getComponent(SERVICEPLAN_BUTTON_SAVE_SERVICE_PLAN).setEnabled(false);
 			super.getComponent(SERVICEPLAN_BUTTON_ADD_OPTIONS).setEnabled(false);
 			super.getComponent(SERVICEPLAN_BUTTON_REMOVE_OPTIONS).setEnabled(false);
@@ -507,8 +509,13 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 				ServicePlan servicePlan = servicePlans.get(i);
 				rowData[i][0] = servicePlan.getPlanId();
 				rowData[i][1] = servicePlan.getPlanName();
-				rowData[i][2] = servicePlan.getStartDate();
-				rowData[i][3] = servicePlan.getEndDate();
+				rowData[i][2] = DateFormat.getDateInstance(DateFormat.MEDIUM).format(servicePlan.getStartDate());;
+				if (servicePlan.getStatus().equals(ConstantStatus.SERVICEPLAN_DELETED)) {
+					rowData[i][3] = DateFormat.getDateInstance(DateFormat.MEDIUM).format(servicePlan.getEndDate());
+				}
+				else {
+					rowData[i][3] = "";
+				}
 			}
 		}
 		
