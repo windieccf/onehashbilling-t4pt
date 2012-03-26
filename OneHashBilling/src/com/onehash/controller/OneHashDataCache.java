@@ -257,7 +257,7 @@ public class OneHashDataCache {
 					billSummaryList.add(addChannelChargeCableTV);
 					
 					billSummaryMap.put(_servicePlan.getPlanId(),billSummaryList);
-					currentBill = cableTVSubscriptionRate.add(cableTVAddChannelCharge);
+					currentBill = currentBill.add(cableTVSubscriptionRate.add(cableTVAddChannelCharge));
 				}
 				
 				//Check plan type is Digital Voice
@@ -291,8 +291,9 @@ public class OneHashDataCache {
 					}
 					
 					//Set Summary Rates
+					currentBill = currentBill.add(dvSubscriptionRate).add(dvSubscriptionRate);
 					BillSummary billSummaryDVSummary = new BillSummary(ConstantSummary.Subscriptioncharges,dvSubscriptionRate);
-					BillSummary billSummaryDVCallTransfer = new BillSummary(ConstantSummary.CallTransfer,dvCallTransferRate);
+					BillSummary billSummaryDVCallTransfer = new BillSummary(ConstantSummary.CallTransfer,dvSubscriptionRate);
 					billSummaryList.add(billSummaryDVSummary);
 					billSummaryList.add(billSummaryDVCallTransfer);
 					
@@ -357,6 +358,7 @@ public class OneHashDataCache {
 					}
 					
 					//Set Summary Rates
+					currentBill = currentBill.add(mvSubscriptionRate).add(mvDataServiceRate);
 					BillSummary billSummaryDVSummary = new BillSummary(ConstantSummary.Subscriptioncharges,mvSubscriptionRate);
 					BillSummary billSummaryDVDataService = new BillSummary(ConstantSummary.DataServices,mvDataServiceRate);
 					billSummaryList.add(billSummaryDVSummary);
