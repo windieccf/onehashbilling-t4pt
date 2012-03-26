@@ -208,6 +208,7 @@ public class OneHashDataCache {
 		Bill bill = new Bill();
 		Map<String,List<BillSummary>> billSummaryMap = new HashMap<String,List<BillSummary>>();
 		BigDecimal currentBill = new BigDecimal(0);
+
 		try{
 			
 			//Get Service Plan for the customer
@@ -403,7 +404,6 @@ public class OneHashDataCache {
 				BigDecimal carryForwardAmount = checkCarryForward(customer, yearMonth);
 				bill.setCarryForward(carryForwardAmount);
 				bill.setTotalBill(currentBill.add(carryForwardAmount));
-				
 				Calendar calBillDate = Calendar.getInstance();
 				calBillDate.set(Calendar.DATE, 28);
 				bill.setBillDate(calBillDate.getTime());
