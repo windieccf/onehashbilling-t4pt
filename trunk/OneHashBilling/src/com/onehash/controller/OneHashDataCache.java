@@ -291,9 +291,9 @@ public class OneHashDataCache {
 					}
 					
 					//Set Summary Rates
-					currentBill = currentBill.add(dvSubscriptionRate).add(dvSubscriptionRate);
+					currentBill = currentBill.add(dvSubscriptionRate).add(dvCallTransferRate);
 					BillSummary billSummaryDVSummary = new BillSummary(ConstantSummary.Subscriptioncharges,dvSubscriptionRate);
-					BillSummary billSummaryDVCallTransfer = new BillSummary(ConstantSummary.CallTransfer,dvSubscriptionRate);
+					BillSummary billSummaryDVCallTransfer = new BillSummary(ConstantSummary.CallTransfer,dvCallTransferRate);
 					billSummaryList.add(billSummaryDVSummary);
 					billSummaryList.add(billSummaryDVCallTransfer);
 					
