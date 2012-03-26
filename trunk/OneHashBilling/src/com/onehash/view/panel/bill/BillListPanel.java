@@ -21,6 +21,7 @@ package com.onehash.view.panel.bill;
 
 import java.awt.Dimension;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -372,9 +373,15 @@ public class BillListPanel extends BasePanel{
 				super.getLabelComponent(COMP_TEXT_MVS).setText(mvSC.toString());
 				super.getLabelComponent(COMP_TEXT_MVU).setText(mvUC.toString());
 			}
-			if(bill.getGstRate()!=null)
-				super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getGstRate().toString());
-			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getTotalBill().toString());
+			BigDecimal gstAmount = new BigDecimal(0);
+			if(bill.getGstRate()!=null){
+				DecimalFormat df = new DecimalFormat("#.##");
+				double gst = bill.getGstRate().doubleValue()/100;
+				double totalBillDec = bill.getTotalBill().doubleValue()*gst;
+				gstAmount = new BigDecimal(df.format(totalBillDec));
+			}
+			super.getLabelComponent(COMP_TEXT_GST).setText(gstAmount.toString());
+			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getTotalBill().add(gstAmount).toString());
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
