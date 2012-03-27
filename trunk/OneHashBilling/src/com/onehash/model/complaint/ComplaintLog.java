@@ -62,6 +62,7 @@ public class ComplaintLog extends BaseEntity{
 	
 	public ComplaintLog () {
 		//default constructor
+		this.setComplaintDate(new Date());
 	}
 
 	public String getIssueNo() {
