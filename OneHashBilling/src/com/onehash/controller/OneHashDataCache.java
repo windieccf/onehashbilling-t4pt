@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.onehash.constant.ConstantFilePath;
+import com.onehash.constant.ConstantPrefix;
 import com.onehash.constant.ConstantSummary;
 import com.onehash.constant.ConstantUsageType;
 import com.onehash.exception.BusinessLogicException;
@@ -168,7 +169,7 @@ public class OneHashDataCache {
 			if(this.isNricExist(customer.getNric()))
 				throw new BusinessLogicException("NRIC exist");
 			
-			String accountNumber = OneHashStringUtil.maskAccountNumber(this.keyScalar.getNextAccountNumber());
+			String accountNumber = OneHashStringUtil.generateCustomerAccountNumber(ConstantPrefix.ACCOUNT_NUMBER, this.keyScalar.getNextAccountNumber());
 			customer.setAccountNumber(accountNumber);
 			this.getCustomers().add(customer);
 		}else{
@@ -519,5 +520,52 @@ public class OneHashDataCache {
 				
 		}
 		return null;
+	}
+	
+	
+	private void restoreFromFile(){
+		try{
+			FileInputStream fstream = new FileInputStream("./data/CustomerData.txt");
+			java.io.DataInputStream in = new java.io.DataInputStream(fstream);
+			java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(in));
+			List<Customer> customers = new ArrayList<Customer>();
+			String strLine;
+			long lastKey = 1L;
+			while ((strLine = br.readLine()) != null)   {
+				String[] split = strLine.split("\\|");
+				Customer customer = new Customer();
+				customer.setName(split[0]);
+				customer.setNric(split[1]);
+				customer.setAddress(split[2]);
+				customer.setPhoneNumber(split[3]);
+				customer.setAccountNumber(split[4]);
+				customers.add(customer);
+				
+				String[] keySplit = split[4].split("-");
+				long currKey = Long.parseLong(keySplit[1] + keySplit[2] + keySplit[3]);
+				lastKey = ( lastKey < currKey) ? currKey : lastKey;
+			}
+			in.close();
+			this.setCustomers(customers);
+			// adjusting key scalar
+			Long key = 1L;
+			do{
+				key  = this.keyScalar.getNextAccountNumber();
+				
+			}while(key < lastKey);
+			this.flushCache();
+			
+			// update the keys
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public static void main(String...args){
+		(new OneHashDataCache()).restoreFromFile();
+		
 	}
 }
