@@ -44,7 +44,7 @@ public class CustomerTabPanel extends BasePanel{
         tabbedPane.addTab("Complaint", complaintPanel );
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
         
-        tabbedPane.setBounds(1, 20, ConstantGUIAttribute.GUI_MAIN_WIDTH - 172, ConstantGUIAttribute.GUI_MAIN_HEIGHT-90);
+        tabbedPane.setBounds(1, 20, ConstantGUIAttribute.GUI_MAIN_WIDTH - 180, ConstantGUIAttribute.GUI_MAIN_HEIGHT-100);
         tabbedPane.setBackground(Color.WHITE);
          
         //Add the tabbed pane to this panel.

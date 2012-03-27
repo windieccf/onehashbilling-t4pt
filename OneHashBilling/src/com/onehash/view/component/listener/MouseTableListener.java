@@ -19,30 +19,35 @@
 
 package com.onehash.view.component.listener;
 
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Method;
 
 import javax.swing.JTable;
 
-import com.onehash.view.panel.base.BasePanel;
-
 public class MouseTableListener extends MouseAdapter{
 	
-	private BasePanel basePanel;
+	private Component basePanel;
 	private String actionMethod;
+	private int targetValueIndex = 0;
 
-	public MouseTableListener(BasePanel basePanel){ this.basePanel = basePanel;}
-	public MouseTableListener(BasePanel basePanel,String actionMethod){ 
+	public MouseTableListener(Component basePanel){ this.basePanel = basePanel;}
+	public MouseTableListener(Component basePanel,String actionMethod){ 
 		this.basePanel = basePanel;
 		this.actionMethod = actionMethod;
+	}
+	public MouseTableListener(Component basePanel,String actionMethod, int targetValueIndex){ 
+		this.basePanel = basePanel;
+		this.actionMethod = actionMethod;
+		this.targetValueIndex = targetValueIndex;
 	}
 	
 	
 	public void mouseClicked(MouseEvent event) {
 		if (event.getClickCount() == 2) {
 	         JTable target = (JTable)event.getSource();
-	         String value = (String) target.getValueAt(target.getSelectedRow(), 0);
+	         String value = (String) target.getValueAt(target.getSelectedRow(), targetValueIndex);
 	         try {
 				Method mtd = basePanel.getClass().getMethod(actionMethod,String.class);
 				mtd.invoke(basePanel, value);
