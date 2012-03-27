@@ -89,8 +89,11 @@ public class MenuPanel extends JPanel{
 		MenuScalar rootMenu = MenuScalar.createParentMenu("One Hash Billing");
 		
 		/******************* CUSTOMER MENU ***********************/
-		MenuScalar customerMenu = MenuScalar.createChildMenu("Customer",CustomerListPanel.class);
-		rootMenu.getChildMenus().add(customerMenu);
+		MenuScalar customerParentMenu = MenuScalar.createParentMenu("Customer");
+		rootMenu.getChildMenus().add(customerParentMenu);
+		
+		customerParentMenu.getChildMenus().add(MenuScalar.createChildMenu("Customer",CustomerListPanel.class));
+		customerParentMenu.getChildMenus().add(MenuScalar.createChildMenu("Complaint",ComplaintListPanel.class));
 		
 		/******************* BILL MENU ***********************/
 		MenuScalar BillMenu = MenuScalar.createParentMenu("Bill");
@@ -100,10 +103,9 @@ public class MenuPanel extends JPanel{
 		BillMenu.getChildMenus().add( MenuScalar.createChildMenu("Monthly Report", BillReportPanel.class) );
 		
 		/******************* COMPLAINT MENU ***********************/
-		MenuScalar ComplaintlMenu = MenuScalar.createParentMenu("Complaint");
-		rootMenu.getChildMenus().add(ComplaintlMenu);
-		
-		ComplaintlMenu.getChildMenus().add( MenuScalar.createChildMenu("View Complaint", ComplaintListPanel.class) );
+		//MenuScalar ComplaintlMenu = MenuScalar.createParentMenu("Complaint");
+		//rootMenu.getChildMenus().add(ComplaintlMenu);
+//		ComplaintlMenu.getChildMenus().add( MenuScalar.createChildMenu("View Complaint", ComplaintListPanel.class) );
 		
 		
 		return rootMenu;

@@ -35,7 +35,7 @@ public class MainScreenPanel extends BasePanel {
 
 	@Override
 	protected void init() {
-		super.registerComponent(COMP_LBL_WELCOME , FactoryComponent.createLabel("Please use the menu on the left side to navigate", new PositionScalar(38,26,79,14)));
+		super.registerComponent(COMP_LBL_WELCOME , FactoryComponent.createLabel("Please use the menu on the left side to navigate", new PositionScalar(38,26,300,200)));
 	}
 	@Override
 	protected String getScreenTitle() {return COMP_LBL_WELCOME;}

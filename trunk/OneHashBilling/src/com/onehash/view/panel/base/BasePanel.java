@@ -22,12 +22,15 @@ package com.onehash.view.panel.base;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -65,22 +68,31 @@ public abstract class BasePanel extends JPanel implements Runnable{
 			JSeparator separator = new JSeparator();
 			separator.setBounds(ConstantGUIAttribute.HEADER_SEPERATOR);
 			panel.add(separator);
-			
 		}
+
+		double maxWidth = 0;
+		double maxHeight = 0;
 		
 		for(String key : componentMap.keySet()){
 			Component comp = componentMap.get(key);
+			Rectangle rect = comp.getBounds();
 			if(this.isEnableHeader()){
-				Rectangle rect = comp.getBounds();
 				rect.y = rect.y + 40;
 				comp.setBounds(rect);
 			}
+			maxWidth = ((rect.getX() + rect.getWidth()) > maxWidth ) ?  rect.getX() + rect.getWidth() : maxWidth;
+			maxHeight = ((rect.getY() + rect.getHeight()) > maxHeight ) ?  rect.getY() + rect.getHeight() : maxHeight;
 			//comp.setBounds(50 +  comp.getBounds().getX(), 50 +  comp.getBounds().getY(), comp.getBounds().getWidth(),  comp.getBounds().getHeight());
 			panel.add(comp);
 		}
-		
+		//maxWidth = maxWidth + 20;
+		//maxHeight = maxHeight + 20;
+	//	System.err.println(this.getMaximumSize());
+
 		this.setLayout(null);
 		this.setBackground(Color.WHITE);
+		this.setPreferredSize(new Dimension( (new BigDecimal(maxWidth).setScale(0, BigDecimal.ROUND_UP).intValue()) ,(new BigDecimal(maxHeight).setScale(0,BigDecimal.ROUND_UP).intValue()) ));
+		
 	}
 	
 	public void draw(){
@@ -117,6 +129,7 @@ public abstract class BasePanel extends JPanel implements Runnable{
 	public final JLabel getLabelComponent(String componentName){return (JLabel)componentMap.get(componentName);}
 	public final JCheckBox getCheckboxComponent(String componentName){return (JCheckBox)componentMap.get(componentName);}
 	public final JComboBox getComboBoxComponent(String componentName){return (JComboBox)componentMap.get(componentName);}
+	public final JButton getButtonComponent(String componentName){return (JButton)componentMap.get(componentName);}
 	
 	protected boolean isEnableHeader(){return true;}
 	
