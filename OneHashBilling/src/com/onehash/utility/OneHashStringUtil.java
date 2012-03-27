@@ -22,6 +22,8 @@ package com.onehash.utility;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *Perform basic string utility function 
@@ -172,8 +174,29 @@ public class OneHashStringUtil {
     }
     
     public static String maskAccountNumber(long accountNo) throws ParseException{
-    	NumberFormat formatter = new DecimalFormat("000000000");
+    	NumberFormat formatter = new DecimalFormat("00000000");
     	return formatter.format(accountNo);
+    }
+    
+    
+    public static String generateCustomerAccountNumber(String prefix, long accountNo) throws ParseException{
+    	String maskedAccountNumber = maskAccountNumber(accountNo);
+    	List<String> tempList = new ArrayList<String>();
+    	tempList.add(prefix);
+    	tempList.add(maskedAccountNumber.substring(0,4));
+    	tempList.add(maskedAccountNumber.substring(4,6));
+    	tempList.add(maskedAccountNumber.substring(6,8));
+    	return OneHashStringUtil.join(tempList, "-");
+    }
+    
+    public static String join(List<String> texts, String regex){
+    	StringBuffer sb = new StringBuffer();
+    	for(int i = 0 ; i < texts.size(); i++){
+    		sb.append(texts.get(i));
+    		if(!OneHashStringUtil.isEmpty(regex)  && i != texts.size() -1 )
+    			sb.append(regex);
+    	}
+    	return sb.toString();
     }
 
 }
