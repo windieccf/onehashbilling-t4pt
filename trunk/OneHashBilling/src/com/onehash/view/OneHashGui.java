@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import com.onehash.annotation.PostCreate;
@@ -87,8 +88,13 @@ public class OneHashGui extends JFrame {
 					
 					Constructor constructor = clazz.getConstructor(OneHashGui.class);
 					Object panelComponent = (Object) constructor.newInstance(frame);
-					
-					splitPanel.setRightComponent((Component)panelComponent);
+					JScrollPane scrollPane = new JScrollPane((Component)panelComponent);
+
+					//scrollPane.setPreferredSize(new Dimension(300,300));
+					scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+					scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+					splitPanel.setRightComponent(scrollPane);
+					//splitPanel.setRightComponent((Component)panelComponent);
 					//check on method invocation with annotation post create
 					Method[] methods = clazz.getMethods();
 					for(Method method : methods){
