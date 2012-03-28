@@ -63,6 +63,7 @@ public class ComplaintLog extends BaseEntity{
 	public ComplaintLog () {
 		//default constructor
 		this.setComplaintDate(new Date());
+		this.status = EnumComplaint.STS_ACTIVE;
 	}
 
 	public String getIssueNo() {

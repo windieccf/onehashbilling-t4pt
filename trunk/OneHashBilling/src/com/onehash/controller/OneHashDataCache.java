@@ -51,6 +51,7 @@ import com.onehash.model.service.rate.ServiceRate;
 import com.onehash.model.service.rate.SubscriptionRate;
 import com.onehash.model.service.rate.UsageRate;
 import com.onehash.model.usage.MonthlyUsage;
+import com.onehash.utility.OneHashBeanUtil;
 import com.onehash.utility.OneHashDateUtil;
 import com.onehash.utility.OneHashStringUtil;
 
@@ -142,15 +143,22 @@ public class OneHashDataCache {
 
 	/****************************************** CUSTOMER RELATED OPERATION **************************************************/
 	public Customer getCustomerByAccountNumber(String accountNumber) {
+		return retrieveCustomerByAccountNumber(accountNumber, false);
+	}
+	
+	private Customer getCachedCustomerByAccountNumber(String accountNumber){
+		return retrieveCustomerByAccountNumber(accountNumber, true);
+	}
+	
+	private Customer retrieveCustomerByAccountNumber(String accountNumber, boolean isReference){
 		for(Customer customer : this.getCustomers()){
 			if(customer.getAccountNumber().equalsIgnoreCase(accountNumber)){
-				// will create a replicate of the customer
-				return (Customer) customer.clone();
+				return (isReference) ? customer : (Customer) customer.clone();
 			}
-				
 		}
 		return null;
 	}
+	
 	
 	public Customer getCustomerByNric(String nric) {
 		for(Customer customer : this.getCustomers()){
@@ -169,22 +177,14 @@ public class OneHashDataCache {
 			if(this.isNricExist(customer.getNric()))
 				throw new BusinessLogicException("NRIC exist");
 			
-			String accountNumber = OneHashStringUtil.generateCustomerAccountNumber(ConstantPrefix.ACCOUNT_NUMBER, this.keyScalar.getNextAccountNumber());
+			String accountNumber = OneHashStringUtil.generateReferenceNumberNumber(ConstantPrefix.ACCOUNT_NUMBER, this.keyScalar.getNextAccountNumber());
 			customer.setAccountNumber(accountNumber);
 			this.getCustomers().add(customer);
 		}else{
-			
 			// UPDATE 
-			for(Customer cachedCustomer : this.getCustomers()){
-				if(customer.getAccountNumber().equalsIgnoreCase(cachedCustomer.getAccountNumber())){
-					cachedCustomer.setName(customer.getName());
-					cachedCustomer.setNric(customer.getNric());
-					cachedCustomer.setPhoneNumber(customer.getPhoneNumber());
-					cachedCustomer.setAddress(customer.getAddress());
-					cachedCustomer.setStatus(customer.isActivated());
-					cachedCustomer.setServicePlans(customer.getServicePlans());
-				}
-			}
+			Customer cachedCustomer = getCachedCustomerByAccountNumber(customer.getAccountNumber());
+			OneHashBeanUtil.copyProperties(cachedCustomer, customer, "accountNumber","servicePlans", "complaintLogs" , "bill");
+			cachedCustomer.setServicePlans(customer.getServicePlans());
 		}
 	}
 	
@@ -474,6 +474,40 @@ public class OneHashDataCache {
 	/****************************************** BILL RELATED OPERATION - END **************************************************/
 	
 	/****************************************** COMPLAINT RELATED OPERATION **************************************************/
+	private ComplaintLog getCachedComplaintLog(Customer customer, String issueNumber) throws Exception {
+		return retrieveComplaintLog(customer,issueNumber, true);
+	}
+	
+	public ComplaintLog getComplaintLog(Customer customer, String issueNumber) throws Exception {
+		return retrieveComplaintLog(customer,issueNumber, false);
+	}
+	
+	private ComplaintLog retrieveComplaintLog(Customer customer, String issueNumber, boolean isReference) throws Exception {
+		for(ComplaintLog complaintLog : customer.getComplaintLogs()){
+			if(complaintLog.getIssueNo().equals(issueNumber))
+				return (isReference) ? complaintLog : (ComplaintLog)complaintLog.clone();
+		}
+		return null;
+	}
+	
+	public void saveComplaintLog(Customer customer, ComplaintLog complaintLog) throws Exception {
+		if(OneHashStringUtil.isEmpty(complaintLog.getIssueNo())){
+			// need to generate issue number
+			String issueNumber = OneHashStringUtil.generateReferenceNumberNumber(ConstantPrefix.ISSUE_NUMBER, this.keyScalar.getNextComplaintNumber());
+			complaintLog.setIssueNo(issueNumber);
+			Customer cachedcustomer = this.getCachedCustomerByAccountNumber(customer.getAccountNumber());
+			cachedcustomer.getComplaintLogs().add(complaintLog);
+			
+		}else{
+			// look up the issue number and perform bean copier
+			Customer cachedcustomer = this.getCachedCustomerByAccountNumber(customer.getAccountNumber());
+			ComplaintLog cachedComplaintLog = this.getCachedComplaintLog(cachedcustomer, complaintLog.getIssueNo());
+			
+			// perform update
+			OneHashBeanUtil.copyProperties(cachedComplaintLog, complaintLog);
+		}
+	}
+	
 	
 	/**
 	 * Follow up field will be mandatory only when status is set to (F)Followup
