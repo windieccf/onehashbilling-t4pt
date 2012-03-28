@@ -38,11 +38,11 @@ public class CustomerLookupDialog extends JDialog {
 		init();
 		setLocationRelativeTo(frame);
 		setVisible(true);
-		this.setBackground(Color.WHITE);
 	}
 	
 	private void init(){
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		

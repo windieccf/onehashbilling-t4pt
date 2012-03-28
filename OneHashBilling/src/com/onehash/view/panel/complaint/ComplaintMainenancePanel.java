@@ -3,10 +3,15 @@ package com.onehash.view.panel.complaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.onehash.annotation.PostCreate;
+import com.onehash.constant.ConstantAction;
+import com.onehash.controller.OneHashDataCache;
+import com.onehash.enumeration.EnumComplaint;
 import com.onehash.exception.BusinessLogicException;
 import com.onehash.exception.InsufficientInputParameterException;
 import com.onehash.model.base.BaseEntity;
@@ -39,8 +44,10 @@ public class ComplaintMainenancePanel extends BasePanel implements BaseOperation
 	
 	private static final String COMP_LBL_DATE_TO = "COMP_LBL_DATE_TO";
 	private static final String COMP_LBL_DATE_TO_TXT = "COMP_LBL_DATE_TO_TXT";
-	private static final String COMP_LBL_DESCRIPTION = "COMP_LBL_DESCRIPTION";
-	private static final String COMP_INPUT_DESCRIPTION = "COMP_INPUT_DESCRIPTION";
+	private static final String COMP_LBL_ISSUE_LOG = "COMP_LBL_ISSUE_LOG";
+	private static final String COMP_LBL_FOLLOW_UP = "COMP_LBL_FOLLOW_UP";
+	private static final String COMP_INPUT_ISSUE_LOG = "COMP_INPUT_ISSUE_LOG";
+	private static final String COMP_INPUT_FOLLOW_UP= "COMP_INPUT_FOLLOW_UP";
 	
 	private static final String COMP_BUTTON_SEARCH = "COMP_BUTTON_SEARCH";
 	private static final String COMP_BUTTON_SAVE = "COMP_BUTTON_SAVE";
@@ -73,7 +80,7 @@ public class ComplaintMainenancePanel extends BasePanel implements BaseOperation
 		complaintLog = new ComplaintLog();
 		super.registerComponent(COMP_LBL_ACCOUNT_NO , FactoryComponent.createLabel("Customer Account", new PositionScalar(20, 23, 150, 14)));
 		super.registerComponent(COMP_LBL_ACCOUNT , FactoryComponent.createLabel("Please Select", new PositionScalar(180, 23, 200, 14)));
-		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Search", new ButtonAttributeScalar(330, 23, 100, 23 , new ButtonActionListener(this,"saveCustomer"))));
+		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Search", new ButtonAttributeScalar(330, 23, 100, 23 )));
 		
 		super.registerComponent(COMP_LBL_ISSUE_NO , FactoryComponent.createLabel("Issue Number", new PositionScalar(20, 53, 150, 14)));
 		super.registerComponent(COMP_LBL_ISSUE_NO_TXT , FactoryComponent.createLabel("Auto number", new PositionScalar(180, 53, 150, 14)));
@@ -82,16 +89,22 @@ public class ComplaintMainenancePanel extends BasePanel implements BaseOperation
 		super.registerComponent(COMP_LBL_DATE_FROM_TXT , FactoryComponent.createLabel(OneHashDateUtil.format(this.complaintLog.getComplaintDate(), "dd/MM/yyyy"), new PositionScalar(180, 83, 150, 14)));
 		
 		super.registerComponent(COMP_LBL_DATE_TO , FactoryComponent.createLabel("Date To", new PositionScalar(20, 113, 150, 14)));
-		super.registerComponent(COMP_LBL_DATE_TO_TXT , FactoryComponent.createLabel("-", new PositionScalar(180, 83, 150, 14)));
+		super.registerComponent(COMP_LBL_DATE_TO_TXT , FactoryComponent.createLabel("-", new PositionScalar(180, 113, 150, 14)));
 		
-		super.registerComponent(COMP_LBL_DESCRIPTION , FactoryComponent.createLabel("Issue Log", new PositionScalar(20, 143, 150, 14)));
-		super.registerComponent(COMP_INPUT_DESCRIPTION , FactoryComponent.createTextArea( 
+		
+		super.registerComponent(COMP_LBL_ISSUE_LOG , FactoryComponent.createLabel("Issue Log", new PositionScalar(20, 143, 150, 14)));
+		super.registerComponent(COMP_INPUT_ISSUE_LOG , FactoryComponent.createTextArea( 
 				new TextFieldAttributeScalar(20, 163, 418, 75,0 , new OneHashTextFieldListener(this,"issueDescription",String.class)) ));
 		
-		super.registerComponent(COMP_BUTTON_SAVE , FactoryComponent.createButton("Save", new ButtonAttributeScalar(20, 250, 100, 23 , new ButtonActionListener(this,"saveComplaint"))));
-		super.registerComponent(COMP_BUTTON_BACK , FactoryComponent.createButton("Cancel", new ButtonAttributeScalar(130, 250, 100, 23 , new ButtonActionListener(this,"cancel"))));
-		super.registerComponent(COMP_BUTTON_CLOSE_CASE , FactoryComponent.createButton("Close Issue", new ButtonAttributeScalar(240, 250, 100, 23 , new ButtonActionListener(this,"saveAndCloseComplaint"))));
 		
+		super.registerComponent(COMP_LBL_FOLLOW_UP , FactoryComponent.createLabel("Follow Up", new PositionScalar(20, 250, 150, 14)));
+		super.registerComponent(COMP_INPUT_FOLLOW_UP , FactoryComponent.createTextArea( 
+				new TextFieldAttributeScalar(20, 270, 418, 75,0 , new OneHashTextFieldListener(this,"followUp",String.class)) ));
+		
+		
+		super.registerComponent(COMP_BUTTON_SAVE , FactoryComponent.createButton("Save", new ButtonAttributeScalar(20, 355, 100, 23 , new ButtonActionListener(this,"saveComplaint"))));
+		super.registerComponent(COMP_BUTTON_BACK , FactoryComponent.createButton("Cancel", new ButtonAttributeScalar(130, 355, 100, 23 , new ButtonActionListener(this,"cancel"))));
+		super.registerComponent(COMP_BUTTON_CLOSE_CASE , FactoryComponent.createButton("Close Issue", new ButtonAttributeScalar(240, 355, 100, 23 , new ButtonActionListener(this,"saveAndCloseComplaint"))));
 		
 		// registering command button
 		final ComplaintMainenancePanel custPanel = this;
@@ -109,7 +122,11 @@ public class ComplaintMainenancePanel extends BasePanel implements BaseOperation
 			
 			if(OneHashStringUtil.isEmpty(this.complaintLog.getIssueDescription()))
 				throw new InsufficientInputParameterException("Please fill in issue description");
-				
+			
+			OneHashDataCache.getInstance().saveComplaintLog(selectedCustomer, this.complaintLog);
+			JOptionPane.showMessageDialog(this, "Complaint Successfully Saved");
+			this.cancel();
+			
 		}catch(Exception e){
 			if(e instanceof BusinessLogicException)
 				JOptionPane.showMessageDialog(this, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
@@ -120,6 +137,7 @@ public class ComplaintMainenancePanel extends BasePanel implements BaseOperation
 	
 	public void saveAndCloseComplaint() throws Exception{
 		this.complaintLog.setClosedDate(new Date());
+		this.complaintLog.setStatus(EnumComplaint.STS_CLOSED.getStatus());
 		this.saveComplaint();
 	}
 	
@@ -127,6 +145,36 @@ public class ComplaintMainenancePanel extends BasePanel implements BaseOperation
 		this.getMainFrame().doLoadScreen(ComplaintListPanel.class);
 	}
 
+	
+	@PostCreate
+	public void postCreate(List<String> parameters){
+		if(parameters == null)
+			throw new IllegalArgumentException("ComplaintMaintenancePanel.postCreate parameter is required");
+		
+		if(ConstantAction.ADD.equals(parameters.get(0)))
+			complaintLog = new ComplaintLog();
+		else{
+			
+			try {
+				this.selectedCustomer = OneHashDataCache.getInstance().getCustomerByAccountNumber(parameters.get(1));
+				this.complaintLog = OneHashDataCache.getInstance().getComplaintLog(this.selectedCustomer, parameters.get(2));
+				
+				super.getLabelComponent(COMP_LBL_ACCOUNT).setText(this.selectedCustomer.getAccountNumber());
+				super.getButtonComponent(COMP_BUTTON_SEARCH).setVisible(false);
+				
+				super.getLabelComponent(COMP_LBL_ISSUE_NO_TXT).setText(this.complaintLog.getIssueNo());
+				
+				super.getLabelComponent(COMP_LBL_DATE_FROM_TXT).setText(OneHashDateUtil.format(this.complaintLog.getComplaintDate(), "dd/MM/yyyy"));
+				super.getLabelComponent(COMP_LBL_DATE_TO_TXT).setText(OneHashDateUtil.format(this.complaintLog.getClosedDate(), "dd/MM/yyyy"));
+				super.getTextAreaComponent(COMP_INPUT_ISSUE_LOG).setText(this.complaintLog.getIssueDescription());
+				super.getTextAreaComponent(COMP_INPUT_FOLLOW_UP).setText(this.complaintLog.getFollowUp());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		//super.getCheckboxComponent(COMP_CHECKBOX_ACTIVATED).setSelected(customer.isActivated());
+	}
+	
 	@Override
 	protected String getScreenTitle() {return "Complaint Maintenance";}
 

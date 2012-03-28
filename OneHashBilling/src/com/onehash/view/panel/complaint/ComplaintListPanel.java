@@ -30,6 +30,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableRowSorter;
 
 import com.onehash.constant.ConstantAction;
+import com.onehash.constant.ConstantPrefix;
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.model.complaint.ComplaintLog;
 import com.onehash.model.customer.Customer;
@@ -37,6 +38,7 @@ import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TableFilterScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
+import com.onehash.utility.OneHashDateUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
 import com.onehash.view.component.listener.ButtonActionListener;
@@ -66,7 +68,7 @@ public class ComplaintListPanel extends BasePanel {
 	protected void init() {
 		super.registerComponent(COMP_LBL_ACCOUNT_NO , FactoryComponent.createLabel("Account Number", new PositionScalar(20, 23, 100, 14)));
 		super.registerComponent(COMP_LBL_NAME , FactoryComponent.createLabel("Name", new PositionScalar(20, 50, 46, 14)));
-		super.registerComponent(COMP_LBL_ISSUE , FactoryComponent.createLabel("Issue Number", new PositionScalar(20, 77, 46, 14)));
+		super.registerComponent(COMP_LBL_ISSUE , FactoryComponent.createLabel("Issue Number", new PositionScalar(20, 77, 100, 14)));
 		
 		super.registerComponent(COMP_TEXT_ACCOUNT_NO , FactoryComponent.createTextField( new TextFieldAttributeScalar(136, 23, 150, 20,10) ));
 		super.registerComponent(COMP_TEXT_NAME , FactoryComponent.createTextField( new TextFieldAttributeScalar(136, 50, 150, 20,10) ));
@@ -77,7 +79,7 @@ public class ComplaintListPanel extends BasePanel {
         table.setFillsViewportHeight(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setModel(new OneHashTableModel(this.getTableColumnNames() , this.getData()));
-        table.addMouseListener(new MouseTableListener(this,"loadEditScreen"));
+        table.addMouseListener(new MouseTableListener(this,"loadEditScreen",0,2));
         
         TableRowSorter<OneHashTableModel> sorter = new TableRowSorter<OneHashTableModel>( (OneHashTableModel) table.getModel());
         table.setRowSorter(sorter);
@@ -114,7 +116,8 @@ public class ComplaintListPanel extends BasePanel {
 	}
 	
 	public void loadEditScreen(String parameter){
-		this.getMainFrame().doLoadScreen(ComplaintMainenancePanel.class, ConstantAction.EDIT,parameter);
+		String[] parameterSplit = parameter.split("\\"+ConstantPrefix.SEPERATOR_PIPE);
+		this.getMainFrame().doLoadScreen(ComplaintMainenancePanel.class, ConstantAction.EDIT,parameterSplit[0], parameterSplit[1]);
 	}
 	
 	/******************************** TABLE UTILITY******************************************/
@@ -147,9 +150,9 @@ public class ComplaintListPanel extends BasePanel {
 
 				rowData[2] = complaintLog.getIssueNo();
 				rowData[3] = complaintLog.getIssueDescription();
-				rowData[4] = complaintLog.getComplaintDate();
-				rowData[5] = complaintLog.getComplaintDate();
-				rowData[6] = complaintLog.getStatus();
+				rowData[4] = OneHashDateUtil.format(complaintLog.getComplaintDate(), "dd/MM/yyyy") ;
+				rowData[5] = OneHashDateUtil.format(complaintLog.getClosedDate(), "dd/MM/yyyy");
+				rowData[6] = complaintLog.getStatus().getLabel();
 				rowDatas.add(rowData);
 			}
 		}
