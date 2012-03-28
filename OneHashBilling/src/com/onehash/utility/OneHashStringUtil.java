@@ -179,7 +179,7 @@ public class OneHashStringUtil {
     }
     
     
-    public static String generateCustomerAccountNumber(String prefix, long accountNo) throws ParseException{
+    public static String generateReferenceNumberNumber(String prefix, long accountNo) throws ParseException{
     	String maskedAccountNumber = maskAccountNumber(accountNo);
     	List<String> tempList = new ArrayList<String>();
     	tempList.add(prefix);
