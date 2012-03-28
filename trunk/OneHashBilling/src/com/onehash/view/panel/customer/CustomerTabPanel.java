@@ -13,7 +13,6 @@ import com.onehash.controller.OneHashDataCache;
 import com.onehash.model.customer.Customer;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.panel.base.BasePanel;
-import com.onehash.view.panel.complaint.ComplaintEditPanel;
 import com.onehash.view.panel.subscription.SubscriptionPanel;
 
 @SuppressWarnings("serial")
@@ -26,13 +25,13 @@ public class CustomerTabPanel extends BasePanel{
 
 	private CustomerEditPanel customerPanel;
 	private SubscriptionPanel subscriptionPanel;
-	private ComplaintEditPanel complaintPanel;
+//	private ComplaintEditPanel complaintPanel;
 	
 	@Override
 	protected void init() {
 		customerPanel = new CustomerEditPanel(super.getMainFrame());
 		subscriptionPanel = new SubscriptionPanel(super.getMainFrame());
-		complaintPanel = new ComplaintEditPanel(super.getMainFrame());
+		//complaintPanel = new ComplaintEditPanel(super.getMainFrame());
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Customer Detail", customerPanel );
@@ -41,8 +40,8 @@ public class CustomerTabPanel extends BasePanel{
         tabbedPane.addTab("Subscription", subscriptionPanel );
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
         
-        tabbedPane.addTab("Complaint", complaintPanel );
-        tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
+       // tabbedPane.addTab("Complaint", complaintPanel );
+        //tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
         
         tabbedPane.setBounds(1, 20, ConstantGUIAttribute.GUI_MAIN_WIDTH - 180, ConstantGUIAttribute.GUI_MAIN_HEIGHT-100);
         tabbedPane.setBackground(Color.WHITE);
@@ -66,7 +65,7 @@ public class CustomerTabPanel extends BasePanel{
 		Customer customer = (ConstantAction.ADD.equals(parameters.get(0))) ? new Customer() : OneHashDataCache.getInstance().getCustomerByAccountNumber(parameters.get(1));
 		customerPanel.initializeCustomer(customer);
 		subscriptionPanel.initializeCustomer(customer);
-		complaintPanel.initializeCustomer(customer);
+//		complaintPanel.initializeCustomer(customer);
 	//	subscriptionPanel.postCreate(parameters);
 		
 	}
