@@ -11,15 +11,14 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 22 March 2012    Mansoor M I	    0.1				Class creating												
- * 													
+ * 29 March 2012	Yue Yang		0.2				Modify the import class						
  * 													
  * 													
  * 
  */
-package com.onehash.model.user;
+package test.onehash.model.user;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -27,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.onehash.constant.ConstantStatus;
+import com.onehash.model.user.*;
 
 public class UserTest {
 
@@ -58,7 +58,6 @@ public class UserTest {
 		userList.add(agnt3);
 		userList.add(agnt4);
 		userList.add(agnt5);
-		//userList.add(agnt6);
 		
 		invalidUser = agnt6;
 	}
