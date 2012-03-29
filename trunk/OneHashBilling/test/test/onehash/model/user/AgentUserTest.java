@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 28 March 2012    Yue Yang	    0.1				Class creating
- * 													
+ * 29 March 2012    Yue Yang	    0.2			    User constant for users' status													
  * 													
  * 													
  * 													
@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.onehash.model.user.AgentUser;
+import com.onehash.constant.ConstantStatus;
 
 public class AgentUserTest extends TestCase {
     private AgentUser agUser1 = null;
@@ -34,8 +35,8 @@ public class AgentUserTest extends TestCase {
 	
 	@Before
 	public void setUp() throws Exception {
-		agUser1 = new AgentUser("agUser1","Cheryl","Lim","12345678","Active");
-		agUser2 = new AgentUser("agUser2","Cindy","Tan","78901234","Inactive");
+		agUser1 = new AgentUser("agUser1","Cheryl","Lim","12345678",ConstantStatus.ACTIVE);
+		agUser2 = new AgentUser("agUser2","Cindy","Tan","78901234",ConstantStatus.DEACTIVATE);
 	}
 	
 	@After
@@ -48,7 +49,7 @@ public class AgentUserTest extends TestCase {
 	public void testAgentUser() {
 		assertNotNull(agUser1);
 		assertNotNull(agUser2);
-		assertNotSame(agUser1,new AgentUser("agUser1","Cheryl","Lim","12345678","Active"));
+		assertNotSame(agUser1,new AgentUser("agUser1","Cheryl","Lim","12345678",ConstantStatus.ACTIVE));
 		
 		//Check individual attribute 
 		assertEquals(agUser1.getUserid(),"agUser1");
@@ -56,7 +57,7 @@ public class AgentUserTest extends TestCase {
 		assertEquals(agUser1.getLastName(),"Lim");
 		assertEquals(agUser1.getPassword(),"12345678");
 		assertEquals(agUser1.getMemberOf(),"Agent");
-		assertEquals(agUser1.getStatus(),"Active");
+		assertEquals(agUser1.getStatus(),ConstantStatus.ACTIVE);
 		assertTrue(agUser1.getMemberOf().equals(agUser2.getMemberOf()));
 	}
 	
@@ -87,7 +88,7 @@ public class AgentUserTest extends TestCase {
 	
 	@Test
 	public void testgetStatus(){
-		assertEquals(agUser2.getStatus(),"Inactive");
+		assertEquals(agUser2.getStatus(),ConstantStatus.DEACTIVATE);
 	}
 	
 	@Test
