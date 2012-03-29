@@ -11,7 +11,8 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 28 March 2012    Yue Yang	    0.1				Class creating
- * 													
+ * 29 March 2012    Yue Yang	    0.2			    User constant for users' status
+ * 																										
  * 													
  * 													
  * 													
@@ -27,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.onehash.model.user.AdminUser;
+import com.onehash.constant.ConstantStatus;
 
 public class AdminUserTest extends TestCase {
     private AdminUser admin1 = null;
@@ -34,8 +36,8 @@ public class AdminUserTest extends TestCase {
 	
 	@Before
 	public void setUp() throws Exception {
-		admin1 = new AdminUser("admin1","Jolin","Wong","23479013","Active");
-		admin2 = new AdminUser("admin2","Meiqi","Chen","56895467","Inactive");
+		admin1 = new AdminUser("admin1","Jolin","Wong","23479013",ConstantStatus.ACTIVE);
+		admin2 = new AdminUser("admin2","Meiqi","Chen","56895467",ConstantStatus.DEACTIVATE);
 	}
 	
 	@After
@@ -48,7 +50,7 @@ public class AdminUserTest extends TestCase {
 	public void testAgentUser() {
 		assertNotNull(admin1);
 		assertNotNull(admin2);
-		assertNotSame(admin1,new AdminUser("admin1","Jolin","Wong","23479013","Active"));
+		assertNotSame(admin1,new AdminUser("admin1","Jolin","Wong","23479013",ConstantStatus.ACTIVE));
 		
 		//Check individual attribute 
 		assertEquals(admin1.getUserid(),"admin1");
@@ -56,7 +58,7 @@ public class AdminUserTest extends TestCase {
 		assertEquals(admin1.getLastName(),"Wong");
 		assertEquals(admin1.getPassword(),"23479013");
 		assertEquals(admin1.getMemberOf(),"Admin");
-		assertEquals(admin1.getStatus(),"Active");
+		assertEquals(admin1.getStatus(),ConstantStatus.ACTIVE);
 		assertTrue(admin1.getMemberOf().equals(admin2.getMemberOf()));
 	}
 	
@@ -87,7 +89,7 @@ public class AdminUserTest extends TestCase {
 	
 	@Test
 	public void testgetStatus(){
-		assertEquals(admin2.getStatus(),"Inactive");
+		assertEquals(admin2.getStatus(),ConstantStatus.DEACTIVATE);
 	}
 	
 	@Test

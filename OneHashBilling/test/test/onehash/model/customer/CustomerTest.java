@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 28 March 2012    Yue Yang	    0.1				Class creating
- * 													
+ * 29 March 2012    Yue Yang	    0.1				Modify the class													
  * 													
  * 													
  * 													
@@ -22,8 +22,8 @@ package test.onehash.model.customer;
 
 import junit.framework.TestCase;
 
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.onehash.model.customer.Customer;
@@ -86,5 +86,7 @@ public class CustomerTest extends TestCase {
 	@Test
 	public void testisActivated(){
 		assertEquals(cus2.isActivated(),true);
+		cus2.setStatus(false);
+		assertEquals(cus2.isActivated(),false);
 	}
 }
