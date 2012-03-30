@@ -58,7 +58,7 @@ public class SubscriptionRateTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetRateCode(){
+	public void testGetRateCode(){
 		assertNotNull(subRate1);
 		assertNotNull(subRate2);
 		assertEquals(subRate1.getRateCode(),"DV-S");
@@ -66,31 +66,31 @@ public class SubscriptionRateTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetRateDescription(){
+	public void testGetRateDescription(){
 		assertEquals(subRate1.getRateDescription(),"Digital Voice Subscription");
 		assertEquals(subRate2.getRateDescription(),"Mobile Voice Subscription");
 	}
 	
 	@Test
-	public void testgetRatePrice(){
+	public void testGetRatePrice(){
 		assertEquals(subRate1.getRatePrice(),new BigDecimal(10.00));
 		assertEquals(subRate2.getRatePrice(),new BigDecimal(45.00));
 	}
 	
 	@Test
-	public void testgetPriority(){
+	public void testGetPriority(){
 		assertEquals(subRate1.getPriority(),1);
 		assertEquals(subRate2.getPriority(),2);
 	}
 	
 	@Test
-	public void testisFreeCharge(){
+	public void testIsFreeCharge(){
 		assertEquals(subRate1.isFreeCharge(),true);
 		assertEquals(subRate2.isFreeCharge(),false);
 	}
 	
 	@Test
-	public void testcalculateMonthlyRate(){
+	public void testCalculateMonthlyRate(){
 		assertEquals(subRate1.calculateMonthlyRate(),new BigDecimal(0.00));
 		assertEquals(subRate2.calculateMonthlyRate(),new BigDecimal(45.00));
 	}

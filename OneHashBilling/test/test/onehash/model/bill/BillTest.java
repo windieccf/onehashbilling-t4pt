@@ -97,33 +97,33 @@ public class BillTest extends TestCase {
 	
 	
 	@Test
-	public void testgetBillDate(){
+	public void testGetBillDate(){
 		assertNotNull(b1);
 		assertEquals(b1.getBillDate(),OneHashDateUtil.getDate(2012,3,1));
 	}
 	
 	@Test
-	public void testgetCarryForward(){
+	public void testGetCarryForward(){
 		assertEquals(b1.getCarryForward(),new BigDecimal(0));
 	}
 	
 	@Test
-	public void testgetCurrentBill(){
+	public void testGetCurrentBill(){
 	    assertEquals(b1.getCurrentBill(),new BigDecimal(100));
 	}
 	
 	@Test
-	public void testgetGstRate(){
+	public void testGetGstRate(){
 		assertEquals(b1.getGstRate(),new BigDecimal(7));
 	}
 	
 	@Test
-	public void testgetTotalBill(){
+	public void testGetTotalBill(){
 		assertEquals(b1.getTotalBill(),new BigDecimal(107.00));
 	}
 	
 	@Test
-	public void testgetBillDetails(){
+	public void testGetBillDetails(){
 		assertEquals(b1.getBillDetails().size(),2);
 		assertEquals(b1.getBillDetails().get(0).getPalnName(),"MV-L");
 		assertEquals(b1.getBillDetails().get(0).getRate(),new BigDecimal(0.5));
@@ -138,7 +138,7 @@ public class BillTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetBillSummaryMap(){
+	public void testGetBillSummaryMap(){
 		assertEquals(b1.getBillSummaryMap().size(),1);
 		assertEquals(b1.getBillSummaryMap().get("20120301").get(0).getDescription(),"MV-L");
 		assertEquals(b1.getBillSummaryMap().get("20120301").get(0).getTotal(),new BigDecimal(80.00));
@@ -147,7 +147,7 @@ public class BillTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetPaymentDetails(){
+	public void testGetPaymentDetails(){
 		assertEquals(b1.getPaymentDetails().size(),2);
 		assertEquals(b1.getPaymentDetails().get(0).getPaymentDate(),OneHashDateUtil.getDate(2012,3,2));
 		assertEquals(b1.getPaymentDetails().get(0).getAmount(),new BigDecimal(60.00));

@@ -62,40 +62,46 @@ public class AgentUserTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetUserid(){
+	public void testGetUserid(){
 		assertEquals(agUser2.getUserid(),"agUser2");
 	}
 	
 	@Test
-	public void testgetFirstName(){
+	public void testGetFirstName(){
 		assertEquals(agUser2.getFirstName(),"Cindy");
 	}
 	
 	@Test
-	public void testgetLastName(){
+	public void testGetLastName(){
 		assertEquals(agUser2.getLastName(),"Tan");
 	}
 	
 	@Test
-	public void testgetPassword(){
+	public void testGetPassword(){
 	    assertEquals(agUser2.getPassword(),"78901234");
 	}
 	
 	@Test
-	public void testgetMemberOf(){
+	public void testGetMemberOf(){
 		assertEquals(agUser2.getMemberOf(),"Agent");
 	}
 	
 	@Test
-	public void testgetStatus(){
+	public void testGetStatus(){
 		assertEquals(agUser2.getStatus(),ConstantStatus.DEACTIVATE);
 	}
 	
 	@Test
-	public void testgetAvailableMenu(){
+	public void testGetAvailableMenu(){
 		assertEquals(agUser2.getAvailableMenu().size(),3);
 		assertEquals(agUser2.getAvailableMenu().get(0),"Add Complaint");
 		assertEquals(agUser2.getAvailableMenu().get(1),"Update Complaint");
 		assertEquals(agUser2.getAvailableMenu().get(2),"View Customer");
+	}
+	
+	@Test
+	public void testIsValidPassword(){
+		assertEquals(agUser2.isValidPassword("78901234"),true);
+		assertEquals(agUser2.isValidPassword("23459045"),false);
 	}
 }

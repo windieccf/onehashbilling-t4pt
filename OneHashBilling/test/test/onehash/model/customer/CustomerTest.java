@@ -59,32 +59,32 @@ public class CustomerTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetName(){
+	public void testGetName(){
 		assertEquals(cus2.getName(),"Clio York");
 	}
 	
 	@Test
-	public void testgetNric(){
+	public void testGetNric(){
 		assertEquals(cus2.getNric(),"S1026829Y");
 	}
 	
 	@Test
-	public void testgetAddress(){
+	public void testGetAddress(){
 		assertEquals(cus2.getAddress(),"98056 East Comoros Ave.");
 	}
 	
 	@Test
-	public void testgetPhoneNumber(){
+	public void testGetPhoneNumber(){
 	    assertEquals(cus2.getPhoneNumber(),"92758240");
 	}
 	
 	@Test
-	public void testgetAccountNumber(){
+	public void testGetAccountNumber(){
 		assertEquals(cus2.getAccountNumber(),"SA-0220-48-6");
 	}
 	
 	@Test
-	public void testisActivated(){
+	public void testIsActivated(){
 		assertEquals(cus2.isActivated(),true);
 		cus2.setStatus(false);
 		assertEquals(cus2.isActivated(),false);

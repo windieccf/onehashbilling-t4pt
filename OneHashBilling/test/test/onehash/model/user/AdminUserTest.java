@@ -63,37 +63,37 @@ public class AdminUserTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetUserid(){
+	public void testGetUserid(){
 		assertEquals(admin2.getUserid(),"admin2");
 	}
 	
 	@Test
-	public void testgetFirstName(){
+	public void testGetFirstName(){
 		assertEquals(admin2.getFirstName(),"Meiqi");
 	}
 	
 	@Test
-	public void testgetLastName(){
+	public void testGetLastName(){
 		assertEquals(admin2.getLastName(),"Chen");
 	}
 	
 	@Test
-	public void testgetPassword(){
+	public void testGetPassword(){
 	    assertEquals(admin2.getPassword(),"56895467");
 	}
 	
 	@Test
-	public void testgetMemberOf(){
+	public void testGetMemberOf(){
 		assertEquals(admin2.getMemberOf(),"Admin");
 	}
 	
 	@Test
-	public void testgetStatus(){
+	public void testGetStatus(){
 		assertEquals(admin2.getStatus(),ConstantStatus.DEACTIVATE);
 	}
 	
 	@Test
-	public void testgetAvailableMenu(){
+	public void testGetAvailableMenu(){
 		assertEquals(admin2.getAvailableMenu().size(),11);
 		assertEquals(admin2.getAvailableMenu().get(0),"Add Customer");
 		assertEquals(admin2.getAvailableMenu().get(1),"Update Customer");
@@ -107,5 +107,11 @@ public class AdminUserTest extends TestCase {
 		assertEquals(admin2.getAvailableMenu().get(9),"Add Complaint");
 		assertEquals(admin2.getAvailableMenu().get(10),"Update Complaint");
 		
+	}
+	
+	@Test
+	public void testIsValidPassword(){
+		assertEquals(admin2.isValidPassword("56895467"),true);
+		assertEquals(admin2.isValidPassword("23459045"),false);
 	}
 }

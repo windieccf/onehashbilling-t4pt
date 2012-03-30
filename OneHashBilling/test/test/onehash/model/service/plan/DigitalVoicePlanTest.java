@@ -93,67 +93,65 @@ public class DigitalVoicePlanTest extends TestCase {
 		dVoicePlan1 = null;
 		dVoicePlan2 = null;
 	}
-	
-		
+			
 	@Test
-	public void testgetPlanId(){
+	public void testGetPlanId(){
 		assertNotNull(dVoicePlan1);
 		assertNotNull(dVoicePlan2);
 		assertEquals(dVoicePlan1.getPlanId(),"DVCode1");
 		assertEquals(dVoicePlan2.getPlanId(),"DVCode2");
 	}
-
 	
 	@Test
-	public void testgetPlanCode(){
+	public void testGetPlanCode(){
 		assertEquals(dVoicePlan1.getPlanCode(),"DVCode1");
 		assertEquals(dVoicePlan2.getPlanCode(),"DVCode2");
 	}
 	
 	@Test
-	public void testgetStatus(){
+	public void testGetStatus(){
 		assertEquals(dVoicePlan1.getStatus(),ConstantStatus.SERVICEPLAN_ACTIVE);
 		assertEquals(dVoicePlan2.getStatus(),ConstantStatus.SERVICEPLAN_ACTIVE);
 	}
 	
 	@Test
-	public void testgetPlanName(){
+	public void testGetPlanName(){
 		assertEquals(dVoicePlan1.getPlanName(),"Digital Voice Plan 1");
 		assertEquals(dVoicePlan2.getPlanName(),"Digital Voice Plan 2");
 	}
 	
 	@Test
-	public void testgetStartDate(){
+	public void testGetStartDate(){
 		assertEquals(dVoicePlan1.getStartDate(),OneHashDateUtil.getDate(2011, 1, 1));
 		assertEquals(dVoicePlan2.getStartDate(),OneHashDateUtil.getDate(2011, 1, 1));
 	}
 	
 	@Test
-	public void testgetEndDate(){
+	public void testGetEndDate(){
 		assertEquals(dVoicePlan1.getEndDate(),OneHashDateUtil.getDate(2012, 12, 31));
 		assertEquals(dVoicePlan2.getEndDate(),OneHashDateUtil.getDate(2012, 12, 31));
 	}
 	
 	@Test
-	public void testgetDeletedDate(){
+	public void testGetDeletedDate(){
 		assertEquals(dVoicePlan1.getDeletedDate(),OneHashDateUtil.getDate());
 		assertEquals(dVoicePlan2.getDeletedDate(),OneHashDateUtil.getDate());
 	}
 	
 	@Test 
-	public void testgetSim(){
+	public void testGetSim(){
 		assertEquals(dVoicePlan1.getSim(),"sim1");
 		assertEquals(dVoicePlan2.getSim(),"sim2");
 	}
 	
 	@Test 
-	public void testgetRegisteredPhoneNumber(){
+	public void testGetRegisteredPhoneNumber(){
 		assertEquals(dVoicePlan1.getRegisteredPhoneNumber(),"62673901");
 		assertEquals(dVoicePlan2.getRegisteredPhoneNumber(),"612983013");
 	}
 	
 	@Test
-	public void testgetServiceRates(){
+	public void testGetServiceRates(){
 		assertEquals(dVoicePlan2.getServiceRates().size(),2);
 		assertEquals(dVoicePlan2.getServiceRates().get(0).getRateCode(),"DV-S");
 		assertEquals(dVoicePlan2.getServiceRates().get(0).getRateDescription(),"Digital Voice Subscription");
