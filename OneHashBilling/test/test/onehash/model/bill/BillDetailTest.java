@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 28 March 2012    Yue Yang	    0.1				Class creating
- * 													
+ * 30 March 2012    Yue Yang	    0.2				Modify testgetUsageTime Class												
  * 													
  * 													
  * 													
@@ -87,7 +87,7 @@ public class BillDetailTest extends TestCase {
 	
 	@Test
 	public void testgetUsageTime(){
-		assertEquals(bDetail1.getUsageTime(),OneHashDateUtil.getDate(2012, 3, 10));
-		assertEquals(bDetail2.getUsageTime(),OneHashDateUtil.getDate(2012, 3, 14));
+		assertEquals(bDetail1.getUsageTime(),OneHashDateUtil.getDate(2012, 2, 10));
+		assertEquals(bDetail2.getUsageTime(),OneHashDateUtil.getDate(2012, 3, 27));
 	}
 }
