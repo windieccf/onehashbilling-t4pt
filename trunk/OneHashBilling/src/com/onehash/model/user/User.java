@@ -18,103 +18,93 @@
  */
 package com.onehash.model.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.onehash.constant.ConstantStatus;
+import com.onehash.constant.ConstantUserType;
+import com.onehash.enumeration.EnumUserAccess;
+import com.onehash.model.base.BaseEntity;
+import com.onehash.model.scalar.MenuScalar;
+import com.onehash.utility.OneHashBeanUtil;
+import com.onehash.utility.OneHashStringUtil;
 
-public abstract class User {
+@SuppressWarnings("serial")
+public class User extends BaseEntity{
 	
-	private String userId;
+	private long userId = 0L;
+	public long getUserId() {return userId;}
+	public void setUserId(long userId) {this.userId = userId;}
+
+	private String userName;
+	public String getUserName() {return userName;}
+	public void setUserName(String userName) {this.userName = userName;}
+
 	private String firstName;
+	public String getFirstName() {return firstName;}
+	public void setFirstName(String firstName) {this.firstName = firstName;}
+	
 	private String lastName;
+	public String getLastName() {return lastName;}
+	public void setLastName(String lastName) {this.lastName = lastName;}
+	public String getFullName() {return firstName + " " + lastName;}
+   
 	private String password;
-	private String memberOf;
-	private String status;
+	public String getPassword() {return password;}
+	public void setPassword(String password) {this.password = password;}
 	
-	public User(String userId, String firstName, String lastName,
-			String password, String memberOf, String status) {
+	private String userRole;
+	public String getUserRole() {return userRole;}
+	public void setUserRole(String userRole) {this.userRole = userRole;}
 
-		this.userId = userId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		this.memberOf = memberOf;
-		this.status = status;
-	}
-
-	public String getUserid() {
-		return userId;
+	private String status = ConstantStatus.ACTIVE;
+	public boolean isActivated(){return ConstantStatus.ACTIVE.equals(this.status);}
+	public void setStatus(boolean status){this.status = (status) ? ConstantStatus.ACTIVE : ConstantStatus.DEACTIVATE;}
+	
+	private List<EnumUserAccess> userAccesses = new ArrayList<EnumUserAccess>();
+	public List<EnumUserAccess> getUserAccesses() {return userAccesses;}
+	public void setUserAccesses(List<EnumUserAccess> userAccesses) {this.userAccesses = userAccesses;}
+	public String getUserAccessAsString(){
+		List<String> accesses = new ArrayList<String>();
+		for(EnumUserAccess enumUserAccess : userAccesses){
+			accesses.add(enumUserAccess.getDescription());
+		}
+		return OneHashStringUtil.join(accesses, " , ");
 	}
 	
-	public void setUserid(String userId) {
-		this.userId = userId;
-	}
-
-	public String getPassword() {
-		return password;
+	public User(){}
+	
+	public static User createUserByRole(String userRole){
+		User user = (ConstantUserType.ADMIN.equals(userRole)) ? new AdminUser() : new AgentUser();
+		user.setUserRole(userRole);
+		return user;
 	}
 	
-	public void setPassword(String password) {
-		this.password = password;
+	public User switchRole(String userRole){
+		User user = User.createUserByRole(userRole);
+		OneHashBeanUtil.copyProperties(user, this);
+		return user;
 	}
 	
-	public String getStatus() {
-		return status;
-	}
-	
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
-	
-	public void setFirstname(String firstName) {
-		this.firstName = firstName;
-	}
-	
-	public String getLastName() {
-		return lastName;
-	}
-	
-	public void setLastname(String lastName) {
-		this.lastName = lastName;
-	}
-	
-	public String getFullName() {
-		return firstName + " " + lastName;
-	}
-	
-    public String getMemberOf() {
-        return memberOf;
-    }
-
-    public void setMemberOf(String memberOf) {
-        this.memberOf = memberOf;
-    }
-    
-    abstract public List<String> getAvailableMenu();
     
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer();
         sb.append("User {");
-        sb.append("userId='").append(userId).append('\'');
+        sb.append("userName='").append(userName).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", password='").append(password).append('\'');
-        sb.append(", memberOf='").append(memberOf).append('\'');
+        sb.append(", userRole='").append(userRole).append('\'');
         sb.append(", status='").append(status).append('\'');
         sb.append('}');
         return sb.toString();
     }
     
-    public boolean isValidPassword(String password) {
-    	return this.getPassword().equals(password);
-    }
+    //public boolean isValidPassword(String password) {return this.getPassword().equals(password); }
+   // public boolean isActive() {return ConstantStatus.ACTIVE.equals(this.status);}
     
-    public boolean isActive() {
-    	return this.status.equals(ConstantStatus.ACTIVE);
-    }
+   public MenuScalar getAvailableMenu(){
+	   return null;
+   };
 }

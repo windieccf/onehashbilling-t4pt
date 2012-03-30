@@ -28,10 +28,10 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JList;
 import javax.swing.JScrollBar;
+import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class TestView extends JFrame {
-	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -73,10 +73,6 @@ public class TestView extends JFrame {
 		separator.setBounds(10, 39, 414, 2);
 		panel_1.add(separator);
 		
-		table = new JTable();
-		table.setBounds(10, 188, 414, 48);
-		panel_1.add(table);
-		
 		JButton btnNewButton = new JButton("New button");
 		btnNewButton.setBounds(20, 52, 89, 23);
 		panel_1.add(btnNewButton);
@@ -84,5 +80,9 @@ public class TestView extends JFrame {
 		JTextPane textPane = new JTextPane();
 		textPane.setBounds(220, 157, 204, 20);
 		panel_1.add(textPane);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(49, 174, 168, 71);
+		panel_1.add(textArea);
 	}
 }

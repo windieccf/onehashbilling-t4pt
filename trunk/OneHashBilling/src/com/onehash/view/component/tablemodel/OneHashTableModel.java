@@ -19,17 +19,21 @@
 
 package com.onehash.view.component.tablemodel;
 
-import javax.swing.table.AbstractTableModel;
+import java.util.Iterator;
+import java.util.Vector;
+
+import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
-public class OneHashTableModel extends AbstractTableModel{
+public class OneHashTableModel extends DefaultTableModel{
 	
 	 private String[] columnNames;
-	 private Object[][] data;
+	//private Object[][] data;
 	 
 	 public OneHashTableModel(String[] columnNames , Object[][] data){
+		 super(data, columnNames);
 		 this.columnNames = columnNames;
-		 this.data = data;
+		// this.data = data;
 	 }
 
 	
@@ -37,13 +41,67 @@ public class OneHashTableModel extends AbstractTableModel{
         return columnNames[col].toString();
     }
     
-	public int getRowCount() {return data.length;}
-    public int getColumnCount() {return columnNames.length;}
-    public Object getValueAt(int row, int col) {return data[row][col];}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public int getRowIndexByName(int columnIndex, Object value) {
+		int i = 0; 
+		if(value == null) return -1;
+		
+		for(Iterator ite = super.getDataVector().iterator() ; ite.hasNext(); i++){
+			Vector data = (Vector)ite.next();
+			Object[] obj = new Object[data.size()];
+			data.toArray(obj);
+			if(value.equals(obj[columnIndex]))
+				return i;
+		}
+		return -1;
+    }
+	/*
+	@SuppressWarnings("rawtypes")
+	public Object[] getRowDataByColumnValue(int columnIndex, Object value){
+		if(value == null) return null;
+		for(Iterator ite = super.getDataVector().iterator() ; ite.hasNext(); ){
+			Object[] obj = (Object[])ite.next();
+			if(value.equals(obj[columnIndex]))
+				return obj;
+		}
+		return null;
+	}
+    */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Object[] getRowByIndex(int rowIndex){
+		int i = 0;
+		for(Iterator ite = super.getDataVector().iterator() ; ite.hasNext(); i++){
+			Vector data = (Vector)ite.next();
+			if(i == rowIndex){
+				Object[] obj = new Object[data.size()];
+				data.toArray(obj);
+				return obj;
+			}
+				
+		}
+		return null;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Object[][] getData(){
+		Object obj[][] = new Object[super.getDataVector().size()] [this.columnNames.length];
+		int i = 0;
+		for(Iterator ite = super.getDataVector().iterator() ; ite.hasNext(); i++){
+			Vector data = (Vector)ite.next();
+			data.toArray(obj[i]);
+		}
+		return obj;
+	}
+	
+	//public int getRowCount() {return data.length;}
+    //public int getColumnCount() {return columnNames.length;}
+    //public Object getValueAt(int row, int col) {return data[row][col];}
     
     public boolean isCellEditable(int row, int col){ 
     	return false; 
     }
+    
+    
     
     
     
