@@ -59,12 +59,12 @@ public class PaymentDetailTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetPaymentDate(){
+	public void testGetPaymentDate(){
 		assertEquals(bPayment2.getPaymentDate(),OneHashDateUtil.getDate(2012,4,3));
 	}
 	
 	@Test
-	public void testgetTotal(){
+	public void testGetTotal(){
 		assertEquals(bPayment2.getAmount(),new BigDecimal(85.60));
 	}
 }

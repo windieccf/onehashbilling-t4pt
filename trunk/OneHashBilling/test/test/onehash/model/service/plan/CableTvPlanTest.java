@@ -95,7 +95,7 @@ public class CableTvPlanTest extends TestCase {
 	
 		
 	@Test
-	public void testgetPlanId(){
+	public void testGetPlanId(){
 		assertNotNull(cTVPlan1);
 		assertNotNull(cTVPlan2);
 		assertEquals(cTVPlan1.getPlanId(),"CTVCode1");
@@ -104,43 +104,43 @@ public class CableTvPlanTest extends TestCase {
 
 	
 	@Test
-	public void testgetPlanCode(){
+	public void testGetPlanCode(){
 		assertEquals(cTVPlan1.getPlanCode(),"CTVCode1");
 		assertEquals(cTVPlan2.getPlanCode(),"CTVCode2");
 	}
 	
 	@Test
-	public void testgetStatus(){
+	public void testGetStatus(){
 		assertEquals(cTVPlan1.getStatus(),ConstantStatus.SERVICEPLAN_DELETED);
 		assertEquals(cTVPlan2.getStatus(),ConstantStatus.SERVICEPLAN_ACTIVE);
 	}
 	
 	@Test
-	public void testgetPlanName(){
+	public void testGetPlanName(){
 		assertEquals(cTVPlan1.getPlanName(),"Cabel TV Plan 1");
 		assertEquals(cTVPlan2.getPlanName(),"Cabel TV Plan 2");
 	}
 	
 	@Test
-	public void testgetStartDate(){
+	public void testGetStartDate(){
 		assertEquals(cTVPlan1.getStartDate(),OneHashDateUtil.getDate(2011, 1, 1));
 		assertEquals(cTVPlan2.getStartDate(),OneHashDateUtil.getDate(2011, 1, 1));
 	}
 	
 	@Test
-	public void testgetEndDate(){
+	public void testGetEndDate(){
 		assertEquals(cTVPlan1.getEndDate(),OneHashDateUtil.getDate(2012, 12, 31));
 		assertEquals(cTVPlan2.getEndDate(),OneHashDateUtil.getDate(2012, 12, 31));
 	}
 	
 	@Test
-	public void testgetDeletedDate(){
+	public void testGetDeletedDate(){
 		assertEquals(cTVPlan1.getDeletedDate(),OneHashDateUtil.getDate(2012, 10, 31));
 		assertEquals(cTVPlan2.getDeletedDate(),OneHashDateUtil.getDate());
 	}
 	
 	@Test
-	public void testgetServiceRates(){
+	public void testGetServiceRates(){
 		assertEquals(cTVPlan2.getServiceRates().size(),2);
 		assertEquals(cTVPlan2.getServiceRates().get(0).getRateCode(),"TV-S");
 		assertEquals(cTVPlan2.getServiceRates().get(0).getRateDescription(),"TV Subscription");

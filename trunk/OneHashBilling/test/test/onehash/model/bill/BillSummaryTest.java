@@ -58,12 +58,12 @@ public class BillSummaryTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetDescription(){
+	public void testGetDescription(){
 		assertEquals(bSummary2.getDescription(),"MV-R");
 	}
 	
 	@Test
-	public void testgetTotal(){
+	public void testGetTotal(){
 		assertEquals(bSummary2.getTotal(),new BigDecimal(100.00));
 	}
 }

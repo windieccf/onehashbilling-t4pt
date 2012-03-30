@@ -55,7 +55,7 @@ public class TalkTimeUsageTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetCallTime(){
+	public void testGetCallTime(){
 		assertNotNull(tUsage1);
 		assertNotNull(tUsage2);
 		assertEquals(tUsage1.getCallTime(),OneHashDateUtil.getDate(2012, 3, 13));
@@ -63,19 +63,19 @@ public class TalkTimeUsageTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetUsageDuration(){
+	public void testGetUsageDuration(){
 		assertEquals(tUsage1.getUsageDuration(),new Long(911));
 		assertEquals(tUsage2.getUsageDuration(),new Long(443));
 	}
 	
 	@Test
-	public void testgetCallNumber(){
+	public void testGetCallNumber(){
 		assertEquals(tUsage1.getCallNumber(),"84553321");
 		assertEquals(tUsage2.getCallNumber(),"85342345");
 	}
 	
 	@Test
-	public void testgetUsageType(){
+	public void testGetUsageType(){
 		assertEquals(tUsage1.getUsageType(),"Second");
 		assertEquals(tUsage2.getUsageType(),"Second");
 	}

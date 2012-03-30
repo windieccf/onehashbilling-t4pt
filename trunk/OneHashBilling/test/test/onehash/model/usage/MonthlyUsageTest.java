@@ -65,13 +65,13 @@ public class MonthlyUsageTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetUsageYearMonth(){
+	public void testGetUsageYearMonth(){
 		assertNotNull(mUsage1);
 		assertEquals(mUsage1.getUsageYearMonth(),"201203");
 	}
 	
 	@Test
-	public void testgetTalkTimeUsages(){
+	public void testGetTalkTimeUsages(){
 		assertEquals(mUsage1.getTalkTimeUsages().get(0).getCallNumber(),"84553321");
 		assertEquals(mUsage1.getTalkTimeUsages().get(0).getCallTime(),OneHashDateUtil.getDate(2012, 3, 13));
 		assertEquals(mUsage1.getTalkTimeUsages().get(0).getUsageDuration(),new Long(911));
@@ -83,13 +83,13 @@ public class MonthlyUsageTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetCallUsages(){
+	public void testGetCallUsages(){
 		assertEquals(mUsage1.getCallUsages("Second"),new Long(1354));
 		assertFalse(mUsage1.getCallUsages("Second").equals(new Long(1200)));
 	}
 	
 	@Test
-	public void testgetUsages(){
+	public void testGetUsages(){
 		assertEquals(mUsage1.getUsages("Second").get(0).getCallNumber(),"84553321");
 		assertEquals(mUsage1.getUsages("Second").get(0).getCallTime(),OneHashDateUtil.getDate(2012, 3, 13));
 		assertEquals(mUsage1.getUsages("Second").get(0).getUsageDuration(),new Long(911));

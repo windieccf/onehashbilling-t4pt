@@ -59,7 +59,7 @@ public class BillDetailTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetPalnName(){
+	public void testGetPalnName(){
 		assertNotNull(bDetail1);
 		assertNotNull(bDetail2);
 		assertNotSame(bDetail1,new BillDetail());
@@ -68,25 +68,25 @@ public class BillDetailTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetRate(){
+	public void testGetRate(){
 		assertEquals(bDetail1.getRate(),new BigDecimal(0.5));
 		assertEquals(bDetail2.getRate(),new BigDecimal(0.5));
 	}
 	
 	@Test
-	public void testgetRateName(){
+	public void testGetRateName(){
 		assertEquals(bDetail1.getRateName(),"MV-L Rate");
 		assertEquals(bDetail2.getRateName(),"MV-R Rate");
 	}
 	
 	@Test
-	public void testgetUsageDuration(){
+	public void testGetUsageDuration(){
 		assertEquals(bDetail1.getUsageDuration(),new Long(911));
 	    assertEquals(bDetail2.getUsageDuration(),new Long(233));
 	}
 	
 	@Test
-	public void testgetUsageTime(){
+	public void testGetUsageTime(){
 		assertEquals(bDetail1.getUsageTime(),OneHashDateUtil.getDate(2012, 2, 10));
 		assertEquals(bDetail2.getUsageTime(),OneHashDateUtil.getDate(2012, 3, 27));
 	}

@@ -93,67 +93,65 @@ public class MobileVoicePlanTest extends TestCase {
 		mVoicePlan1 = null;
 		mVoicePlan2 = null;
 	}
-	
 		
 	@Test
-	public void testgetPlanId(){
+	public void testGetPlanId(){
 		assertNotNull(mVoicePlan1);
 		assertNotNull(mVoicePlan2);
 		assertEquals(mVoicePlan1.getPlanId(),"MVCode1");
 		assertEquals(mVoicePlan2.getPlanId(),"MVCode2");
 	}
 
-	
 	@Test
-	public void testgetPlanCode(){
+	public void testGetPlanCode(){
 		assertEquals(mVoicePlan1.getPlanCode(),"MVCode1");
 		assertEquals(mVoicePlan2.getPlanCode(),"MVCode2");
 	}
 	
 	@Test
-	public void testgetStatus(){
+	public void testGetStatus(){
 		assertEquals(mVoicePlan1.getStatus(),ConstantStatus.SERVICEPLAN_ACTIVE);
 		assertEquals(mVoicePlan2.getStatus(),ConstantStatus.SERVICEPLAN_ACTIVE);
 	}
 	
 	@Test
-	public void testgetPlanName(){
+	public void testGetPlanName(){
 		assertEquals(mVoicePlan1.getPlanName(),"Mobile Voice Plan 1");
 		assertEquals(mVoicePlan2.getPlanName(),"Mobile Voice Plan 2");
 	}
 	
 	@Test
-	public void testgetStartDate(){
+	public void testGetStartDate(){
 		assertEquals(mVoicePlan1.getStartDate(),OneHashDateUtil.getDate(2011, 1, 1));
 		assertEquals(mVoicePlan2.getStartDate(),OneHashDateUtil.getDate(2011, 1, 1));
 	}
 	
 	@Test
-	public void testgetEndDate(){
+	public void testGetEndDate(){
 		assertEquals(mVoicePlan1.getEndDate(),OneHashDateUtil.getDate(2012, 12, 31));
 		assertEquals(mVoicePlan2.getEndDate(),OneHashDateUtil.getDate(2012, 12, 31));
 	}
 	
 	@Test
-	public void testgetDeletedDate(){
+	public void testGetDeletedDate(){
 		assertEquals(mVoicePlan1.getDeletedDate(),OneHashDateUtil.getDate());
 		assertEquals(mVoicePlan2.getDeletedDate(),OneHashDateUtil.getDate());
 	}
 	
 	@Test 
-	public void testgetSim(){
+	public void testGetSim(){
 		assertEquals(mVoicePlan1.getSim(),"sim3");
 		assertEquals(mVoicePlan2.getSim(),"sim4");
 	}
 	
 	@Test 
-	public void testgetRegisteredPhoneNumber(){
+	public void testGetRegisteredPhoneNumber(){
 		assertEquals(mVoicePlan1.getRegisteredPhoneNumber(),"82781903");
 		assertEquals(mVoicePlan2.getRegisteredPhoneNumber(),"82539011");
 	}
 	
 	@Test
-	public void testgetServiceRates(){
+	public void testGetServiceRates(){
 		assertEquals(mVoicePlan2.getServiceRates().size(),2);
 		assertEquals(mVoicePlan2.getServiceRates().get(0).getRateCode(),"MV-S");
 		assertEquals(mVoicePlan2.getServiceRates().get(0).getRateDescription(),"Mobile Voice Subscription");

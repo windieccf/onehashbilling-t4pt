@@ -58,7 +58,7 @@ public class UsageRateTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetRateCode(){
+	public void testGetRateCode(){
 		assertNotNull(usagRate1);
 		assertNotNull(usagRate2);
 		assertEquals(usagRate1.getRateCode(),"DV-L");
@@ -66,25 +66,25 @@ public class UsageRateTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetRateDescription(){
+	public void testGetRateDescription(){
 		assertEquals(usagRate1.getRateDescription(),"Digital Voice Local Calls");
 		assertEquals(usagRate2.getRateDescription(),"Mobile Voice Local Calls");
 	}
 	
 	@Test
-	public void testgetRatePrice(){
+	public void testGetRatePrice(){
 		assertEquals(usagRate1.getRatePrice(),new BigDecimal(0.30));
 		assertEquals(usagRate2.getRatePrice(),new BigDecimal(0.50));
 	}
 	
 	@Test
-	public void testgetPriority(){
+	public void testGetPriority(){
 		assertEquals(usagRate1.getPriority(),3);
 		assertEquals(usagRate2.getPriority(),4);
 	}
 	
 	@Test
-	public void testisFreeCharge(){
+	public void testIsFreeCharge(){
 		assertEquals(usagRate1.isFreeCharge(),false);
 		assertEquals(usagRate2.isFreeCharge(),true);
 	}
