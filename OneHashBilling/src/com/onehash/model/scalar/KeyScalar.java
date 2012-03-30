@@ -22,10 +22,13 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class KeyScalar implements Serializable{
 
-	private long accountNumber = 1L;
+	private long accountNumber = 0L;
 	public long getNextAccountNumber(){return ++accountNumber;}
 	
-	private long complaintNumber = 1L;
+	private long complaintNumber = 0L;
 	public long getNextComplaintNumber(){return ++complaintNumber;}
+	
+	private long userId = 0L;
+	public long getNextUserID(){return ++userId;}
 	
 }

@@ -22,6 +22,7 @@ package com.onehash.constant;
 public class ConstantFilePath {
 	
 	public static final String ONE_HASH_DATA = "./data/onehash.dat";
+	public static final String ONE_HASH_DATA_SECURITY = "./data/onehashsecurity.dat";
 	public static final String ONE_HASH_KEY_DATA = "./data/onehashkey.dat";
 	public static final int GST = 7;
 }

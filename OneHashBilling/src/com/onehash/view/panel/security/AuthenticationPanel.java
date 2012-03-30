@@ -20,16 +20,12 @@
 
 package com.onehash.view.panel.security;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-
 import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
+import com.onehash.view.component.listener.ButtonActionListener;
 import com.onehash.view.panel.MainScreenPanel;
 import com.onehash.view.panel.base.BasePanel;
 
@@ -52,13 +48,22 @@ public class AuthenticationPanel extends BasePanel {
 		super.registerComponent(COMP_TXT_USERNAME, FactoryComponent.createTextField( new TextFieldAttributeScalar(146, 23, 126, 20,10) ));
 		super.registerComponent(COMP_TXT_PASSWORD , FactoryComponent.createPasswordField( new TextFieldAttributeScalar(146, 48, 126, 20,0) ));
 		
-		JButton loginButton = FactoryComponent.createButton("Login", new ButtonAttributeScalar(178, 79, 96, 23));
-		loginButton.addActionListener(new AuthenticationPanel.LoginButtonListener(this));
-		super.registerComponent(COMP_BUTTON_LOGIN , loginButton);
+		
+		super.registerComponent(COMP_BUTTON_LOGIN , FactoryComponent.createButton("Login", new ButtonAttributeScalar(178, 79, 96, 23 , new ButtonActionListener(this,"doLogin"))) );
+	//	JButton loginButton = FactoryComponent.createButton("Login", new ButtonAttributeScalar(178, 79, 96, 23));
+	//	loginButton.addActionListener(new AuthenticationPanel.LoginButtonListener(this));
+	//	super.registerComponent(COMP_BUTTON_LOGIN , loginButton);
 		
 	}
 	
-	public static class LoginButtonListener implements ActionListener {
+	public void doLogin(){
+		
+		
+		
+		super.getMainFrame().doLoadScreen(MainScreenPanel.class);
+	}
+	
+	/*public static class LoginButtonListener implements ActionListener {
 		
 		private BasePanel basePanel;
 		public LoginButtonListener(BasePanel basePanel){ this.basePanel = basePanel;}
@@ -67,7 +72,7 @@ public class AuthenticationPanel extends BasePanel {
 		public void actionPerformed(ActionEvent e) {
 			basePanel.getMainFrame().doLoadScreen(MainScreenPanel.class);
         }
-    }
+    }*/
 	
 	@Override
 	protected String getScreenTitle() {return "Login";}

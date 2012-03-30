@@ -37,6 +37,7 @@ import com.onehash.view.panel.bill.BillListPanel;
 import com.onehash.view.panel.bill.BillReportPanel;
 import com.onehash.view.panel.complaint.ComplaintListPanel;
 import com.onehash.view.panel.customer.CustomerListPanel;
+import com.onehash.view.panel.user.UserListPanel;
 
 @SuppressWarnings("serial")
 public class MenuPanel extends JPanel{
@@ -87,6 +88,11 @@ public class MenuPanel extends JPanel{
 
 	public MenuScalar getMenus(){
 		MenuScalar rootMenu = MenuScalar.createParentMenu("One Hash Billing");
+		
+		
+		MenuScalar userParentMenu = MenuScalar.createParentMenu("Security");
+		rootMenu.getChildMenus().add(userParentMenu);
+		userParentMenu.getChildMenus().add(MenuScalar.createChildMenu("User",UserListPanel.class));
 		
 		/******************* CUSTOMER MENU ***********************/
 		MenuScalar customerParentMenu = MenuScalar.createParentMenu("Customer");

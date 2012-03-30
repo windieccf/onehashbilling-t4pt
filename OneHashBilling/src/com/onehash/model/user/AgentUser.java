@@ -18,30 +18,27 @@
  */
 package com.onehash.model.user;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import com.onehash.model.scalar.MenuScalar;
+import com.onehash.view.panel.complaint.ComplaintListPanel;
+import com.onehash.view.panel.customer.CustomerListPanel;
+
+@SuppressWarnings("serial")
 public class AgentUser extends User {
-
-	private static ArrayList<String> lstMenu = new ArrayList<String>();
 	
-	public AgentUser(String userId, String firstName, String lastName,
-			String password, String status) {
-		super(userId, firstName, lastName, password, "Agent", status);
-		
-		//System.out.println(lstMenu.isEmpty());
-		// TODO Auto-generated constructor stub
-		if (lstMenu.isEmpty()) {
-			lstMenu.add("Add Complaint");
-			lstMenu.add("Update Complaint");
-			lstMenu.add("View Customer");
-		}
-	}
-
 	@Override
-	public List<String> getAvailableMenu() {
-		// TODO Auto-generated method stub
-		return lstMenu;
+	public MenuScalar getAvailableMenu() {
+		
+		MenuScalar rootMenu = MenuScalar.createParentMenu("One Hash Billing");
+		
+		/******************* CUSTOMER MENU ***********************/
+		MenuScalar customerParentMenu = MenuScalar.createParentMenu("Customer");
+		rootMenu.getChildMenus().add(customerParentMenu);
+		
+		customerParentMenu.getChildMenus().add(MenuScalar.createChildMenu("Customer",CustomerListPanel.class));
+		customerParentMenu.getChildMenus().add(MenuScalar.createChildMenu("Complaint",ComplaintListPanel.class));
+		
+		return rootMenu;
 	}
 
 }

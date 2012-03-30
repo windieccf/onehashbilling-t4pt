@@ -51,6 +51,7 @@ import com.onehash.model.service.rate.ServiceRate;
 import com.onehash.model.service.rate.SubscriptionRate;
 import com.onehash.model.service.rate.UsageRate;
 import com.onehash.model.usage.MonthlyUsage;
+import com.onehash.model.user.User;
 import com.onehash.utility.OneHashBeanUtil;
 import com.onehash.utility.OneHashDateUtil;
 import com.onehash.utility.OneHashStringUtil;
@@ -74,6 +75,11 @@ public class OneHashDataCache {
 	
 	/************************************ DATA CACHE ************************************************/
 	private KeyScalar keyScalar = new KeyScalar();
+
+	private List<User> users = new ArrayList<User>();
+	public List<User> getUsers() {return users;}
+	public void setUsers(List<User> users) {this.users = users;}
+
 	private List<Customer> customers = new ArrayList<Customer>();
 	public List<Customer> getCustomers() {return customers;}
 	public void setCustomers(List<Customer> customers) {this.customers = customers;}
@@ -103,6 +109,15 @@ public class OneHashDataCache {
 	@SuppressWarnings("unchecked")
 	private void restoreCache(){
 		ServiceRate.loadServiceRate();
+		try{
+			FileInputStream fin = new FileInputStream(ConstantFilePath.ONE_HASH_DATA_SECURITY);
+			ObjectInputStream ois = new ObjectInputStream(fin);
+			this.setUsers((List<User>) ois.readObject());
+			ois.close();
+		}catch(Exception e){
+			
+		}
+		
 		try{
 			FileInputStream fin = new FileInputStream(ConstantFilePath.ONE_HASH_DATA);
 			ObjectInputStream ois = new ObjectInputStream(fin);
@@ -134,12 +149,63 @@ public class OneHashDataCache {
 			oos = new ObjectOutputStream(fout);
 			oos.writeObject(this.keyScalar);
 			oos.close();
+			
+			fout = new FileOutputStream(ConstantFilePath.ONE_HASH_DATA_SECURITY);
+			oos = new ObjectOutputStream(fout);
+			oos.writeObject(this.users);
+			oos.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	
 	/************************************ UTILITY ************************************************/
+	
+	/****************************************** USER RELATED OPERATION **************************************************/
+	
+	public User getUserByUserName(String userName) {
+		return retrieveUserByUserName(userName, false);
+	}
+	
+	private User getCachedUserByUserName(String userName){
+		return retrieveUserByUserName(userName, true);
+	}
+	
+	private User retrieveUserByUserName(String userName, boolean isReference){
+		for(User user : this.getUsers()){
+			if(user.getUserName().equalsIgnoreCase(userName))
+				return (isReference) ? user : (User) user.clone();;
+		}
+		return null;
+	}
+	
+	public void saveUser(User user) throws Exception{
+		if(user.getUserId() == 0){
+			// means you are new customer, we just assign the account number and append new record into the list
+			// validate username
+			if(this.isUsernameExist(user.getUserName()))
+				throw new BusinessLogicException("Username is taken");
+			
+			user.setUserId(this.keyScalar.getNextUserID());
+			this.getUsers().add(user);
+		}else{
+			//update mode
+			User cachedUser = getCachedUserByUserName(user.getUserName());
+			OneHashBeanUtil.copyProperties(cachedUser, user, "userId","userName", "userAccesses" );
+			cachedUser.setUserAccesses(user.getUserAccesses());
+			
+		}
+	}
+	
+	
+	private boolean isUsernameExist(String userName){
+		for(User user : this.getUsers()){
+			if(user.getUserName().equalsIgnoreCase(userName))
+				return true;
+		}
+		return false;
+	}
+	
 
 	/****************************************** CUSTOMER RELATED OPERATION **************************************************/
 	public Customer getCustomerByAccountNumber(String accountNumber) {

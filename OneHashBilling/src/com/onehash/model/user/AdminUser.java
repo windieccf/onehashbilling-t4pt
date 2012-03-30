@@ -18,38 +18,44 @@
  */
 package com.onehash.model.user;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import com.onehash.model.scalar.MenuScalar;
+import com.onehash.view.panel.bill.BillListPanel;
+import com.onehash.view.panel.bill.BillReportPanel;
+import com.onehash.view.panel.complaint.ComplaintListPanel;
+import com.onehash.view.panel.customer.CustomerListPanel;
+
+@SuppressWarnings("serial")
 public class AdminUser extends User {
 
-	private static ArrayList<String> lstMenu = new ArrayList<String>();
-	
-	public AdminUser(String userId, String firstName, String lastName,
-			String password, String status) {
-		super(userId, firstName, lastName, password, "Admin", status);
-		
-		//System.out.println(lstMenu.isEmpty());
-		// TODO Auto-generated constructor stub
-		if (lstMenu.isEmpty()) {
-			lstMenu.add("Add Customer");
-			lstMenu.add("Update Customer");
-			lstMenu.add("Delete Customer");
-			lstMenu.add("Add Subscription Plan");
-			lstMenu.add("Update Subscription Plan");
-			lstMenu.add("Delete Subscription Plan");
-			lstMenu.add("Add Subscription Plan For Customer");
-			lstMenu.add("Update Subscription Plan For Customer");
-			lstMenu.add("Delete Subscription Plan For Customer");
-			lstMenu.add("Add Complaint");
-			lstMenu.add("Update Complaint");
-		}
-	}
-
 	@Override
-	public List<String> getAvailableMenu() {
-		// TODO Auto-generated method stub
-		return lstMenu;
+	public MenuScalar getAvailableMenu() {
+		MenuScalar rootMenu = MenuScalar.createParentMenu("One Hash Billing");
+
+		/******************* USER ACCOUNT MENU ***********************/
+		MenuScalar userAccountParentMenu = MenuScalar.createParentMenu("User Account");
+		rootMenu.getChildMenus().add(userAccountParentMenu);
+		userAccountParentMenu.getChildMenus().add(MenuScalar.createChildMenu("User",CustomerListPanel.class));
+		
+		/******************* SERVICE PLAN MENU ***********************/
+		
+		
+		/******************* CUSTOMER MENU ***********************/
+		MenuScalar customerParentMenu = MenuScalar.createParentMenu("Customer");
+		rootMenu.getChildMenus().add(customerParentMenu);
+		
+		customerParentMenu.getChildMenus().add(MenuScalar.createChildMenu("Customer",CustomerListPanel.class));
+		customerParentMenu.getChildMenus().add(MenuScalar.createChildMenu("Complaint",ComplaintListPanel.class));
+		
+		/******************* BILL MENU ***********************/
+		MenuScalar BillMenu = MenuScalar.createParentMenu("Bill");
+		rootMenu.getChildMenus().add(BillMenu);
+		
+		BillMenu.getChildMenus().add( MenuScalar.createChildMenu("View Bill", BillListPanel.class) );
+		BillMenu.getChildMenus().add( MenuScalar.createChildMenu("Monthly Report", BillReportPanel.class) );
+		
+		return rootMenu;
+	
 	}
 
 }
