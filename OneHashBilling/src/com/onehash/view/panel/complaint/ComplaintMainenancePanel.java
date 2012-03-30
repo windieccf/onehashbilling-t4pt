@@ -1,3 +1,22 @@
+/*
+ * CONFIDENTIAL AND PROPRIETARY SOURCE CODE OF
+ * Institute of Systems Science, National University of Singapore
+ *
+ * Copyright 2012 Team 4(Part-Time), ISS, NUS, Singapore. All rights reserved.
+ * Use of this source code is subjected to the terms of the applicable license
+ * agreement.
+ *
+ * -----------------------------------------------------------------
+ * REVISION HISTORY
+ * -----------------------------------------------------------------
+ * DATE             AUTHOR          REVISION		DESCRIPTION
+ * 28 March 2012    Robin Foe		0.1				Class creating
+ * 30 March 2012    Chen Changfeng	0.2				Adding comments													
+ * 													
+ * 													
+ * 													
+ * 
+ */
 package com.onehash.view.panel.complaint;
 
 import java.awt.event.ActionEvent;
@@ -115,6 +134,11 @@ public class ComplaintMainenancePanel extends BasePanel implements BaseOperation
 		
 	}
 	
+	/**
+	 * Save complaints
+	 * Mandatory field: Customer, issue description
+	 * @throws Exception
+	 */
 	public void saveComplaint() throws Exception {
 		try{
 			if(this.selectedCustomer == null || OneHashStringUtil.isEmpty(this.selectedCustomer.getAccountNumber()))
@@ -135,6 +159,10 @@ public class ComplaintMainenancePanel extends BasePanel implements BaseOperation
 		}
 	}
 	
+	/**
+	 * Closed date will be the date status changed to closed
+	 * @throws Exception
+	 */
 	public void saveAndCloseComplaint() throws Exception{
 		this.complaintLog.setClosedDate(new Date());
 		this.complaintLog.setStatus(EnumComplaint.STS_CLOSED.getStatus());

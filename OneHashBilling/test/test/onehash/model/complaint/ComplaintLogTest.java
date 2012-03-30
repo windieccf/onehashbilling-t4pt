@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Chen Changfeng	0.1				Class creating
- * 													
+ * 30 March 2012    Chen Changfeng	0.2				Adding more test cases														
  * 													
  * 													
  * 													
@@ -33,6 +33,8 @@ import com.onehash.utility.OneHashDateUtil;
 public class ComplaintLogTest {
 	ArrayList<String> issueNoList = new ArrayList<String>();
 	ArrayList<String> issueNoListPreSetting = new ArrayList<String>();
+	String strDate = OneHashDateUtil.format(OneHashDateUtil.getDate(),
+			"yyyyMMdd");
 	ComplaintLog compLog1 = null;
 	ComplaintLog compLog2 = null;
 	ComplaintLog compLog3 = null;
@@ -70,14 +72,14 @@ public class ComplaintLogTest {
 
 	@Test
 	public void testMaxIssueNo() {
-		assertEquals(compLog4.getIssueNo(), "COMP201203100004");
+		assertEquals(compLog4.getIssueNo(), "COMP" + strDate + "0003");
 	}
 
 	@Test
 	public void testNextGeneratedIssueNo() {
 		ComplaintLog compLog5 = new ComplaintLog("Complain 5",
 				issueNoListPreSetting);
-		assertEquals(compLog5.getIssueNo(), "COMP201203100005");
+		assertEquals(compLog5.getIssueNo(), "COMP" + strDate + "0004");
 	}
 	
 	@Test
