@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 29 March 2012    Yue Yang	    0.1				Class creating
- * 													
+ * 30 March 2012    Yue Yang	    0.2			    Modify 	testgetDeletedDate Class													
  * 													
  * 													
  * 													
@@ -22,7 +22,6 @@ package test.onehash.model.service.plan;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -137,7 +136,8 @@ public class DigitalVoicePlanTest extends TestCase {
 	
 	@Test
 	public void testgetDeletedDate(){
-		assertEquals(dVoicePlan2.getDeletedDate(),new Date());
+		assertEquals(dVoicePlan1.getDeletedDate(),OneHashDateUtil.getDate());
+		assertEquals(dVoicePlan2.getDeletedDate(),OneHashDateUtil.getDate());
 	}
 	
 	@Test 
