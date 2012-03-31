@@ -155,4 +155,15 @@ public class CableTvPlanTest extends TestCase {
 		assertTrue(cTVPlan2.getServiceRates().get(0).getRateDescription().equals(cTVPlan1.getServiceRates().get(0).getRateDescription()));
 		assertTrue(cTVPlan2.getServiceRates().get(0).getRatePrice().equals(cTVPlan1.getServiceRates().get(0).getRatePrice()));
    }
+	
+	@Test
+	public void testCalculateBill(){
+		assertEquals(cTVPlan2.calculateBill().size(),2);
+		assertEquals(cTVPlan2.calculateBill().get(0).getPalnName(),"Cabel TV Plan 2");
+		assertEquals(cTVPlan2.calculateBill().get(0).getRateName(),"TV Subscription");
+		assertEquals(cTVPlan2.calculateBill().get(0).getRate(),new BigDecimal(60.00));
+		assertEquals(cTVPlan2.calculateBill().get(1).getPalnName(),"Cabel TV Plan 2");
+        assertEquals(cTVPlan2.calculateBill().get(1).getRateName(),"TV Per Channel");
+		assertEquals(cTVPlan2.calculateBill().get(1).getRate(),new BigDecimal(20.00));
+	}
 }

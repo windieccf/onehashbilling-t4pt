@@ -104,6 +104,7 @@ public abstract class ServicePlan extends BaseEntity {
 				BigDecimal charge = serviceRate.getRatePrice().multiply(usage);
 				billDetail.setRate(charge);
 			}
+			billDetails.add(billDetail);
 		}
 		return billDetails;
 	}
