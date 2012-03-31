@@ -42,8 +42,7 @@ public class OneHashBeanUtil {
 			
 			for(String exclude : excludedPropertyName)
 				fieldMap.remove(exclude);
-			
-			
+
 			// perform copy here
 			@SuppressWarnings("rawtypes")
 			Class currentKlass = destinationBean.getClass();

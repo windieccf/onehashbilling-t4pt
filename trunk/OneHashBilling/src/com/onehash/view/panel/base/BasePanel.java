@@ -27,7 +27,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -40,6 +43,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.onehash.constant.ConstantGUIAttribute;
+import com.onehash.controller.OneHashDataCache;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
@@ -65,6 +69,9 @@ public abstract class BasePanel extends JPanel implements Runnable{
 			JLabel titleLabel = FactoryComponent.createLabel(this.getScreenTitle(), new PositionScalar(20,20,300,25));
 			titleLabel.setFont(new Font(this.getScreenTitle(), Font.BOLD, 15) );
 			panel.add(titleLabel);
+			
+			panel.add(FactoryComponent.createLabel("Logged in as : " + OneHashDataCache.getInstance().getCurrentUser().getUserName(), new PositionScalar(650,20,400,25)));
+			
 			JSeparator separator = new JSeparator();
 			separator.setBounds(ConstantGUIAttribute.HEADER_SEPERATOR);
 			panel.add(separator);
@@ -82,17 +89,13 @@ public abstract class BasePanel extends JPanel implements Runnable{
 			}
 			maxWidth = ((rect.getX() + rect.getWidth()) > maxWidth ) ?  rect.getX() + rect.getWidth() : maxWidth;
 			maxHeight = ((rect.getY() + rect.getHeight()) > maxHeight ) ?  rect.getY() + rect.getHeight() : maxHeight;
-			//comp.setBounds(50 +  comp.getBounds().getX(), 50 +  comp.getBounds().getY(), comp.getBounds().getWidth(),  comp.getBounds().getHeight());
 			panel.add(comp);
 		}
-		//maxWidth = maxWidth + 20;
-		//maxHeight = maxHeight + 20;
-	//	System.err.println(this.getMaximumSize());
 
 		this.setLayout(null);
 		this.setBackground(Color.WHITE);
 		this.setPreferredSize(new Dimension( (new BigDecimal(maxWidth).setScale(0, BigDecimal.ROUND_UP).intValue()) ,(new BigDecimal(maxHeight).setScale(0,BigDecimal.ROUND_UP).intValue()) ));
-		
+		this.initiateAccessRights();
 	}
 	
 	public void draw(){
@@ -124,6 +127,19 @@ public abstract class BasePanel extends JPanel implements Runnable{
 		componentMap.put(componentName, component);
 	}
 	
+	public final void disableComponent(String... excludedComponentName){
+		List<String> excludedList = new ArrayList<String>();
+		if(excludedComponentName != null){
+			excludedList = Arrays.asList(excludedComponentName);
+		}
+		
+		for(String key : componentMap.keySet()){
+			if(excludedList.contains(key)) continue;
+			
+			componentMap.get(key).setEnabled(false);			
+		}
+	}
+	
 	public final JTextField getTextFieldComponent(String componentName){return (JTextField)componentMap.get(componentName);}
 	public final JTextArea getTextAreaComponent(String componentName){return (JTextArea)componentMap.get(componentName);}
 	public final JLabel getLabelComponent(String componentName){return (JLabel)componentMap.get(componentName);}
@@ -135,6 +151,7 @@ public abstract class BasePanel extends JPanel implements Runnable{
 	
 	abstract protected void init();
 	abstract protected String getScreenTitle();
+	protected void initiateAccessRights(){/*IGNORED*/}
 	
 
 }

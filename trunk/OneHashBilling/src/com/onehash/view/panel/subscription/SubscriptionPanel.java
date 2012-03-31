@@ -20,6 +20,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import com.onehash.constant.ConstantStatus;
 import com.onehash.constant.ConstantSummary;
 import com.onehash.controller.OneHashDataCache;
+import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.exception.BusinessLogicException;
 import com.onehash.model.base.BaseEntity;
 import com.onehash.model.customer.Customer;
@@ -322,6 +323,7 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 			super.getComponent(SERVICEPLAN_COMBOBOX_MONTH).setEnabled(true);
 			super.getComponent(SERVICEPLAN_COMBOBOX_YEAR).setEnabled(true);
 		}
+		this.initiateAccessRights();
 	}
 	
 	public void saveServicePlan() throws Exception {
@@ -576,6 +578,14 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 	public void setSelectedEntity(BaseEntity baseEntity) {
 		this.customer = (Customer) baseEntity;
 	}
+	
+	@Override
+	protected void initiateAccessRights() {
+		if(!OneHashDataCache.getInstance().getCurrentUser().hasRights(EnumUserAccess.SERVICE_PLAN_UPDATE)){
+			super.disableComponent(SERVICEPLAN_BUTTON_CANCEL_SERVICE_PLAN);
+		}
+	}
+
 
 
 }

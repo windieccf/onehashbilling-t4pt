@@ -32,6 +32,7 @@ import javax.swing.table.TableRowSorter;
 import com.onehash.constant.ConstantAction;
 import com.onehash.constant.ConstantPrefix;
 import com.onehash.controller.OneHashDataCache;
+import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.model.complaint.ComplaintLog;
 import com.onehash.model.customer.Customer;
 import com.onehash.model.scalar.ButtonAttributeScalar;
@@ -164,5 +165,11 @@ public class ComplaintListPanel extends BasePanel {
 		return new String[]{"Account Number", "Name","Issue No.", "Description", "Complaint Date" , "Closed Date", "Status"};
 	}
 
+	
+	@Override
+	protected void initiateAccessRights() {
+		if(!OneHashDataCache.getInstance().getCurrentUser().hasRights(EnumUserAccess.COMPLAINT_UPDATE))
+			super.getButtonComponent(COMP_BUTTON_CREATE).setEnabled(false);
+	}
 	
 }

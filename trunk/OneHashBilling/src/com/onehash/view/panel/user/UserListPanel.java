@@ -12,6 +12,7 @@ import javax.swing.table.TableRowSorter;
 
 import com.onehash.constant.ConstantAction;
 import com.onehash.controller.OneHashDataCache;
+import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TableFilterScalar;
@@ -124,6 +125,12 @@ public class UserListPanel extends BasePanel {
 	
 	public String[] getTableColumnNames(){
 		return new String[]{"Username", "First Name","Last Name" , "Role","Activated","Rights"};
+	}
+
+	@Override
+	protected void initiateAccessRights() {
+		if(!OneHashDataCache.getInstance().getCurrentUser().hasRights(EnumUserAccess.USER_UPDATE))
+			super.getButtonComponent(COMP_BUTTON_CREATE).setEnabled(false);
 	}
 	
 	

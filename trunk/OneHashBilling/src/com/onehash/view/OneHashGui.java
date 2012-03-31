@@ -52,13 +52,11 @@ public class OneHashGui extends JFrame {
 		        System.exit(0); 
 		    }
 		});
-		
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		doLoadLoginScreen();
-		//setBounds(100, 100, 768, 416);
 	}
 	
 	public void doLoadLoginScreen(){
+		this.splitPanel = null;
 		this.setContentPane(new AuthenticationPanel(this));
 		this.setSize(ConstantGUIAttribute.GUI_LOGON_WIDTH, ConstantGUIAttribute.GUI_LOGON_HEIGHT);
 		this.setResizable( false );
@@ -90,11 +88,10 @@ public class OneHashGui extends JFrame {
 					Object panelComponent = (Object) constructor.newInstance(frame);
 					JScrollPane scrollPane = new JScrollPane((Component)panelComponent);
 
-					//scrollPane.setPreferredSize(new Dimension(300,300));
 					scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 					scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 					splitPanel.setRightComponent(scrollPane);
-					//splitPanel.setRightComponent((Component)panelComponent);
+
 					//check on method invocation with annotation post create
 					Method[] methods = clazz.getMethods();
 					for(Method method : methods){
@@ -103,8 +100,6 @@ public class OneHashGui extends JFrame {
 							method.invoke(panelComponent,Arrays.asList(finalParam));
 						}
 					}
-					
-					
 					frame.setVisible(true);
 					
 				}catch(Exception e){
@@ -112,23 +107,6 @@ public class OneHashGui extends JFrame {
 				}
 			}
 		});
-		
-		/*if(splitPanel == null){
-			splitPanel = new JSplitPane();
-			this.setSize(ConstantGUIAttribute.GUI_MAIN_WIDTH,ConstantGUIAttribute.GUI_MAIN_HEIGHT);
-			this.setResizable( false );
-			splitPanel.setDividerSize(5);
-			splitPanel.setDividerLocation(155);
-			splitPanel.setEnabled(false);
-			splitPanel.setLeftComponent(new MenuPanel(this));
-			
-			this.setContentPane(splitPanel);
-		}
-		
-		Constructor constructor = klass.getConstructor(OneHashGui.class);
-		splitPanel.setRightComponent((Component) constructor.newInstance(this));*/
-		
-		
 	}
 	
 	

@@ -31,7 +31,10 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import com.onehash.controller.OneHashDataCache;
+import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.model.scalar.MenuScalar;
+import com.onehash.model.user.User;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.panel.bill.BillListPanel;
 import com.onehash.view.panel.bill.BillReportPanel;
@@ -88,31 +91,44 @@ public class MenuPanel extends JPanel{
 
 	public MenuScalar getMenus(){
 		MenuScalar rootMenu = MenuScalar.createParentMenu("One Hash Billing");
+		User currUser = OneHashDataCache.getInstance().getCurrentUser();
 		
-		
-		MenuScalar userParentMenu = MenuScalar.createParentMenu("Security");
-		rootMenu.getChildMenus().add(userParentMenu);
-		userParentMenu.getChildMenus().add(MenuScalar.createChildMenu("User",UserListPanel.class));
+		if(currUser.hasRights(EnumUserAccess.USER_VIEW)){
+			MenuScalar userParentMenu = MenuScalar.createParentMenu("Security");
+			rootMenu.getChildMenus().add(userParentMenu);
+			userParentMenu.getChildMenus().add(MenuScalar.createChildMenu("User",UserListPanel.class));
+		}
 		
 		/******************* CUSTOMER MENU ***********************/
-		MenuScalar customerParentMenu = MenuScalar.createParentMenu("Customer");
-		rootMenu.getChildMenus().add(customerParentMenu);
-		
-		customerParentMenu.getChildMenus().add(MenuScalar.createChildMenu("Customer",CustomerListPanel.class));
-		customerParentMenu.getChildMenus().add(MenuScalar.createChildMenu("Complaint",ComplaintListPanel.class));
+		if(currUser.hasRights(EnumUserAccess.CUSTOMER_VIEW , EnumUserAccess.COMPLAINT_VIEW) ){
+			MenuScalar customerParentMenu = MenuScalar.createParentMenu("Customer");
+			rootMenu.getChildMenus().add(customerParentMenu);
+			
+			if(currUser.hasRights(EnumUserAccess.CUSTOMER_VIEW))
+				customerParentMenu.getChildMenus().add(MenuScalar.createChildMenu("Customer",CustomerListPanel.class));
+			
+			if(currUser.hasRights(EnumUserAccess.COMPLAINT_VIEW))
+				customerParentMenu.getChildMenus().add(MenuScalar.createChildMenu("Complaint",ComplaintListPanel.class));
+				
+		}
+			
 		
 		/******************* BILL MENU ***********************/
-		MenuScalar BillMenu = MenuScalar.createParentMenu("Bill");
-		rootMenu.getChildMenus().add(BillMenu);
+		if(currUser.hasRights(EnumUserAccess.BILL_VIEW , EnumUserAccess.REPORT_VIEW) ){
+			MenuScalar BillMenu = MenuScalar.createParentMenu("Bill");
+			rootMenu.getChildMenus().add(BillMenu);
+			
+			if(currUser.hasRights(EnumUserAccess.BILL_VIEW))
+				BillMenu.getChildMenus().add( MenuScalar.createChildMenu("View Bill", BillListPanel.class) );
+			
+			if(currUser.hasRights(EnumUserAccess.REPORT_VIEW))
+				BillMenu.getChildMenus().add( MenuScalar.createChildMenu("Monthly Report", BillReportPanel.class) );
+		}
 		
-		BillMenu.getChildMenus().add( MenuScalar.createChildMenu("View Bill", BillListPanel.class) );
-		BillMenu.getChildMenus().add( MenuScalar.createChildMenu("Monthly Report", BillReportPanel.class) );
-		
-		/******************* COMPLAINT MENU ***********************/
-		//MenuScalar ComplaintlMenu = MenuScalar.createParentMenu("Complaint");
-		//rootMenu.getChildMenus().add(ComplaintlMenu);
-//		ComplaintlMenu.getChildMenus().add( MenuScalar.createChildMenu("View Complaint", ComplaintListPanel.class) );
-		
+		/******************* LOG OUT MENU ***********************/
+		MenuScalar LogOutMenu = MenuScalar.createParentMenu("Access");
+		rootMenu.getChildMenus().add(LogOutMenu);
+		LogOutMenu.getChildMenus().add( MenuScalar.createChildMenu("Log Out", AuthenticationPanel.class) );
 		
 		return rootMenu;
 	}
@@ -130,8 +146,13 @@ public class MenuPanel extends JPanel{
 		    
 		    if(! (selectedNode.getUserObject() instanceof String) ){
 		    	MenuScalar menuScalar = (MenuScalar)selectedNode.getUserObject();
-			    if(menuScalar.isAccessible())
-			    	this.menuPanel.getMainFrame().doLoadScreen(menuScalar.getKlass());
+			    if(menuScalar.isAccessible()){
+			    	if(AuthenticationPanel.class.equals(menuScalar.getKlass())){
+			    		OneHashDataCache.getInstance().logout();
+				    	this.menuPanel.getMainFrame().doLoadLoginScreen();
+			    	}else
+			    		this.menuPanel.getMainFrame().doLoadScreen(menuScalar.getKlass());
+			    }
 		    }
 		    
 		}
