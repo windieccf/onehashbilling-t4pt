@@ -24,6 +24,7 @@ import com.onehash.view.panel.bill.BillReportPanel;
 import com.onehash.view.panel.complaint.ComplaintListPanel;
 import com.onehash.view.panel.customer.CustomerEditPanel;
 import com.onehash.view.panel.customer.CustomerListPanel;
+import com.onehash.view.panel.payment.PaymentPanel;
 import com.onehash.view.panel.subscription.SubscriptionPanel;
 import com.onehash.view.panel.user.UserEditPanel;
 import com.onehash.view.panel.user.UserListPanel;
@@ -44,7 +45,14 @@ public enum EnumUserAccess {
 	
 	BILL_VIEW("BILLV", "Bill View",BillListPanel.class),
 	BILL_GENERATE("BILLG", "Bill Generate",null),
-	REPORT_VIEW("REPTV" , "Report View", BillReportPanel.class);
+	REPORT_VIEW("REPTV" , "Report View", BillReportPanel.class),
+	
+	PAYMENT_VIEW("PAYV", "Payment View",PaymentPanel.class),
+	PAYMENT_ADD("PAYA", "Payment Add",PaymentPanel.class),
+	
+	MASTER_SERVICE_PLAN_VIEW("MSVPLV", "Master Service Plan View",SubscriptionPanel.class),
+	MASTER_SERVICE_PLAN_UPDATE("MSVPLU", "Master Service Plan Update",SubscriptionPanel.class);
+	
 	
 	private String code;
 	public String getCode() {return code;}
