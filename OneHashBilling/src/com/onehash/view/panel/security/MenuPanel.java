@@ -40,6 +40,8 @@ import com.onehash.view.panel.bill.BillListPanel;
 import com.onehash.view.panel.bill.BillReportPanel;
 import com.onehash.view.panel.complaint.ComplaintListPanel;
 import com.onehash.view.panel.customer.CustomerListPanel;
+import com.onehash.view.panel.master.subscriptionplan.ServicePlanListPanel;
+import com.onehash.view.panel.payment.PaymentPanel;
 import com.onehash.view.panel.user.UserListPanel;
 
 @SuppressWarnings("serial")
@@ -93,10 +95,11 @@ public class MenuPanel extends JPanel{
 		MenuScalar rootMenu = MenuScalar.createParentMenu("One Hash Billing");
 		User currUser = OneHashDataCache.getInstance().getCurrentUser();
 		
-		if(currUser.hasRights(EnumUserAccess.USER_VIEW)){
-			MenuScalar userParentMenu = MenuScalar.createParentMenu("Security");
-			rootMenu.getChildMenus().add(userParentMenu);
-			userParentMenu.getChildMenus().add(MenuScalar.createChildMenu("User",UserListPanel.class));
+		if(currUser.hasRights(EnumUserAccess.USER_VIEW, EnumUserAccess.MASTER_SERVICE_PLAN_VIEW)){
+			MenuScalar masterSetupMenu = MenuScalar.createParentMenu("Setup");
+			rootMenu.getChildMenus().add(masterSetupMenu);
+			masterSetupMenu.getChildMenus().add(MenuScalar.createChildMenu("User",UserListPanel.class));
+			masterSetupMenu.getChildMenus().add(MenuScalar.createChildMenu("Service Plan",ServicePlanListPanel.class));
 		}
 		
 		/******************* CUSTOMER MENU ***********************/
@@ -123,6 +126,15 @@ public class MenuPanel extends JPanel{
 			
 			if(currUser.hasRights(EnumUserAccess.REPORT_VIEW))
 				BillMenu.getChildMenus().add( MenuScalar.createChildMenu("Monthly Report", BillReportPanel.class) );
+		}
+		
+		
+		/******************* PAYMENT MENU ***********************/
+		if(currUser.hasRights(EnumUserAccess.PAYMENT_VIEW) ){
+			MenuScalar paymentMenu = MenuScalar.createParentMenu("Payment");
+			rootMenu.getChildMenus().add(paymentMenu);
+			
+			paymentMenu.getChildMenus().add( MenuScalar.createChildMenu("Payment", PaymentPanel.class) );
 		}
 		
 		/******************* LOG OUT MENU ***********************/
