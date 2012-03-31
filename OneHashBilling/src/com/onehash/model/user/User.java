@@ -22,11 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.onehash.constant.ConstantStatus;
-import com.onehash.constant.ConstantUserType;
 import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.model.base.BaseEntity;
 import com.onehash.model.scalar.MenuScalar;
-import com.onehash.utility.OneHashBeanUtil;
 import com.onehash.utility.OneHashStringUtil;
 
 @SuppressWarnings("serial")
@@ -71,20 +69,18 @@ public class User extends BaseEntity{
 		}
 		return OneHashStringUtil.join(accesses, " , ");
 	}
+	public boolean hasRights(EnumUserAccess... accesses){
+		if(accesses == null)
+			throw new IllegalArgumentException("User.hasRights :: Accesses cant be null");
+		
+		for(EnumUserAccess access : accesses){
+			if(this.getUserAccesses().contains(access))
+				return true;
+		}
+		return false;
+	}
 	
 	public User(){}
-	
-	public static User createUserByRole(String userRole){
-		User user = (ConstantUserType.ADMIN.equals(userRole)) ? new AdminUser() : new AgentUser();
-		user.setUserRole(userRole);
-		return user;
-	}
-	
-	public User switchRole(String userRole){
-		User user = User.createUserByRole(userRole);
-		OneHashBeanUtil.copyProperties(user, this);
-		return user;
-	}
 	
     
     @Override

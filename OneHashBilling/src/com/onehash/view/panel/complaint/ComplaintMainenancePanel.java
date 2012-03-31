@@ -31,6 +31,7 @@ import com.onehash.annotation.PostCreate;
 import com.onehash.constant.ConstantAction;
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.enumeration.EnumComplaint;
+import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.exception.BusinessLogicException;
 import com.onehash.exception.InsufficientInputParameterException;
 import com.onehash.model.base.BaseEntity;
@@ -104,10 +105,10 @@ public class ComplaintMainenancePanel extends BasePanel implements BaseOperation
 		super.registerComponent(COMP_LBL_ISSUE_NO , FactoryComponent.createLabel("Issue Number", new PositionScalar(20, 53, 150, 14)));
 		super.registerComponent(COMP_LBL_ISSUE_NO_TXT , FactoryComponent.createLabel("Auto number", new PositionScalar(180, 53, 150, 14)));
 		
-		super.registerComponent(COMP_LBL_DATE_FROM , FactoryComponent.createLabel("Date From", new PositionScalar(20, 83, 150, 14)));
+		super.registerComponent(COMP_LBL_DATE_FROM , FactoryComponent.createLabel("Complaint Date", new PositionScalar(20, 83, 150, 14)));
 		super.registerComponent(COMP_LBL_DATE_FROM_TXT , FactoryComponent.createLabel(OneHashDateUtil.format(this.complaintLog.getComplaintDate(), "dd/MM/yyyy"), new PositionScalar(180, 83, 150, 14)));
 		
-		super.registerComponent(COMP_LBL_DATE_TO , FactoryComponent.createLabel("Date To", new PositionScalar(20, 113, 150, 14)));
+		super.registerComponent(COMP_LBL_DATE_TO , FactoryComponent.createLabel("Closed Date", new PositionScalar(20, 113, 150, 14)));
 		super.registerComponent(COMP_LBL_DATE_TO_TXT , FactoryComponent.createLabel("-", new PositionScalar(180, 113, 150, 14)));
 		
 		
@@ -200,10 +201,17 @@ public class ComplaintMainenancePanel extends BasePanel implements BaseOperation
 				e.printStackTrace();
 			}
 		}
-		//super.getCheckboxComponent(COMP_CHECKBOX_ACTIVATED).setSelected(customer.isActivated());
 	}
 	
 	@Override
 	protected String getScreenTitle() {return "Complaint Maintenance";}
+	
+	
+	@Override
+	protected void initiateAccessRights() {
+		if(!OneHashDataCache.getInstance().getCurrentUser().hasRights(EnumUserAccess.COMPLAINT_UPDATE))
+			super.disableComponent(COMP_BUTTON_BACK);
+	}
+
 
 }

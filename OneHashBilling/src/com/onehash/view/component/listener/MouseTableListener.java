@@ -68,6 +68,7 @@ public class MouseTableListener extends MouseAdapter{
 				Method mtd = basePanel.getClass().getMethod(actionMethod,String.class);
 				mtd.invoke(basePanel, value);
 			} catch (Exception e) {
+				e.printStackTrace();
 				throw new IllegalArgumentException(e.getMessage());
 			}
 	         

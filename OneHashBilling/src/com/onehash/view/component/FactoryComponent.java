@@ -64,6 +64,10 @@ public class FactoryComponent {
 		if(scalar.getColumns() > 0)
 			passwordField.setColumns(scalar.getColumns());
 		
+		if(scalar.getDocumentListener()!=null)
+			passwordField.getDocument().addDocumentListener(scalar.getDocumentListener());
+		
+		
 		return passwordField;
 	}
 	

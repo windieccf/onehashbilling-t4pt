@@ -39,6 +39,7 @@ public class MenuScalar {
 	public List<MenuScalar> getChildMenus() {return childMenus;}
 	public void setChildMenus(List<MenuScalar> childMenus) {this.childMenus = childMenus;}
 
+	
 	private MenuScalar(){}
 	private MenuScalar(String menuName){this(menuName,null);}
 	private MenuScalar(String menuName, Class<? extends BasePanel> klass){

@@ -32,6 +32,7 @@ import javax.swing.table.TableRowSorter;
 
 import com.onehash.constant.ConstantAction;
 import com.onehash.controller.OneHashDataCache;
+import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.model.customer.Customer;
 import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
@@ -139,6 +140,12 @@ public class CustomerListPanel extends BasePanel {
 	
 	public String[] getTableColumnNames(){
 		return new String[]{"Account Number", "Name","NRIC" , "Phone Number","Activated"};
+	}
+	
+	@Override
+	protected void initiateAccessRights() {
+		if(!OneHashDataCache.getInstance().getCurrentUser().hasRights(EnumUserAccess.CUSTOMER_UPDATE))
+			super.getButtonComponent(COMP_BUTTON_CREATE).setEnabled(false);
 	}
 
 

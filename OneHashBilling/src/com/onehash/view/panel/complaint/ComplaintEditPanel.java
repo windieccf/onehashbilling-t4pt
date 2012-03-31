@@ -179,7 +179,6 @@ public class ComplaintEditPanel extends BasePanel implements BaseOperationImpl ,
 		
 		editCompalintDialog.pack();
 		editCompalintDialog.setVisible (true);
-
 	}
 
 

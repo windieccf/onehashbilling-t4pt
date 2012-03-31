@@ -20,17 +20,27 @@
 
 package com.onehash.view.panel.security;
 
+import javax.swing.JOptionPane;
+
+import com.onehash.controller.OneHashDataCache;
+import com.onehash.exception.BusinessLogicException;
+import com.onehash.exception.InsufficientInputParameterException;
+import com.onehash.model.base.BaseEntity;
 import com.onehash.model.scalar.ButtonAttributeScalar;
 import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
+import com.onehash.model.user.User;
+import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
 import com.onehash.view.component.listener.ButtonActionListener;
+import com.onehash.view.component.listener.OneHashTextFieldListener;
 import com.onehash.view.panel.MainScreenPanel;
+import com.onehash.view.panel.base.BaseOperationImpl;
 import com.onehash.view.panel.base.BasePanel;
 
 @SuppressWarnings("serial")
-public class AuthenticationPanel extends BasePanel {
+public class AuthenticationPanel extends BasePanel implements BaseOperationImpl{
 	
 	private static final String COMP_LBL_USERNAME = "LBL_USER_NAME";
 	private static final String COMP_LBL_PASSWORD = "LBL_PASSWORD";
@@ -41,44 +51,51 @@ public class AuthenticationPanel extends BasePanel {
 	
 	public AuthenticationPanel(OneHashGui mainFrame) {super(mainFrame);}
 
+	private User user = new User();
+	
 	@Override
 	protected void init() {
+		user = new User();
 		super.registerComponent(COMP_LBL_USERNAME , FactoryComponent.createLabel("Username", new PositionScalar(38,26,79,14)));
 		super.registerComponent(COMP_LBL_PASSWORD , FactoryComponent.createLabel("Password", new PositionScalar(38,51,79,14)));
-		super.registerComponent(COMP_TXT_USERNAME, FactoryComponent.createTextField( new TextFieldAttributeScalar(146, 23, 126, 20,10) ));
-		super.registerComponent(COMP_TXT_PASSWORD , FactoryComponent.createPasswordField( new TextFieldAttributeScalar(146, 48, 126, 20,0) ));
-		
-		
+
+		super.registerComponent(COMP_TXT_USERNAME, FactoryComponent.createTextField( new TextFieldAttributeScalar(146, 23, 126, 20,10 , new OneHashTextFieldListener(this,"userName",String.class) )  ));
+		super.registerComponent(COMP_TXT_PASSWORD , FactoryComponent.createPasswordField( new TextFieldAttributeScalar(146, 48, 126, 20,0 , new OneHashTextFieldListener(this,"password",String.class))  ));
+
 		super.registerComponent(COMP_BUTTON_LOGIN , FactoryComponent.createButton("Login", new ButtonAttributeScalar(178, 79, 96, 23 , new ButtonActionListener(this,"doLogin"))) );
-	//	JButton loginButton = FactoryComponent.createButton("Login", new ButtonAttributeScalar(178, 79, 96, 23));
-	//	loginButton.addActionListener(new AuthenticationPanel.LoginButtonListener(this));
-	//	super.registerComponent(COMP_BUTTON_LOGIN , loginButton);
-		
 	}
 	
-	public void doLogin(){
-		
-		
-		
-		super.getMainFrame().doLoadScreen(MainScreenPanel.class);
+	public void doLogin() throws Exception{
+		try{
+			if(OneHashStringUtil.isEmpty(user.getUserName()))
+				throw new InsufficientInputParameterException("Username is required");
+			
+			if(OneHashStringUtil.isEmpty(user.getPassword()))
+				throw new InsufficientInputParameterException("Password is required");
+				
+				OneHashDataCache.getInstance().authenticate(this.user);
+				super.getMainFrame().doLoadScreen(MainScreenPanel.class);
+
+		}catch(Exception e){
+			if(e instanceof BusinessLogicException)
+				JOptionPane.showMessageDialog(this, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+			
+			throw e;
+		}
 	}
 	
-	/*public static class LoginButtonListener implements ActionListener {
-		
-		private BasePanel basePanel;
-		public LoginButtonListener(BasePanel basePanel){ this.basePanel = basePanel;}
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			basePanel.getMainFrame().doLoadScreen(MainScreenPanel.class);
-        }
-    }*/
 	
 	@Override
 	protected String getScreenTitle() {return "Login";}
 	
 	@Override
 	protected boolean isEnableHeader(){return false;}
+
+	@Override
+	public BaseEntity getSelectedEntity() {return this.user;}
+
+	@Override
+	public void setSelectedEntity(BaseEntity baseEntity) {this.user = (User) baseEntity;}
 	
 	
 }

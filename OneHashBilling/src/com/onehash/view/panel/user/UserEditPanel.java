@@ -89,12 +89,12 @@ public class UserEditPanel extends BasePanel implements BaseOperationImpl {
 							new TextFieldAttributeScalar(136, 48, 150, 20,10 , new OneHashTextFieldListener(this,"firstName",String.class)) ));
 
 		super.registerComponent(COMP_TEXT_LAST_NAME , 
-			FactoryComponent.createTextField( 
-						new TextFieldAttributeScalar(136, 77, 150, 20,10 , new OneHashTextFieldListener(this,"lastName",String.class)) ));
+				FactoryComponent.createTextField( 
+							new TextFieldAttributeScalar(136, 77, 150, 20,10 , new OneHashTextFieldListener(this,"lastName",String.class)) ));
 		
 		super.registerComponent(COMP_TEXT_PASSWORD , 
-			FactoryComponent.createTextField( 
-						new TextFieldAttributeScalar(136, 102, 150, 20,10 , new OneHashTextFieldListener(this,"password",String.class)) ));
+				FactoryComponent.createTextField( 
+							new TextFieldAttributeScalar(136, 102, 150, 20,10 , new OneHashTextFieldListener(this,"password",String.class)) ));
 		
 		super.registerComponent(COMP_TEXT_USER_ROLE , 
 				FactoryComponent.createTextField( 
@@ -231,12 +231,6 @@ public class UserEditPanel extends BasePanel implements BaseOperationImpl {
 			
 			throw e;
 		}
-		
-		
-		
-		
-		
-		
 	}
 	
 	/*************************** ACCESS RIGHTS TABLE UTIL *********************************/
@@ -273,10 +267,28 @@ public class UserEditPanel extends BasePanel implements BaseOperationImpl {
 		if(optionsJTable.getSelectedRow() == -1 )
 			return;
 		
-		
-		
 		toModel.addRow( fromModel.getRowByIndex(optionsJTable.getSelectedRow()));
 		fromModel.removeRow(optionsJTable.getSelectedRow());
+	}
+
+
+	@Override
+	protected void initiateAccessRights() {
+		if(!OneHashDataCache.getInstance().getCurrentUser().hasRights(EnumUserAccess.USER_UPDATE)){
+			super.disableComponent(BUTTON_CANCEL);
+			
+			/*super.getButtonComponent(BUTTON_SAVE).setEnabled(false);
+			super.getButtonComponent(BUTTON_ADD_OPTIONS).setEnabled(false);
+			super.getButtonComponent(BUTTON_REMOVE_OPTIONS).setEnabled(false);
+			
+			super.getTextFieldComponent(COMP_TEXT_USER_NAME).setEnabled(false);
+			super.getTextFieldComponent(COMP_TEXT_FIRST_NAME).setEnabled(false);
+			super.getTextFieldComponent(COMP_TEXT_LAST_NAME).setEnabled(false);
+			super.getTextFieldComponent(COMP_TEXT_PASSWORD).setEnabled(false);
+			super.getTextFieldComponent(COMP_TEXT_USER_ROLE).setEnabled(false);
+			super.getTextFieldComponent(COMP_CHK_STATUS).setEnabled(false);*/
+			
+		}
 	}
 	
 	

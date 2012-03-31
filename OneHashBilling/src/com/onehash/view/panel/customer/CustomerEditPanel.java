@@ -24,6 +24,7 @@ package com.onehash.view.panel.customer;
 import javax.swing.JOptionPane;
 
 import com.onehash.controller.OneHashDataCache;
+import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.exception.BusinessLogicException;
 import com.onehash.exception.InsufficientInputParameterException;
 import com.onehash.model.base.BaseEntity;
@@ -193,6 +194,13 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 			throw e;
 		}
 		
+	}
+	
+	@Override
+	protected void initiateAccessRights() {
+		if(!OneHashDataCache.getInstance().getCurrentUser().hasRights(EnumUserAccess.CUSTOMER_UPDATE)){
+			super.disableComponent(COMP_BUTTON_NAME_CANCEL);
+		}
 	}
 
 

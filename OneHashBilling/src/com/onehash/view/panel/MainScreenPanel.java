@@ -38,6 +38,9 @@ public class MainScreenPanel extends BasePanel {
 		super.registerComponent(COMP_LBL_WELCOME , FactoryComponent.createLabel("Please use the menu on the left side to navigate", new PositionScalar(38,26,300,200)));
 	}
 	@Override
-	protected String getScreenTitle() {return COMP_LBL_WELCOME;}
+	protected String getScreenTitle() {return "Welcome to ONE HASH";}
+
+	@Override
+	protected void initiateAccessRights() {/*IGNORED*/}
 
 }

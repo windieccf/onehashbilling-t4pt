@@ -36,7 +36,9 @@ import com.onehash.constant.ConstantFilePath;
 import com.onehash.constant.ConstantPrefix;
 import com.onehash.constant.ConstantSummary;
 import com.onehash.constant.ConstantUsageType;
+import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.exception.BusinessLogicException;
+import com.onehash.exception.InsufficientInputParameterException;
 import com.onehash.model.bill.Bill;
 import com.onehash.model.bill.BillSummary;
 import com.onehash.model.bill.PaymentDetail;
@@ -73,6 +75,11 @@ public class OneHashDataCache {
 		return instance;
 	}
 	
+	/************************************ SESSION CACHE FOR CURRENT LOGGED IN USER************************************************/
+	private User currentUser;
+	public User getCurrentUser() {return currentUser;}
+	public void setCurrentUser(User currentUser) {this.currentUser = currentUser;}
+
 	/************************************ DATA CACHE ************************************************/
 	private KeyScalar keyScalar = new KeyScalar();
 
@@ -91,7 +98,7 @@ public class OneHashDataCache {
 	private List<ServiceRate> availableServiceRate;
 	public List<ServiceRate> getAvailableServiceRate() {return availableServiceRate;}
 	public void setAvailableServiceRate(List<ServiceRate> availableServiceRate) {this.availableServiceRate = availableServiceRate;}
-
+	
 	/************************************ FILE PROCESSING ************************************************/
 	
 	/**
@@ -171,6 +178,7 @@ public class OneHashDataCache {
 		return retrieveUserByUserName(userName, true);
 	}
 	
+	// retrieve user by username
 	private User retrieveUserByUserName(String userName, boolean isReference){
 		for(User user : this.getUsers()){
 			if(user.getUserName().equalsIgnoreCase(userName))
@@ -204,6 +212,27 @@ public class OneHashDataCache {
 				return true;
 		}
 		return false;
+	}
+	
+	
+	public void authenticate(User user) throws Exception{	
+		if(user == null)
+			throw new InsufficientInputParameterException("User is required");
+		
+		User cachedUser = this.retrieveUserByUserName(user.getUserName(), false);
+		if(cachedUser == null)
+			throw new BusinessLogicException("Incorrect Credentials");
+		
+		if(!cachedUser.getPassword().equals(user.getPassword()))
+			throw new BusinessLogicException("Incorrect Credentials");
+
+		// storing current user to the cache
+		this.currentUser = cachedUser;
+	}
+	
+	public void logout(){
+		this.flushCache();
+		this.currentUser = null;
 	}
 	
 
@@ -623,8 +652,12 @@ public class OneHashDataCache {
 	}
 	
 	
+	
+	// for data restoration back to the cache (Restore team 4 factory setting)
 	private void restoreFromFile(){
 		try{
+			
+			// restoring customer related information
 			FileInputStream fstream = new FileInputStream("./data/CustomerData.txt");
 			java.io.DataInputStream in = new java.io.DataInputStream(fstream);
 			java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(in));
@@ -647,14 +680,47 @@ public class OneHashDataCache {
 			}
 			in.close();
 			this.setCustomers(customers);
+			
 			// adjusting key scalar
 			Long key = 1L;
 			do{
 				key  = this.keyScalar.getNextAccountNumber();
 				
 			}while(key < lastKey);
-			this.flushCache();
 			
+			
+			// basic user credentials
+			User adminUser = new User();
+			adminUser.setUserId(this.keyScalar.getNextUserID());
+			adminUser.setUserName("admin");
+			adminUser.setFirstName("PT 4 Admin");
+			adminUser.setLastName("PT 4");
+			adminUser.setPassword("password");
+			adminUser.setUserRole("admin");
+			// admin will have all rights
+			for(EnumUserAccess availableAccess : EnumUserAccess.values()){
+				adminUser.getUserAccesses().add(availableAccess);
+			}
+			this.users.add(adminUser);
+			
+			
+			User agentUser = new User();
+			agentUser.setUserId(this.keyScalar.getNextUserID());
+			agentUser.setUserName("agent");
+			agentUser.setFirstName("PT 4 Agent");
+			agentUser.setLastName("PT 4");
+			agentUser.setUserRole("agent");
+			agentUser.setPassword("password");
+			
+			// agent only has specific rights
+			agentUser.getUserAccesses().add(EnumUserAccess.CUSTOMER_VIEW);
+			agentUser.getUserAccesses().add(EnumUserAccess.COMPLAINT_UPDATE);
+			agentUser.getUserAccesses().add(EnumUserAccess.COMPLAINT_VIEW);
+			agentUser.getUserAccesses().add(EnumUserAccess.SERVICE_PLAN_VIEW);
+			agentUser.getUserAccesses().add(EnumUserAccess.BILL_VIEW);
+			this.users.add(agentUser);
+			
+			this.flushCache();
 			// update the keys
 			
 		}catch(Exception e){
