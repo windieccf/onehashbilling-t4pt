@@ -91,8 +91,22 @@ public class PaymentPanel extends BasePanel{
 	private static final String COMP_TXT_PAYAMOUNT = "COMP_TXT_PAYAMOUNT";
 	private static final String COMP_BUTTON_SAVEPAY = "COMP_BUTTON_SAVEPAY";
 	
-	private Calendar chosenDate;
+	private static final String COMP_LBL_PAID = "COMP_LBL_PAID";
+	//private static final String COMP_LBL_DUE = "COMP_LBL_DUE";
+	private static final String COMP_TXT_PAID = "COMP_TXT_PAID";
+	//private static final String COMP_TXT_DUE = "COMP_TXT_DUE";
 	
+	private Calendar chosenDate;
+	private Customer customer;
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
 	public PaymentPanel(OneHashGui mainFrame) {
 		super(mainFrame);
 	}
@@ -191,10 +205,20 @@ public class PaymentPanel extends BasePanel{
 		super.registerComponent(COMP_TEXT_TCC , FactoryComponent.createLabel("",new PositionScalar(750, 310,100,20)));
 		
 		//Payment Details
-		super.registerComponent(COMP_LBL_PAYMENT , FactoryComponent.createLabel("Make Payment", new PositionScalar(20,220,335,110)));
-		super.registerComponent(COMP_LBL_PAY , FactoryComponent.createLabel("Enter Amount : ",new PositionScalar(60,240,335,110)));
-		super.registerComponent(COMP_TXT_PAYAMOUNT, FactoryComponent.createTextField( new TextFieldAttributeScalar(170, 290, 80, 23,10) ));
-		super.registerComponent(COMP_BUTTON_SAVEPAY , FactoryComponent.createButton("Save", new ButtonAttributeScalar(260, 290, 80, 23 , new ButtonActionListener(this,"savePayment"))));
+		super.registerComponent(COMP_LBL_PAID , FactoryComponent.createLabel("Total amount paid : ", new PositionScalar(30,220,335,110)));
+		//super.registerComponent(COMP_LBL_DUE , FactoryComponent.createLabel("Due amount : ",new PositionScalar(65,240,335,110)));
+		super.registerComponent(COMP_TXT_PAID , FactoryComponent.createLabel("", new PositionScalar(170,220,335,110)));
+		//super.registerComponent(COMP_TXT_DUE , FactoryComponent.createLabel("",new PositionScalar(170,240,335,110)));
+		
+		super.registerComponent(COMP_LBL_PAYMENT , FactoryComponent.createLabel("Make Payment", new PositionScalar(20,260,335,110)));
+		super.registerComponent(COMP_LBL_PAY , FactoryComponent.createLabel("Enter Amount : ",new PositionScalar(60,280,335,110)));
+		super.registerComponent(COMP_TXT_PAYAMOUNT, FactoryComponent.createTextField( new TextFieldAttributeScalar(170, 330, 80, 23,10) ));
+		super.registerComponent(COMP_BUTTON_SAVEPAY , FactoryComponent.createButton("Save", new ButtonAttributeScalar(260, 330, 80, 23 , new ButtonActionListener(this,"savePayment"))));
+		
+		super.getComponent(COMP_LBL_PAYMENT).setVisible(false);
+		super.getComponent(COMP_LBL_PAY).setVisible(false);
+		super.getComponent(COMP_TXT_PAYAMOUNT).setVisible(false);
+		super.getComponent(COMP_BUTTON_SAVEPAY).setVisible(false);
 	}
 	
 	private Integer[] getYears(int chosenYear) {
@@ -246,6 +270,7 @@ public class PaymentPanel extends BasePanel{
 				customer = OneHashDataCache.getInstance().getCustomerByNric(nric);
 			
 			if(customer!=null){
+				this.setCustomer(customer);
 				super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(customer.getAccountNumber());
 				super.getTextFieldComponent(COMP_TXT_NRIC).setText(customer.getNric());
 
@@ -253,25 +278,21 @@ public class PaymentPanel extends BasePanel{
 				if(bill!=null){
 					populateBillDetailsToView(bill);
 					viewPaymentHistory(bill);
-					if(customer.getBill()==null || customer.getBill().size()==0){
-						List<Bill> billList = new ArrayList<Bill>();
-						billList.add(bill);
-					}
-					customer.getBill().add(bill);
-					OneHashDataCache.getInstance().saveCustomer(customer);
-				}else
+				}else{
+					resetSearchCriteria();
 					throw new InsufficientInputParameterException("Customer Bill for the requested month not found");
-				
-			}else
+				}
+			}else{
+				resetSearchCriteria();
 				throw new InsufficientInputParameterException("Customer detials not found");
-			
+			}
 		}catch(Exception exp){
 			if(exp instanceof BusinessLogicException)
 				JOptionPane.showMessageDialog(this, exp.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 			exp.printStackTrace();
 		}
 	}
-	
+
 	public Bill checkPreviousBillDetails(Customer customer, Date billRequestDate) {
 		try{
 			if(customer.getBill()!=null && customer.getBill().size()>0){
@@ -349,6 +370,12 @@ public class PaymentPanel extends BasePanel{
 			}
 			super.getLabelComponent(COMP_TEXT_GST).setText(gstAmount.toString());
 			super.getLabelComponent(COMP_TEXT_TCC).setText(bill.getTotalBill().add(gstAmount).toString());
+			
+			super.getComponent(COMP_LBL_PAYMENT).setVisible(true);
+			super.getComponent(COMP_LBL_PAY).setVisible(true);
+			super.getComponent(COMP_TXT_PAYAMOUNT).setVisible(true);
+			super.getComponent(COMP_BUTTON_SAVEPAY).setVisible(true);
+			
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
@@ -356,6 +383,7 @@ public class PaymentPanel extends BasePanel{
 	
 	public Object[][] viewPaymentHistory(Bill bill) {
 		Object[][] rowData = new String[0][2];
+		BigDecimal totalAmountPaid = new BigDecimal(0);
 		try{
 			
 			List<PaymentDetail> paymentDetailList = bill.getPaymentDetails();
@@ -365,6 +393,7 @@ public class PaymentPanel extends BasePanel{
 				PaymentDetail _paymentDetail = paymentDetailList.get(i);
 				rowData[i][0] = sdf.format(_paymentDetail.getPaymentDate());
 				rowData[i][1] = _paymentDetail.getAmount();
+				totalAmountPaid = totalAmountPaid.add(_paymentDetail.getAmount());
 			}
 			
 			JTable table = new JTable();
@@ -373,7 +402,8 @@ public class PaymentPanel extends BasePanel{
 	        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	        table.setModel(new OneHashTableModel(this.getTableColumnNames() , rowData));
 			JScrollPane scrollPane = (JScrollPane) super.getComponent(COMP_BILL_TABLE);
-			scrollPane.setViewportView(table);
+			scrollPane.setViewportView(table);		
+			super.getLabelComponent(COMP_TXT_PAID).setText(totalAmountPaid.toString());
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
@@ -402,10 +432,61 @@ public class PaymentPanel extends BasePanel{
 			super.getLabelComponent(COMP_TEXT_GST).setText(null);
 			super.getLabelComponent(COMP_TEXT_TCC).setText(null);
 			
+			super.getComponent(COMP_LBL_PAYMENT).setVisible(false);
+			super.getComponent(COMP_LBL_PAY).setVisible(false);
+			super.getComponent(COMP_TXT_PAYAMOUNT).setVisible(false);
+			super.getComponent(COMP_BUTTON_SAVEPAY).setVisible(false);
+			super.getComponent(COMP_TXT_PAID).setVisible(false);
+			//super.getComponent(COMP_TXT_DUE).setVisible(false);
+			
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
 	}	
+	
+	
+	public void savePayment() throws Exception {
+		JComboBox monthComponent = (JComboBox)super.getComponent(COMP_DATE_BILLMONTH);
+		String monthTxt = (String)monthComponent.getSelectedItem();
+		int month = new Integer(monthTxt).intValue();
+		
+		JComboBox yearComponent = (JComboBox)super.getComponent(COMP_DATE_BILYEAR);
+		Integer yearTxt = (Integer)yearComponent.getSelectedItem();
+		int year = yearTxt.intValue();
+		
+		JTextField payAmount = (JTextField)super.getComponent(COMP_TXT_PAYAMOUNT);
+		String amount = (String)payAmount.getText();
+		
+		Calendar billRequestDate = Calendar.getInstance();
+		billRequestDate.set(Calendar.DATE, 28);
+		billRequestDate.set(Calendar.MONTH, month-1);
+		billRequestDate.set(Calendar.YEAR, year);
+		
+		try{
+			if(this.getCustomer()!=null){
+				if(this.getCustomer().getBill()!=null){
+					int bill = 0;
+					for(Bill _bill : this.getCustomer().getBill()){
+						if(OneHashDateUtil.isMonthYearOfBill(_bill.getBillDate(),billRequestDate.getTime())){
+							PaymentDetail paymentDetail = new PaymentDetail(new Date(),new BigDecimal(amount));
+							if(this.getCustomer().getBill().get(bill).getPaymentDetails()==null || this.getCustomer().getBill().get(bill).getPaymentDetails().size()==0){
+								List<PaymentDetail> paymentDetailsList = new ArrayList<PaymentDetail>(); 
+								this.getCustomer().getBill().get(bill).setPaymentDetails(paymentDetailsList);
+							}
+							this.getCustomer().getBill().get(bill).getPaymentDetails().add(paymentDetail);
+							viewPaymentHistory(this.getCustomer().getBill().get(bill));
+							break;
+						}
+						bill++;
+					}
+					OneHashDataCache.getInstance().saveCustomer(this.getCustomer());
+				}
+			}
+		}catch(Exception exp){
+			exp.printStackTrace();
+		}
+		super.getTextFieldComponent(COMP_TXT_PAYAMOUNT).setText(null);
+	}
 	public String[] getTableColumnNames(){
 		return new String[]{"Payment Date" , "Payment Amount"};
 	}
