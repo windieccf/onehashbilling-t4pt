@@ -18,87 +18,86 @@
  */
 package test.onehash.model.user;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import java.util.ArrayList;
-
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.onehash.constant.ConstantStatus;
-import com.onehash.model.user.*;
+import com.onehash.model.user.User;
 
-public class UserTest {
-
-	ArrayList<User> userList = new ArrayList<User>();
-	User invalidUser = null;
-	
-	public UserTest() {
-		// TODO Auto-generated constructor stub
-	}
+public class UserTest extends TestCase{
+	User user1 = new User();
+	User user2 = new User();
 	
 	@Before
-	public void prepareUsers() {
-		AdminUser adm1 = new AdminUser("admin1", "Aman", "Sharma", "password1", ConstantStatus.ACTIVE);
-		AdminUser adm2 = new AdminUser("admin2", "Robin", "Foe", "password2", ConstantStatus.ACTIVE);
-		AdminUser adm3 = new AdminUser("admin3", "Chang", "Feng", "password3", ConstantStatus.ACTIVE);
+	public void setUp() throws Exception {
+		user1.setUserName("admin");
+		user1.setFirstName("PT 4 Admin");
+		user1.setLastName("PT 4");
+		user1.setPassword("password");
+		user1.setUserRole("admin");
+		user1.setStatus(true);	
 		
-		AgentUser agnt1 = new AgentUser("agent1", "Mansoor", "M I", "password1", ConstantStatus.ACTIVE);
-		AgentUser agnt2 = new AgentUser("agent2", "Srinivas", "A", "password2", ConstantStatus.ACTIVE);
-		AgentUser agnt3 = new AgentUser("agent3", "Kenny", "Hartono", "password3", ConstantStatus.ACTIVE);
-		AgentUser agnt4 = new AgentUser("agent4", "Becky", "Yue Yang", "password4", ConstantStatus.ACTIVE);
-		AgentUser agnt5 = new AgentUser("agent5", "Tristone", "Song", "password5", ConstantStatus.ACTIVE);
-		AgentUser agnt6 = new AgentUser("agent6", "Invalid", "Not Valid", "password123", ConstantStatus.DEACTIVATE);
-		
-		userList.add(adm1);
-		userList.add(adm2);
-		userList.add(adm3);
-		userList.add(agnt1);
-		userList.add(agnt2);
-		userList.add(agnt3);
-		userList.add(agnt4);
-		userList.add(agnt5);
-		
-		invalidUser = agnt6;
+		user2.setUserName("agent");
+		user2.setFirstName("PT 4 Agent");
+		user2.setLastName("PT 4");
+		user2.setPassword("password");
+		user2.setUserRole("agent");
+		user2.setStatus(true);
+	}
+	
+	@After
+	public void tearDown() throws Exception {
+		user1 = null;
+		user2 = null;
 	}
 	
 	@Test
-	public void testUserAvailableMenuIsNotEmpty() {
-		
-		System.out.println("running... testUserAvailableMenuIsNotEmpty()!");
-		
-		for (User user : userList) {
-
-			//TODO later need to remove
-			System.out.println(user);
-			assertTrue("Menus are available!", user.getAvailableMenu().size() > 0);
-		}
+	public void testGetUserName(){
+		assertEquals(user1.getUserName(),"admin");
+		assertEquals(user2.getUserName(),"agent");
 	}
 	
 	@Test
-	public void testValidateUserPassword() {
-		
-		System.out.println("running... testValidateUserPassword()!");
-		
-		for (User user : userList) {
-
-			//TODO later need to remove
-			assertTrue(user.isValidPassword(user.getPassword()));
-		}
+	public void testGetFirstName(){
+		assertEquals(user1.getFirstName(),"PT 4 Admin");
+		assertEquals(user2.getFirstName(),"PT 4 Agent");
 	}
-
+	
 	@Test
-	public void testValidateUser() {
-		
-		System.out.println("running... testValidateUser()!");
-		
-		for (User user : userList) {
-
-			//TODO later need to remove
-			assertTrue(user.getFullName() + " is Active?", user.isActive());
-		}
-		
-		System.out.println(invalidUser);
-		assertTrue(!invalidUser.isActive());
+	public void testGetLastName(){
+		assertEquals(user1.getLastName(),"PT 4");
+		assertEquals(user2.getLastName(),"PT 4");
+	}
+	
+	@Test
+	public void testGetFullName(){
+		assertEquals(user1.getFullName(),"PT 4 Admin PT 4");
+		assertEquals(user2.getFullName(),"PT 4 Agent PT 4");
+	}
+	
+	@Test
+	public void testGetPassworde(){
+		assertEquals(user1.getPassword(),"password");
+		assertEquals(user2.getPassword(),"password");
+	}
+	
+	@Test
+	public void testGetUserRole(){
+		assertEquals(user1.getUserRole(),"admin");
+		assertEquals(user2.getUserRole(),"agent");
+	}
+	
+	@Test
+	public void testIsActivated(){
+		assertEquals(user1.isActivated(),true);
+		assertEquals(user2.isActivated(),true);
+	}
+	
+	@Test
+	public void testToString(){
+		assertEquals(user1.toString(),"User {userName='admin', firstName='PT 4 Admin', lastName='PT 4', password='password', userRole='admin', status='A'}");
+		assertEquals(user2.toString(),"User {userName='agent', firstName='PT 4 Agent', lastName='PT 4', password='password', userRole='agent', status='A'}");
 	}
 }
