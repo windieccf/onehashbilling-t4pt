@@ -192,9 +192,13 @@ public class BillReportPanel extends BasePanel {
 				super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(customer.getAccountNumber());
 				super.getTextFieldComponent(COMP_TXT_NRIC).setText(customer.getNric());
 
-				Bill bill = checkPreviousBillDetails(customer, billRequestDate.getTime());
+				Bill bill = getBillDetails(customer, billRequestDate.getTime());
 				if(bill!=null){
-					populateBillDetailsToView(customer,bill);
+					
+					//Get previous payment details
+					billRequestDate.set(Calendar.MONTH, month-2);
+					Bill previousBill = getBillDetails(customer, billRequestDate.getTime());
+					populateBillDetailsToView(customer,bill,previousBill);
 				}
 				
 			}else
@@ -207,7 +211,7 @@ public class BillReportPanel extends BasePanel {
 		}
 	}
 	
-	private Bill checkPreviousBillDetails(Customer customer, Date billRequestDate) {
+	private Bill getBillDetails(Customer customer, Date billRequestDate) {
 		try{
 			if(customer.getBill()!=null && customer.getBill().size()>0){
 				for(Bill _bill : customer.getBill()){
@@ -216,14 +220,14 @@ public class BillReportPanel extends BasePanel {
 					}
 				}
 			}
-			return OneHashDataCache.getInstance().calculateBill(customer, billRequestDate);
 		}catch(Exception exp){
 			exp.printStackTrace();
 			return null;
 		}
+		return null;
 	}
 	
-	public static void populateBillDetailsToView(Customer customer,Bill bill) {
+	public static void populateBillDetailsToView(Customer customer,Bill bill, Bill previousBill) {
 		
 		//FIRST GET ALL PLAN DETAILS AND CONVERT XML TO DATA
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -242,19 +246,26 @@ public class BillReportPanel extends BasePanel {
 		
 		//DEATILS OF LAST PAYMENT
 		BigDecimal payment = new BigDecimal(0);
+		BigDecimal previousAmount = new BigDecimal(0);
 		Date paymentDate = new Date();
-		if(bill.getPaymentDetails()!=null && bill.getPaymentDetails().size()>0){
-			for(PaymentDetail _paymentDetail : bill.getPaymentDetails()){
-				payment.add(_paymentDetail.getAmount());
-				paymentDate = _paymentDetail.getPaymentDate();
+		if(previousBill!=null){
+			if(previousBill.getPaymentDetails()!=null && previousBill.getPaymentDetails().size()>0){
+				for(PaymentDetail _paymentDetail : bill.getPaymentDetails()){
+					payment = payment.add(_paymentDetail.getAmount());
+					paymentDate = _paymentDetail.getPaymentDate();
+				}
+			}
+			
+			if(previousBill.getGstRate()!=null){
+				DecimalFormat df = new DecimalFormat("#.##");
+				double gst = previousBill.getGstRate().doubleValue()/100;
+				double totalBillDec = previousBill.getTotalBill().doubleValue()*gst;
+				previousAmount = new BigDecimal(df.format(totalBillDec));
+				previousAmount = previousBill.getTotalBill().add(previousAmount);
 			}
 		}
-		ht.put("PREVIOUSBILL",payment.toString());
+		ht.put("PREVIOUSBILL",previousAmount.toString());
 		ht.put("PAYMENT",payment.toString());
-		
-		//CURRENT BILL
-		ht.put("CURRENTCHARGES",bill.getCurrentBill().toString());
-		ht.put("PAY",bill.getTotalBill().toString());
 		
 		ht.put("PYTRCVDT",sdf.format(paymentDate));
 		ht.put("PYTAMT",payment);
@@ -370,6 +381,11 @@ public class BillReportPanel extends BasePanel {
 		}
 		ht.put("TTLGST",gstAmount);
 		ht.put("TTLBILL",dvUC.add(dvSC).add(mvUC.add(mvSC)).add(tvAC.add(tvSC)).add(gstAmount));
+		
+		//CURRENT BILL
+		ht.put("CURRENTCHARGES",dvUC.add(dvSC).add(mvUC.add(mvSC)).add(tvAC.add(tvSC)).add(gstAmount));
+		ht.put("PAY",dvUC.add(dvSC).add(mvUC.add(mvSC)).add(tvAC.add(tvSC)).add(gstAmount));
+				
 		String outputFile = customer.getAccountNumber()+"-"+bill.getBillDate().getTime();
 		File billFile = generateWordDoc(ht, "template/Bill.doc", "template/temp/Bill("+outputFile+").doc");
 		
@@ -398,7 +414,6 @@ public class BillReportPanel extends BasePanel {
 	    				}
 	    				in.close();
 	    				out.close();
-	    				System.out.println("File copied.");
 	    			}catch(FileNotFoundException ex){
 	    				System.out.println(ex.getMessage() + " in the specified directory.");
 	    				System.exit(0);
@@ -429,13 +444,11 @@ public class BillReportPanel extends BasePanel {
 					String value = ht.get(name).toString();
 					thisLine = thisLine.replaceAll("#" + name.toUpperCase() + "#", Encode(value));
 			    }
-				System.out.println("THIS LINE : "+thisLine);
 				writer.write(thisLine);
 				writer.newLine();
 				i++;
 			}
 			writer.close();
-			System.out.println("done");
 		}
 		catch (Exception e) {
 			System.out.println("exception!=" + e);
