@@ -427,7 +427,6 @@ public class BillReportPanel extends BasePanel {
 				for (Enumeration<String> e = ht.keys(); e.hasMoreElements();) {
 					String name = (String) e.nextElement();
 					String value = ht.get(name).toString();
-					// Use this if we need to XML-encode the string in hashtable value...
 					thisLine = thisLine.replaceAll("#" + name.toUpperCase() + "#", Encode(value));
 			    }
 				System.out.println("THIS LINE : "+thisLine);
