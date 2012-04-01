@@ -283,7 +283,8 @@ public class BillListPanel extends BasePanel{
 					}
 					customer.getBill().add(bill);
 					OneHashDataCache.getInstance().saveCustomer(customer);
-				}
+				}else
+					throw new InsufficientInputParameterException("Customer bill detials not found");
 				
 			}else
 				throw new InsufficientInputParameterException("Customer detials not found");
@@ -443,7 +444,7 @@ public class BillListPanel extends BasePanel{
 			if(customer.getBill()!=null && customer.getBill().size()>0){
 				for(Bill _bill : customer.getBill()){
 					if(OneHashDateUtil.isMonthYearOfBill(_bill.getBillDate(),billRequestDate)){
-						return _bill;
+						customer.getBill().remove(_bill);
 					}
 				}
 			}
