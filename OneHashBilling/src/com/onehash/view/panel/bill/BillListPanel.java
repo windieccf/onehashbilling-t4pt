@@ -324,7 +324,7 @@ public class BillListPanel extends BasePanel{
 			BigDecimal totalPayment = new BigDecimal(0);
 			if(paymentDetails!=null && paymentDetails.size()>0){
 				for(PaymentDetail _paymentDetail : paymentDetails){
-					totalPayment.add(_paymentDetail.getAmount());
+					totalPayment = totalPayment.add(_paymentDetail.getAmount());
 				}
 			}
 			super.getLabelComponent(COMP_TEXT_PR).setText(totalPayment.toString());
