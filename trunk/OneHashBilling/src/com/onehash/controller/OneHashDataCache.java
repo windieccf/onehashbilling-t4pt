@@ -34,8 +34,6 @@ import java.util.Map;
 
 import com.onehash.constant.ConstantFilePath;
 import com.onehash.constant.ConstantPrefix;
-import com.onehash.constant.ConstantSummary;
-import com.onehash.constant.ConstantUsageType;
 import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.exception.BusinessLogicException;
 import com.onehash.exception.InsufficientInputParameterException;
@@ -50,9 +48,6 @@ import com.onehash.model.service.plan.DigitalVoicePlan;
 import com.onehash.model.service.plan.MobileVoicePlan;
 import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.model.service.rate.ServiceRate;
-import com.onehash.model.service.rate.SubscriptionRate;
-import com.onehash.model.service.rate.UsageRate;
-import com.onehash.model.usage.MonthlyUsage;
 import com.onehash.model.user.User;
 import com.onehash.utility.OneHashBeanUtil;
 import com.onehash.utility.OneHashBillUtil;
@@ -379,7 +374,7 @@ public class OneHashDataCache {
 		try{
 			for(Customer cachedCustomer : this.getCustomers()){
 				if(customer.getAccountNumber().equalsIgnoreCase(cachedCustomer.getAccountNumber())){
-					bill = getBillForMonth(cachedCustomer,previousMonthBill.getTime());
+					bill = OneHashBillUtil.getBillForMonth(cachedCustomer,previousMonthBill.getTime());
 					break;
 				}
 			}
@@ -397,24 +392,6 @@ public class OneHashDataCache {
 			exp.printStackTrace();
 		}
 		return carryForwardAmount;
-	}
-	
-	/**
-     * Method to get the requested monthly bill for a customer
-     * @param Customer, Date
-     * @return Bill
-     */
-	private Bill getBillForMonth(Customer customer, Date yearMonth) {
-		try{
-			for(Bill _bill : customer.getBill()){
-				if(OneHashDateUtil.isMonthYearOfBill(_bill.getBillDate(),yearMonth))
-					return _bill;
-			}
-		}catch(Exception exp){
-			exp.printStackTrace();
-			return null;
-		}
-		return null;
 	}
 	
 	/****************************************** BILL RELATED OPERATION - END **************************************************/
