@@ -724,7 +724,7 @@ public class OneHashDateUtil {
 				int billYear = OneHashDateUtil.get(billDate, Calendar.YEAR);
 				
 				int requestedMonth = OneHashDateUtil.get(yearMonth, Calendar.MONTH);
-				int requestedYear = OneHashDateUtil.get(yearMonth, Calendar.MONTH);
+				int requestedYear = OneHashDateUtil.get(yearMonth, Calendar.YEAR);
 				
 				if(billMonth==requestedMonth && billYear==requestedYear)
 					return true;
@@ -738,7 +738,7 @@ public class OneHashDateUtil {
 			try{
 				
 				int requestedMonth = OneHashDateUtil.get(yearMonth, Calendar.MONTH);
-				int requestedYear = OneHashDateUtil.get(yearMonth, Calendar.MONTH);
+				int requestedYear = OneHashDateUtil.get(yearMonth, Calendar.YEAR);
 				String requestedMonthYear = new Integer(requestedMonth).toString() + new Integer(requestedYear).toString();
 				if(requestedMonthYear.equalsIgnoreCase(usageYearMonth))
 					return true;
