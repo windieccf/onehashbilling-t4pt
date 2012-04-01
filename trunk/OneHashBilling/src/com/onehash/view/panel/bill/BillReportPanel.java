@@ -371,7 +371,7 @@ public class BillReportPanel extends BasePanel {
 		ht.put("TTLGST",gstAmount);
 		ht.put("TTLBILL",dvUC.add(dvSC).add(mvUC.add(mvSC)).add(tvAC.add(tvSC)).add(gstAmount));
 		String outputFile = customer.getAccountNumber()+"-"+bill.getBillDate().getTime();
-		File billFile = generateWordDoc(ht, "template/Bill.xml", "template/temp/Bill("+outputFile+").doc");
+		File billFile = generateWordDoc(ht, "template/Bill.doc", "template/temp/Bill("+outputFile+").doc");
 		
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -431,7 +431,7 @@ public class BillReportPanel extends BasePanel {
 					String name = (String) e.nextElement();
 					String value = ht.get(name).toString();
 					// Use this if we need to XML-encode the string in hashtable value...
-					thisLine = thisLine.replaceAll("#" + name.toUpperCase() + "#", XmlEncode(value));
+					thisLine = thisLine.replaceAll("#" + name.toUpperCase() + "#", Encode(value));
 			    }
 				System.out.println("THIS LINE : "+thisLine);
 				writer.write(thisLine);
@@ -447,7 +447,7 @@ public class BillReportPanel extends BasePanel {
 		return destination;
 	}
 
-	private static String XmlEncode(String text) {
+	private static String Encode(String text) {
 		int[] charsRequiringEncoding = {38, 60, 62, 34, 61, 39};
 		for(int i = 0; i < charsRequiringEncoding.length - 1; i++) {
 			text = text.replaceAll(String.valueOf((char)charsRequiringEncoding[i]),"&#"+charsRequiringEncoding[i]+";");
