@@ -275,17 +275,22 @@ public class BillListPanel extends BasePanel{
 				super.getTextFieldComponent(COMP_TXT_NRIC).setText(customer.getNric());
 
 				Bill bill = checkPreviousBillDetails(customer, billRequestDate.getTime());
-				if(bill!=null){
-					populateBillDetailsToView(bill);
-					if(customer.getBill()==null || customer.getBill().size()==0){
-						List<Bill> billList = new ArrayList<Bill>();
-						billList.add(bill);
+				if(bill==null){
+					bill = OneHashDataCache.getInstance().calculateBill(customer, billRequestDate.getTime());
+					if(bill!=null){
+						if(customer.getBill()==null || customer.getBill().size()==0){
+							List<Bill> billList = new ArrayList<Bill>();
+							customer.setBill(billList);
+						}
+						customer.getBill().add(bill);
+						OneHashDataCache.getInstance().saveCustomer(customer);
 					}
-					customer.getBill().add(bill);
-					OneHashDataCache.getInstance().saveCustomer(customer);
-				}else
-					throw new InsufficientInputParameterException("Customer bill detials not found");
+				}
 				
+				if(bill!=null)
+					populateBillDetailsToView(bill);
+				else
+					throw new InsufficientInputParameterException("Customer bills detials not found");
 			}else
 				throw new InsufficientInputParameterException("Customer detials not found");
 			
@@ -444,15 +449,15 @@ public class BillListPanel extends BasePanel{
 			if(customer.getBill()!=null && customer.getBill().size()>0){
 				for(Bill _bill : customer.getBill()){
 					if(OneHashDateUtil.isMonthYearOfBill(_bill.getBillDate(),billRequestDate)){
-						customer.getBill().remove(_bill);
+						return _bill;
 					}
 				}
 			}
-			return OneHashDataCache.getInstance().calculateBill(customer, billRequestDate);
 		}catch(Exception exp){
 			exp.printStackTrace();
 			return null;
 		}
+		return null;
 	}
 	
 	public Date parserDate(String strDate){
