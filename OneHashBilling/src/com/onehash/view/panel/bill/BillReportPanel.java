@@ -423,10 +423,7 @@ public class BillReportPanel extends BasePanel {
 			
 			String thisLine;
 			int i = 0;
-			
 			while ((thisLine = reader.readLine()) != null) {
-				System.out.println(i);
-				
 				for (Enumeration<String> e = ht.keys(); e.hasMoreElements();) {
 					String name = (String) e.nextElement();
 					String value = ht.get(name).toString();
