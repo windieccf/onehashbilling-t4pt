@@ -25,7 +25,9 @@ import java.util.Map;
 
 import com.onehash.constant.ConstantSummary;
 import com.onehash.constant.ConstantUsageType;
+import com.onehash.model.bill.Bill;
 import com.onehash.model.bill.BillSummary;
+import com.onehash.model.customer.Customer;
 import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.model.service.rate.ServiceRate;
 import com.onehash.model.service.rate.SubscriptionRate;
@@ -210,5 +212,23 @@ public class OneHashBillUtil {
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
+	}
+	
+	/**
+     * Method to get the requested monthly bill for a customer
+     * @param Customer, Date
+     * @return Bill
+     */
+	public static Bill getBillForMonth(Customer customer, Date yearMonth) {
+		try{
+			for(Bill _bill : customer.getBill()){
+				if(OneHashDateUtil.isMonthYearOfBill(_bill.getBillDate(),yearMonth))
+					return _bill;
+			}
+		}catch(Exception exp){
+			exp.printStackTrace();
+			return null;
+		}
+		return null;
 	}
 }
