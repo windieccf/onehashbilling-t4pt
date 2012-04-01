@@ -37,9 +37,9 @@ import com.onehash.model.usage.MonthlyUsage;
 
 public class OneHashBillUtil {
 	
-	public static void calculateTVBill(ServicePlan _servicePlan,Map<String,List<BillSummary>> billSummaryMap,BigDecimal currentBill){
+	public static BigDecimal calculateTVBill(ServicePlan _servicePlan,Map<String,List<BillSummary>> billSummaryMap){
+		BigDecimal currentBill = new BigDecimal(0);
 		try{
-			
 			BigDecimal cableTVSubscriptionRate = new BigDecimal(0);
 			BigDecimal cableTVAddChannelCharge = new BigDecimal(0);
 			List<BillSummary> billSummaryList = new ArrayList <BillSummary>();
@@ -68,9 +68,11 @@ public class OneHashBillUtil {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return currentBill;
 	}
 	
-	public static void calculateDVBill(ServicePlan _servicePlan,Map<String,List<BillSummary>> billSummaryMap,BigDecimal currentBill,Date yearMonth){
+	public static BigDecimal calculateDVBill(ServicePlan _servicePlan,Map<String,List<BillSummary>> billSummaryMap,Date yearMonth){
+		BigDecimal currentBill = new BigDecimal(0);
 		try{
 			//Subscription
 			BigDecimal dvSubscriptionRate = new BigDecimal(0);
@@ -135,9 +137,11 @@ public class OneHashBillUtil {
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
+		return currentBill;
 	}
 	
-	public static void calculateMVBill(ServicePlan _servicePlan,Map<String,List<BillSummary>> billSummaryMap,BigDecimal currentBill,Date yearMonth){
+	public static BigDecimal calculateMVBill(ServicePlan _servicePlan,Map<String,List<BillSummary>> billSummaryMap,Date yearMonth){
+		BigDecimal currentBill = new BigDecimal(0);
 		try{
 
 			//Subscription
@@ -212,6 +216,7 @@ public class OneHashBillUtil {
 		}catch(Exception exp){
 			exp.printStackTrace();
 		}
+		return currentBill;
 	}
 	
 	/**
