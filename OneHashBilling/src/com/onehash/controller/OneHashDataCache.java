@@ -276,6 +276,7 @@ public class OneHashDataCache {
 			Customer cachedCustomer = getCachedCustomerByAccountNumber(customer.getAccountNumber());
 			OneHashBeanUtil.copyProperties(cachedCustomer, customer, "accountNumber","servicePlans", "complaintLogs" , "bill");
 			cachedCustomer.setServicePlans(customer.getServicePlans());
+			cachedCustomer.setBill(customer.getBill());
 		}
 	}
 	
@@ -326,17 +327,17 @@ public class OneHashDataCache {
 				
 				//Check plan type is cable TV
 				if(_servicePlan instanceof CableTvPlan){
-					OneHashBillUtil.calculateTVBill(_servicePlan, billSummaryMap, currentBill);
+					currentBill = currentBill.add(OneHashBillUtil.calculateTVBill(_servicePlan, billSummaryMap));
 				}
 				
 				//Check plan type is Digital Voice
 				if(_servicePlan instanceof DigitalVoicePlan){
-					OneHashBillUtil.calculateDVBill(_servicePlan, billSummaryMap, currentBill, yearMonth);
+					currentBill = currentBill.add(OneHashBillUtil.calculateDVBill(_servicePlan, billSummaryMap, yearMonth));
 				}
 
 				//Check plan type is Mobile Voice
 				if(_servicePlan instanceof MobileVoicePlan){
-					OneHashBillUtil.calculateMVBill(_servicePlan, billSummaryMap, currentBill, yearMonth);
+					currentBill = currentBill.add(OneHashBillUtil.calculateMVBill(_servicePlan, billSummaryMap, yearMonth));
 				}
 			}
 			
