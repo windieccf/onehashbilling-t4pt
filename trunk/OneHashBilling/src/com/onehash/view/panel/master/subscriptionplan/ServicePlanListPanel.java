@@ -91,7 +91,7 @@ public class ServicePlanListPanel extends BasePanel{
 	}
 
 	@Override
-	protected String getScreenTitle() {return "Subscription List";}
+	protected String getScreenTitle() {return "Service Plan List";}
 
 	/**************************** REFLECTION UTILITY **********************************/
 	public void loadAddScreen(){
