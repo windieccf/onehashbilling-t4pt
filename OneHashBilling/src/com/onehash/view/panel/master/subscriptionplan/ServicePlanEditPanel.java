@@ -156,7 +156,7 @@ public class ServicePlanEditPanel extends BasePanel{
 	
 	@Override
 	protected String getScreenTitle() {
-		return "Subscription Plan Maintenance";
+		return "Service Plan Maintenance";
 	}
 	
 	/***************************************** BUTTON LISTENER *****************************************************/
@@ -165,6 +165,12 @@ public class ServicePlanEditPanel extends BasePanel{
 		if (!super.getTextFieldComponent(SERVICEPLANLIST_TEXT_RATE_CODE).getText().startsWith(selectedServicePlan.getPlanCode())) {
 			JOptionPane.showMessageDialog(this, "RATE CODE must starts with " + selectedServicePlan.getPlanCode(),"Error",JOptionPane.ERROR_MESSAGE);
 			return;
+		}
+		for(ServiceRate serviceRate:availableServiceRate) {
+			if (super.getTextFieldComponent(SERVICEPLANLIST_TEXT_RATE_CODE).getText().equals(serviceRate.getRateCode())) {
+				JOptionPane.showMessageDialog(this, "Duplicate RATE CODE : " + serviceRate.getRateCode(), "Error",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 		}
 		if (selectedServiceRate == null) {
 			JComboBox component = (JComboBox)super.getComponent(SERVICEPLANLIST_COMBOBOX_SELECTION);
@@ -175,7 +181,12 @@ public class ServicePlanEditPanel extends BasePanel{
 				selectedServiceRate = new SubscriptionRate();
 			selectedServiceRate.setRateCode(super.getTextFieldComponent(SERVICEPLANLIST_TEXT_RATE_CODE).getText());
 			selectedServiceRate.setRateDescription(super.getTextFieldComponent(SERVICEPLANLIST_TEXT_RATE_DESC).getText());
-			selectedServiceRate.setRatePrice(new BigDecimal(super.getTextFieldComponent(SERVICEPLANLIST_TEXT_RATE_PRICE).getText()));
+			try {
+				selectedServiceRate.setRatePrice(new BigDecimal(super.getTextFieldComponent(SERVICEPLANLIST_TEXT_RATE_PRICE).getText()));
+			} catch (Exception e) {
+				selectedServiceRate.setRatePrice(new BigDecimal(9999));
+				JOptionPane.showMessageDialog(this, "Error Decimal. Please edit again the RATE PRICE later.", "Error",JOptionPane.ERROR_MESSAGE);
+			}
 			availableServiceRate.add(selectedServiceRate);
 			OneHashDataCache.getInstance().setAvailableServiceRate(availableServiceRate);
 			
