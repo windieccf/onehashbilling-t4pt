@@ -199,7 +199,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 	@Override
 	protected void initiateAccessRights() {
 		if(!OneHashDataCache.getInstance().getCurrentUser().hasRights(EnumUserAccess.CUSTOMER_UPDATE)){
-			super.disableComponent(COMP_BUTTON_NAME_CANCEL);
+			super.disableComponent(COMP_BUTTON_NAME_SAVE);
 		}
 	}
 
