@@ -12,7 +12,7 @@
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 22 March 2012    Mansoor M I	    0.1				Class creating												
  * 29 March 2012	Yue Yang		0.2				Modify the import class						
- * 													
+ * 02 Aprial 2012	Yue Yang		0.3			    Add testGetUserAccessAsString class	
  * 													
  * 
  */
@@ -24,6 +24,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.model.user.User;
 
 public class UserTest extends TestCase{
@@ -37,7 +38,12 @@ public class UserTest extends TestCase{
 		user1.setLastName("PT 4");
 		user1.setPassword("password");
 		user1.setUserRole("admin");
-		user1.setStatus(true);	
+		user1.setStatus(true);
+		
+		// admin will have all rights
+		for(EnumUserAccess availableAccess : EnumUserAccess.values()){
+			user1.getUserAccesses().add(availableAccess);
+	   }
 		
 		user2.setUserName("agent");
 		user2.setFirstName("PT 4 Agent");
@@ -45,6 +51,12 @@ public class UserTest extends TestCase{
 		user2.setPassword("password");
 		user2.setUserRole("agent");
 		user2.setStatus(true);
+		
+		user2.getUserAccesses().add(EnumUserAccess.CUSTOMER_VIEW);
+		user2.getUserAccesses().add(EnumUserAccess.COMPLAINT_UPDATE);
+		user2.getUserAccesses().add(EnumUserAccess.COMPLAINT_VIEW);
+		user2.getUserAccesses().add(EnumUserAccess.SERVICE_PLAN_VIEW);
+		user2.getUserAccesses().add(EnumUserAccess.BILL_VIEW);
 	}
 	
 	@After
@@ -99,5 +111,11 @@ public class UserTest extends TestCase{
 	public void testToString(){
 		assertEquals(user1.toString(),"User {userName='admin', firstName='PT 4 Admin', lastName='PT 4', password='password', userRole='admin', status='A'}");
 		assertEquals(user2.toString(),"User {userName='agent', firstName='PT 4 Agent', lastName='PT 4', password='password', userRole='agent', status='A'}");
+	}
+	
+	@Test
+	public void testGetUserAccessAsString(){
+		assertEquals(user1.getUserAccessAsString(),"User View , User Update , Customer View , Customer Update , Service Plan View , Service Plan Update , Complaint View , Complaint Update , Bill View , Bill Generate , Report View , Payment View , Payment Add , Master Service Plan View , Master Service Plan Update");
+		assertEquals(user2.getUserAccessAsString(),"Customer View , Complaint Update , Complaint View , Service Plan View , Bill View");
 	}
 }
