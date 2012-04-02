@@ -70,7 +70,7 @@ public abstract class ServicePlan extends BaseEntity {
 	public Date getDeletedDate() {return deletedDate;}
 	public void setDeletedDate(Date deletedDate) {this.deletedDate = deletedDate;}
 	
-	private List<ServiceRate> serviceRates;
+	private List<ServiceRate> serviceRates = new ArrayList<ServiceRate>();
 	public List<ServiceRate> getServiceRates() {return serviceRates;}
 	public void setServiceRates(List<ServiceRate> serviceRates) {this.serviceRates = serviceRates;}
 	
