@@ -45,6 +45,10 @@ public class Customer extends BaseEntity{
 	public String getAddress() {return address;}
 	public void setAddress(String address) {this.address = address;}
 	
+	private String remark;
+	public String getRemark() {return remark;}
+	public void setRemark(String remark) {this.remark = remark;}
+
 	private String phoneNumber;
 	public String getPhoneNumber() {return phoneNumber;}
 	public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
