@@ -33,10 +33,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.onehash.constant.ConstantStatus;
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.model.bill.Bill;
 import com.onehash.model.complaint.ComplaintLog;
 import com.onehash.model.customer.Customer;
+import com.onehash.model.service.rate.ServiceRate;
+import com.onehash.model.service.rate.SubscriptionRate;
+import com.onehash.model.bill.*;
+import com.onehash.model.service.plan.*;
 import com.onehash.model.user.User;
 import com.onehash.utility.OneHashDateUtil;
 
@@ -46,27 +51,31 @@ public class OneHashDataCacheTest extends TestCase{
 	Calendar billRequestCalendar = null;
 	Date billRequestDate = null;
 	
+	List<ServicePlan> servicePlan = null;
+	List<ServiceRate> serviceRates = null;
+	SubscriptionRate subRate = null;
+	private MobileVoicePlan mVoicePlan = null;
+	
 	private Customer cus1 = null;
 	private Customer cus2 = null;
-	private List<Customer> listCus = null;
 	
-	
-	private Bill bill = null;
-	
+	Bill bill = null;
 	private ComplaintLog complaintLog1 = null;
 	private ComplaintLog complaintLog2 = null; 
 	
 	private List<User> users = null;
 	private User user1 = null;
+	
+	private List<Customer> listCus;
 
 	@Before
 	public void setUp() {
 		oneHashDataCache = OneHashDataCache.getInstance();
 		
 		billRequestCalendar = Calendar.getInstance();;
-		billRequestCalendar.set(Calendar.DATE, 30);
-		billRequestCalendar.set(Calendar.MONTH, 03);
-		billRequestCalendar.set(Calendar.YEAR, 2012);
+		billRequestCalendar.set(Calendar.DATE, 28);
+		billRequestCalendar.set(Calendar.MONTH, 1);
+		billRequestCalendar.set(Calendar.YEAR, 2011);
 		
 		billRequestDate = billRequestCalendar.getTime();
 		
@@ -77,15 +86,33 @@ public class OneHashDataCacheTest extends TestCase{
 		cus2 = new Customer("Acton Dennis", "S7277979X", "6159 West East St. Louis Ln.", "95164061" ,"SA-0314-69-44");
 		listCus.add(cus1);
 		
-		bill = new Bill();
-		bill.setBillDate(OneHashDateUtil.getDate(2012,3,30));
-		bill.setCarryForward(new BigDecimal(0));
-		bill.setCurrentBill(new BigDecimal(100));
-		bill.setGstRate(new BigDecimal(7));
-		bill.setTotalBill(new BigDecimal(107.00));
-		//bill.setBillDetails(billDetails);
-		//bill.setBillSummaryMap(billSummaryMap);
-		//bill.setPaymentDetails(paymentDetails);
+		servicePlan = new ArrayList<ServicePlan>();
+		serviceRates = new ArrayList<ServiceRate>();
+	
+		subRate = new SubscriptionRate();
+		subRate.setRateCode("MV-S");
+		subRate.setRateDescription("Mobile Voice Subscription");
+		subRate.setRatePrice(new BigDecimal(100.00));
+		subRate.setPriority(3);
+		subRate.setFreeCharge(false);
+		serviceRates.add(subRate);
+		
+		mVoicePlan = new MobileVoicePlan();
+		mVoicePlan.setPlanId("MVCode1");
+		mVoicePlan.setPlanCode("MVCode1");
+		mVoicePlan.setStatus(ConstantStatus.SERVICEPLAN_ACTIVE);
+		mVoicePlan.setPlanName("Mobile Voice Plan 1");
+		mVoicePlan.setStartDate(OneHashDateUtil.getDate(2011, 1, 1));
+		mVoicePlan.setEndDate(OneHashDateUtil.getDate(2012, 12, 31));
+		mVoicePlan.setServiceRates(serviceRates);
+		mVoicePlan.setSim("sim3"); 
+		mVoicePlan.setRegisteredPhoneNumber("82781903");
+		
+		servicePlan.add(mVoicePlan);
+		
+		cus1.setServicePlans(servicePlan);
+		
+		bill = oneHashDataCache.calculateBill(cus1, billRequestDate);
 		
 		/* Compliant Log */
 		complaintLog1 = new ComplaintLog();
@@ -119,7 +146,11 @@ public class OneHashDataCacheTest extends TestCase{
 		oneHashDataCache = null;
 		billRequestCalendar = null;
 		billRequestDate = null;
-		
+		servicePlan = null;
+		serviceRates = null;
+		subRate = null;
+		mVoicePlan = null;
+		bill = null;
 		cus1 = null;
 		cus2 = null;
 		
@@ -130,12 +161,17 @@ public class OneHashDataCacheTest extends TestCase{
 
 	@Test
 	public void testGetInstance(){
-		assertNotNull(OneHashDataCache.getInstance());
+		assertNotNull(oneHashDataCache);
 	}
 	
 	@Test
 	public void testCalculateBill(){
-		
+		assertNotNull(bill);
+		assertEquals(bill.getBillDate(), billRequestDate);
+		assertEquals(bill.getGstRate(), new BigDecimal(7));
+		assertEquals(bill.getCarryForward(), new BigDecimal(0));
+		assertEquals(bill.getCurrentBill(), new BigDecimal(100));
+		assertEquals(bill.getTotalBill(), new BigDecimal(100));
 	}
 	
 	@Test
@@ -193,7 +229,4 @@ public class OneHashDataCacheTest extends TestCase{
 		assertEquals(complaintLog2.getIssueNo(), "IS-0000-00-02");
 		assertEquals(complaintLog2.getIssueDescription(), "Complain about the service 2");
 	}
-
-	
-
 }
