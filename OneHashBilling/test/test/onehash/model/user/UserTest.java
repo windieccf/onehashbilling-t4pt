@@ -33,6 +33,7 @@ public class UserTest extends TestCase{
 	
 	@Before
 	public void setUp() throws Exception {
+		user1.setUserId(new Long(1));
 		user1.setUserName("admin");
 		user1.setFirstName("PT 4 Admin");
 		user1.setLastName("PT 4");
@@ -43,8 +44,9 @@ public class UserTest extends TestCase{
 		// admin will have all rights
 		for(EnumUserAccess availableAccess : EnumUserAccess.values()){
 			user1.getUserAccesses().add(availableAccess);
-	   }
+		}
 		
+		user2.setUserId(new Long(2));
 		user2.setUserName("agent");
 		user2.setFirstName("PT 4 Agent");
 		user2.setLastName("PT 4");
@@ -63,6 +65,12 @@ public class UserTest extends TestCase{
 	public void tearDown() throws Exception {
 		user1 = null;
 		user2 = null;
+	}
+	
+	@Test
+	public void testGetUserId(){
+		assertEquals(user1.getUserId(),1);
+		assertEquals(user2.getUserId(),2);
 	}
 	
 	@Test
