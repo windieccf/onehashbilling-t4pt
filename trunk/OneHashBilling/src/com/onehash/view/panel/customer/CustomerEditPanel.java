@@ -51,6 +51,8 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 	private static final String COMP_LBL_NRIC = "LBL_NRIC";
 	private static final String COMP_LBL_CONTACT = "LBL_CONTACT_NO";
 	private static final String COMP_LBL_ADDRESS = "LBL_ADDRESS";
+	private static final String COMP_LBL_REMARK = "LBL_REMARK";
+	
 	private static final String COMP_LBL_ACTIVATED = "LBL_ACTIVATED";
 	
 	
@@ -61,6 +63,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 	private static final String COMP_CHECKBOX_ACTIVATED = "CHK_ACTIVATED";
 	
 	private static final String COMP_TEXTAREA_ADDRESS = "TXT_AREA_ADDRESS";
+	private static final String COMP_TEXTAREA_REMARK = "TXT_REMARK";
 
 
 	private static final String COMP_BUTTON_NAME_SAVE = "BTN_SAVE";
@@ -86,6 +89,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 		super.registerComponent(COMP_LBL_ACTIVATED , FactoryComponent.createLabel("Activated", new PositionScalar(20, 130, 100, 14)));
 		
 		super.registerComponent(COMP_LBL_ADDRESS , FactoryComponent.createLabel("Address", new PositionScalar(20, 158, 100, 14)));
+		super.registerComponent(COMP_LBL_REMARK , FactoryComponent.createLabel("Remark", new PositionScalar(20, 248, 100, 14)));
 		
 		// component registration
 		super.registerComponent(COMP_TEXT_NAME , 
@@ -110,8 +114,13 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 							new TextFieldAttributeScalar(136, 158, 218, 75,0 , new OneHashTextFieldListener(this,"address",String.class)) ));
 		
 		
-		super.registerComponent(COMP_BUTTON_NAME_SAVE , FactoryComponent.createButton("Save", new ButtonAttributeScalar(136, 250, 100, 23 , new ButtonActionListener(this,"saveCustomer"))));
-		super.registerComponent(COMP_BUTTON_NAME_CANCEL , FactoryComponent.createButton("Back", new ButtonAttributeScalar(256, 250, 100, 23 , new ButtonActionListener(this,"cancel"))));
+		super.registerComponent(COMP_TEXTAREA_REMARK , 
+				FactoryComponent.createTextArea( 
+							new TextFieldAttributeScalar(136, 248, 218, 75,0 , new OneHashTextFieldListener(this,"remark",String.class)) ));
+		
+		
+		super.registerComponent(COMP_BUTTON_NAME_SAVE , FactoryComponent.createButton("Save", new ButtonAttributeScalar(136, 330, 100, 23 , new ButtonActionListener(this,"saveCustomer"))));
+		super.registerComponent(COMP_BUTTON_NAME_CANCEL , FactoryComponent.createButton("Back", new ButtonAttributeScalar(256, 330, 100, 23 , new ButtonActionListener(this,"cancel"))));
 		
 	}
 	
@@ -157,6 +166,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 		super.getTextFieldComponent(COMP_TEXT_NRIC).setText(customer.getNric());
 		super.getTextFieldComponent(COMP_TEXT_CONTACT).setText(customer.getPhoneNumber());
 		super.getTextAreaComponent(COMP_TEXTAREA_ADDRESS).setText(customer.getAddress());
+		super.getTextAreaComponent(COMP_TEXTAREA_REMARK).setText(customer.getRemark());
 		
 		super.getCheckboxComponent(COMP_CHECKBOX_ACTIVATED).setSelected(customer.isActivated());
 	}
@@ -199,7 +209,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 	@Override
 	protected void initiateAccessRights() {
 		if(!OneHashDataCache.getInstance().getCurrentUser().hasRights(EnumUserAccess.CUSTOMER_UPDATE)){
-			super.disableComponent(COMP_BUTTON_NAME_SAVE);
+			super.disableComponent(COMP_BUTTON_NAME_CANCEL);
 		}
 	}
 
