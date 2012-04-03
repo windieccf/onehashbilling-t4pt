@@ -41,10 +41,7 @@ public class ButtonActionListener implements ActionListener{
 		try {
 			Method mtd = basePanel.getClass().getMethod(actionMethod);
 			mtd.invoke(basePanel);
-		} catch (Exception e){
-			e.printStackTrace();
-			
-		}
+		} catch (Exception e){/*IGNORED*/}
     }
 
 }
