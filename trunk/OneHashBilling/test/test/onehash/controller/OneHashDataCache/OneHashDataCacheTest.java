@@ -22,8 +22,10 @@
 package test.onehash.controller.OneHashDataCache;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -32,9 +34,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.onehash.controller.OneHashDataCache;
+import com.onehash.model.bill.Bill;
 import com.onehash.model.complaint.ComplaintLog;
 import com.onehash.model.customer.Customer;
-import com.onehash.model.bill.*;
+import com.onehash.model.user.User;
 import com.onehash.utility.OneHashDateUtil;
 
 
@@ -45,13 +48,16 @@ public class OneHashDataCacheTest extends TestCase{
 	
 	private Customer cus1 = null;
 	private Customer cus2 = null;
+	private List<Customer> listCus = null;
+	
 	
 	private Bill bill = null;
 	
 	private ComplaintLog complaintLog1 = null;
 	private ComplaintLog complaintLog2 = null; 
 	
-	//ComplaintLog compLog1 = null;
+	private List<User> users = null;
+	private User user1 = null;
 
 	@Before
 	public void setUp() {
@@ -64,8 +70,12 @@ public class OneHashDataCacheTest extends TestCase{
 		
 		billRequestDate = billRequestCalendar.getTime();
 		
+		/* Customer */
+	    listCus = new ArrayList<Customer>();
+		
 		cus1 = new Customer("Colby Mosley","S4136327D","17784 South Guyana Blvd.","87529248","SA-0055-36-68");
 		cus2 = new Customer("Acton Dennis", "S7277979X", "6159 West East St. Louis Ln.", "95164061" ,"SA-0314-69-44");
+		listCus.add(cus1);
 		
 		bill = new Bill();
 		bill.setBillDate(OneHashDateUtil.getDate(2012,3,30));
@@ -77,6 +87,7 @@ public class OneHashDataCacheTest extends TestCase{
 		//bill.setBillSummaryMap(billSummaryMap);
 		//bill.setPaymentDetails(paymentDetails);
 		
+		/* Compliant Log */
 		complaintLog1 = new ComplaintLog();
 		complaintLog1.setIssueNo("IS-0000-00-01");
 		complaintLog1.setIssueDescription("Complain about the service 1");
@@ -87,6 +98,20 @@ public class OneHashDataCacheTest extends TestCase{
 		
 		cus1.addComplaintLog(complaintLog1);
 		cus2.addComplaintLog(complaintLog2);
+		
+		/* User */
+		users = new ArrayList<User>();
+		user1 = new User();
+		
+		user1.setUserId(new Long(1));
+		user1.setUserName("admin");
+		user1.setFirstName("PT 4 Admin");
+		user1.setLastName("PT 4");
+		user1.setPassword("password");
+		user1.setUserRole("admin");
+		user1.setStatus(true);
+		users.add(user1);
+		oneHashDataCache.setUsers(users);
 	}
 
 	@After
@@ -108,10 +133,42 @@ public class OneHashDataCacheTest extends TestCase{
 		assertNotNull(OneHashDataCache.getInstance());
 	}
 	
+	@Test
 	public void testCalculateBill(){
 		
 	}
 	
+	@Test
+	public void testGetCustomers(){
+		assertNotNull(listCus);
+		assertEquals(listCus.get(0).getName(),"Colby Mosley");
+		assertEquals(listCus.get(0).getNric(),"S4136327D");
+		assertEquals(listCus.get(0).getAddress(),"17784 South Guyana Blvd.");
+		assertEquals(listCus.get(0).getPhoneNumber(),"87529248");
+		assertEquals(listCus.get(0).getAccountNumber(),"SA-0055-36-68");
+	}
+	
+	/***** USER RELATED OPERATION ******/
+	@Test
+	public void testGetUserByUserName(){
+		assertEquals(oneHashDataCache.getUserByUserName("admin").getFirstName(),"PT 4 Admin");
+		assertEquals(oneHashDataCache.getUserByUserName("admin").getLastName(),"PT 4");
+		assertEquals(oneHashDataCache.getUserByUserName("admin").getPassword(),"password");
+		assertEquals(oneHashDataCache.getUserByUserName("admin").getUserRole(),"admin");
+	}
+	
+	@Test
+	public void testSaveUser() throws Exception{
+		try{
+			oneHashDataCache.saveUser(user1);
+		}
+		catch(Exception e){
+			throw new Exception ("Save user unsuccessfully");
+		}
+		
+	}
+    /***** COMPLAINT RELATED OPERATION *******/
+	@Test
 	public void testCreateComplaintLog() {
 		assertEquals(complaintLog1.getIssueNo(), "IS-0000-00-01");
 		assertEquals(complaintLog1.getIssueDescription(), "Complain about the service 1");
