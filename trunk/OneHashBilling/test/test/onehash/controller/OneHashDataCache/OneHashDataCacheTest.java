@@ -114,7 +114,7 @@ public class OneHashDataCacheTest extends TestCase{
 		
 		bill = oneHashDataCache.calculateBill(cus1, billRequestDate);
 		
-		/* Compliant Log */
+		/* complaint Log */
 		complaintLog1 = new ComplaintLog();
 		complaintLog1.setIssueNo("IS-0000-00-01");
 		complaintLog1.setIssueDescription("Complain about the service 1");
