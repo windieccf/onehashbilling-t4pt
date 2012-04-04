@@ -10,9 +10,9 @@
  * REVISION HISTORY
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
- * 28 March 2012    Yue Yang	    0.1				Class creating
- * 29 March 2012    Yue Yang	    0.2			    Modify the class													
- * 02 April 2012    Yue Yang	    0.3				Add few more method												
+ * 14 March 2012    Yue Yang	    0.1				Class creating
+ * 25 March 2012    Robin Foe	    0.2			    Add testGetServicePlan & testGetComplaintLogs											
+ * 30 March 2012    Yue Yang	    0.3				Add testGetBill												
  * 													
  * 													
  * 
