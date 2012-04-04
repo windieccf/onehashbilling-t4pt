@@ -186,7 +186,8 @@ public class OneHashDataCacheTest extends TestCase{
 		assertNotNull(oneHashDataCache);
 	}
 	
-	/***** Current Login User/*****/
+	
+	/***** Current Login User *****/
 	@Test 
 	public void testGetCurrentUser(){
 		assertNotNull(oneHashDataCache.getCurrentUser());
@@ -215,6 +216,7 @@ public class OneHashDataCacheTest extends TestCase{
 		assertNotNull(listCus);
 	}
 	
+	
 	/***** USER RELATED Test Case*****/
 	@Test
 	public void testGetUserByUserName(){
@@ -226,34 +228,16 @@ public class OneHashDataCacheTest extends TestCase{
 	
 	@Test
 	public void testSaveUser() throws Exception{
-		/*
 		try{
-			//System.out.println(newUser.getUserId());
 			oneHashDataCache.saveUser(newUser);
 			assertNotNull(oneHashDataCache.getUsers());
 			assertEquals(oneHashDataCache.getUsers().size(),2);
-			assertEquals(oneHashDataCache.getUsers().get(1).getUserId(),2);
-			assertEquals(oneHashDataCache.getUsers().get(0).getUserName(),"admin");
+			assertEquals(oneHashDataCache.getUsers().get(1).getUserId(),1);
 			assertEquals(oneHashDataCache.getUsers().get(1).getUserName(),"agent");
 		}
 		catch(Exception e){
 			throw new Exception ("Save user unsuccessfully");
 		}
-		*/
-	}
-	
-	@Test
-	public void testAuthenticate() throws Exception{
-		/*
-		try{
-			oneHashDataCache.authenticate(newUser);
-			User userA = new User();
-			oneHashDataCache.authenticate(userA);
-		}
-		catch(Exception e){
-		    throw new Exception ("Authenticate user unsuccessfully");
-		}
-		*/
 	}
 	
 	@Test
@@ -261,6 +245,7 @@ public class OneHashDataCacheTest extends TestCase{
 		oneHashDataCache.logout();
 		assertNull(curUser);
 	}
+	
 	
 	/**** Customer Related Test Case ****/
 	@Test
@@ -281,16 +266,24 @@ public class OneHashDataCacheTest extends TestCase{
 	
 	@Test
 	public void testSaveCustomer() throws Exception {
-		//Customer cus3 = new Customer("Yasir Hamilton","S0668036Q","80849  Cyprus Blvd.","87020191","SA-0033-12-88");
-		//try{
-			//oneHashDataCache.saveCustomer(cus3);
-		//}
-		//catch(Exception e){
-			//throw new Exception ("Save Customer unsuccessfully");
-		//}
+		Customer cus3 = new Customer();
+		cus3.setName("Yasir Hamilton");
+		cus3.setNric("S0668036Q");
+		cus3.setAddress("80849  Cyprus Blvd.");
+		cus3.setPhoneNumber("87020191");
+		try{
+			oneHashDataCache.saveCustomer(cus3);
+			assertEquals(oneHashDataCache.getCustomers().size(),3);
+			assertEquals(oneHashDataCache.getCustomers().get(2).getAccountNumber(),"SA-0000-00-01");
+			assertEquals(oneHashDataCache.getCustomers().get(2).getNric(),"S0668036Q");
+		}
+		catch(Exception e){
+			throw new Exception ("Save Customer unsuccessfully");
+		}
 	}
 	
 	
+	/***** Bill Related Test Case *****/
 	@Test
 	public void testCalculateBill(){
 		assertNotNull(bill);
@@ -302,9 +295,7 @@ public class OneHashDataCacheTest extends TestCase{
 	}
 	
 	
-	
-	
-    /***** COMPLAINT RELATED OPERATION *****/
+    /***** Complaint RRelated Test Case *****/
 	@Test
 	public void testCreateComplaintLog() {
 		assertEquals(complaintLog1.getIssueNo(), "IS-0000-00-01");
