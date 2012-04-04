@@ -111,7 +111,6 @@ public class OneHashDataCache {
      */
 	@SuppressWarnings("unchecked")
 	private void restoreCache(){
-		ServiceRate.loadServiceRate();
 		try{
 			FileInputStream fin = new FileInputStream(ConstantFilePath.ONE_HASH_DATA_SECURITY);
 			ObjectInputStream ois = new ObjectInputStream(fin);
@@ -134,6 +133,8 @@ public class OneHashDataCache {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		ServiceRate.loadServiceRate();
+		ServiceRate.generateRandomServicePlanForCustomer();
 	}
 	
 	

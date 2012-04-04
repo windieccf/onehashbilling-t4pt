@@ -511,7 +511,7 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 				ServicePlan servicePlan = servicePlans.get(i);
 				rowData[i][0] = servicePlan.getPlanId();
 				rowData[i][1] = servicePlan.getPlanName();
-				rowData[i][2] = DateFormat.getDateInstance(DateFormat.MEDIUM).format(servicePlan.getStartDate());;
+				rowData[i][2] = DateFormat.getDateInstance(DateFormat.MEDIUM).format(servicePlan.getStartDate());
 				if (servicePlan.getStatus().equals(ConstantStatus.SERVICEPLAN_DELETED)) {
 					rowData[i][3] = DateFormat.getDateInstance(DateFormat.MEDIUM).format(servicePlan.getEndDate());
 				}
@@ -529,8 +529,21 @@ public class SubscriptionPanel extends BasePanel implements BaseOperationImpl , 
 	}
 	public Object[][] getSelectedServiceRate() {
 		Object[][] rowData = new String[1][1];
-		if (selectedServiceRates == null)
+		if (selectedServiceRates == null) {
 			selectedServiceRates = new ArrayList<ServiceRate>();
+		}
+		if (selectedServiceRates.size() == 0) {
+			ArrayList<ServiceRate> serviceRates2 = new ArrayList<ServiceRate>(OneHashDataCache.getInstance().getAvailableServiceRate());
+			JComboBox component = (JComboBox)super.getComponent(SERVICEPLAN_COMBOBOX_SELECTION);
+			ComboBoxItem prefix = (ComboBoxItem)component.getSelectedItem();
+			for(ServiceRate serviceRate:serviceRates2) {
+				if (!serviceRate.getRateCode().startsWith(prefix.getKey()))
+					continue;
+				if (serviceRate.getRateDescription().indexOf("Local")>-1 || serviceRate.getRateCode().startsWith(prefix.getKey()+"S"))
+					selectedServiceRates.add(serviceRate);
+			}
+		}
+
 		rowData = new String[selectedServiceRates.size()][1];
 		int idx = 0;
 		for(ServiceRate serviceRate:selectedServiceRates) {

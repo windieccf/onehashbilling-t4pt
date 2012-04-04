@@ -12,7 +12,7 @@
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Robin Foe	    0.1				Class creating
  * 17 March 2012	Kenny Hartono	0.2				Added loadServiceRate()														
- * 													
+ * 05 April 2012	Kenny Hartono	0.3				Generating random customer service plan													
  * 													
  * 													
  * 
@@ -23,11 +23,18 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import com.onehash.constant.ConstantSummary;
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.model.base.BaseEntity;
+import com.onehash.model.customer.Customer;
+import com.onehash.model.service.plan.CableTvPlan;
+import com.onehash.model.service.plan.DigitalVoicePlan;
+import com.onehash.model.service.plan.MobileVoicePlan;
+import com.onehash.model.service.plan.ServicePlan;
 
 @SuppressWarnings("serial")
 public abstract class ServiceRate extends BaseEntity{
@@ -171,5 +178,105 @@ public abstract class ServiceRate extends BaseEntity{
 		
 		// Set all ServiceRate
 		OneHashDataCache.getInstance().setAvailableServiceRate(services);
+		
+	}
+	
+	public static void generateRandomServicePlanForCustomer() {
+		// checking master set up
+		ArrayList<Customer> customers = new ArrayList<Customer>(OneHashDataCache.getInstance().getCustomers());
+		ArrayList<ServicePlan> masterServicePlans;
+		if (OneHashDataCache.getInstance().getAvailableServicePlan() == null) {
+			masterServicePlans = new ArrayList<ServicePlan>();
+		} else {
+			masterServicePlans = new ArrayList<ServicePlan>(OneHashDataCache.getInstance().getAvailableServicePlan());
+		}
+		if (masterServicePlans.isEmpty()) {
+			ServicePlan servicePlan;
+			servicePlan = new DigitalVoicePlan();
+			servicePlan.setPlanName(ConstantSummary.DigitalVoice);
+			servicePlan.setPlanCode(ServiceRate.PREFIX_DIGITAL_VOICE);
+			masterServicePlans.add(servicePlan);
+			
+			servicePlan = new MobileVoicePlan();
+			servicePlan.setPlanName(ConstantSummary.MobileVoice);
+			servicePlan.setPlanCode(ServiceRate.PREFIX_MOBILE_VOICE);
+			masterServicePlans.add(servicePlan);
+			
+			servicePlan = new CableTvPlan();
+			servicePlan.setPlanName(ConstantSummary.CableTV);
+			servicePlan.setPlanCode(ServiceRate.PREFIX_CABLE_TV);
+			masterServicePlans.add(servicePlan);
+			
+			OneHashDataCache.getInstance().setAvailableServicePlan(masterServicePlans);
+		}
+
+		// Inserting random customer database & transactions 
+		ArrayList<ServiceRate> masterServiceRates = new ArrayList<ServiceRate>(OneHashDataCache.getInstance().getAvailableServiceRate());
+		ArrayList<ServicePlan> servicePlans = new ArrayList<ServicePlan>();
+		for(Customer customer:customers) {
+			servicePlans = new ArrayList<ServicePlan>();
+			int noOfPlan = (int)(Math.random()*10)%3 + 1; // minimum 1 subscription
+			int mobile_flag = 0, digital_flag = 0, tv_flag = 0;
+			for (int i_plan=0; i_plan<noOfPlan; i_plan++) {
+				ServicePlan servicePlan = new CableTvPlan();
+				if ((int)(Math.random()*10)%3==0 && digital_flag == 0) {
+					digital_flag = 1;
+					servicePlan = new DigitalVoicePlan();
+					servicePlan.setPlanName(ConstantSummary.DigitalVoice);
+					servicePlan.setPlanCode(ServiceRate.PREFIX_DIGITAL_VOICE);
+					servicePlan.setPlanId(ServiceRate.PREFIX_DIGITAL_VOICE+(servicePlans.size()+1));
+				}
+				else if ((int)(Math.random()*10)%3==1 && mobile_flag == 0) {
+					mobile_flag = 1;
+					servicePlan = new MobileVoicePlan();
+					servicePlan.setPlanName(ConstantSummary.MobileVoice);
+					servicePlan.setPlanCode(ServiceRate.PREFIX_MOBILE_VOICE);
+					servicePlan.setPlanId(ServiceRate.PREFIX_MOBILE_VOICE+(servicePlans.size()+1));
+				}
+				else if (tv_flag == 0){
+					tv_flag = 1;
+					servicePlan = new CableTvPlan();
+					servicePlan.setPlanName(ConstantSummary.CableTV);
+					servicePlan.setPlanCode(ServiceRate.PREFIX_CABLE_TV);
+					servicePlan.setPlanId(ServiceRate.PREFIX_CABLE_TV+(servicePlans.size()+1));
+				}
+				else {
+					continue;
+				}
+				ArrayList<ServiceRate> serviceRates = new ArrayList<ServiceRate>();
+				
+				// random delete
+				if (servicePlan.getServiceRates() != null) {
+					if (servicePlan.getServiceRates().size() > 0) {
+						// random delete if available
+						serviceRates = new ArrayList<ServiceRate>(servicePlan.getServiceRates());
+						int maxi_delete = (int)(Math.random()*100) % serviceRates.size();
+						for (int i=0; i<maxi_delete; i++)
+							serviceRates.remove((int)(Math.random()*100) % serviceRates.size());
+					}
+					else {
+						serviceRates = new ArrayList<ServiceRate>();
+						servicePlan.setServiceRates(serviceRates);
+					}
+				}
+				
+				if (serviceRates.size() == 0) {
+					for (ServiceRate serviceRate:masterServiceRates) {
+						if (serviceRate.getRateCode().startsWith(servicePlan.getPlanCode())) {
+							// subscription must be included or RANDOM
+							if ((int)(Math.random()*100 % 2) == 1 || serviceRate.getRateDescription().indexOf("Local")>-1 || serviceRate.getRateCode().startsWith(servicePlan.getPlanCode()+"S")) {
+								serviceRates.add(serviceRate);
+							}
+						}
+					}
+				}
+				servicePlan.setServiceRates(serviceRates);
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(2007+(int)(Math.random()*100)%4, 0+(int)(Math.random()*100)%12, 1);
+				servicePlan.setStartDate(calendar.getTime());
+				servicePlans.add(servicePlan);
+			}
+			customer.setServicePlans(servicePlans);
+		}
 	}
 }

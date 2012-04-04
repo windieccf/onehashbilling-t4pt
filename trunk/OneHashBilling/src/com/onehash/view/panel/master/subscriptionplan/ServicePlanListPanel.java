@@ -1,3 +1,22 @@
+/*
+ * CONFIDENTIAL AND PROPRIETARY SOURCE CODE OF
+ * Institute of Systems Science, National University of Singapore
+ *
+ * Copyright 2012 Team 4(Part-Time), ISS, NUS, Singapore. All rights reserved.
+ * Use of this source code is subjected to the terms of the applicable license
+ * agreement.
+ *
+ * -----------------------------------------------------------------
+ * REVISION HISTORY
+ * -----------------------------------------------------------------
+ * DATE             AUTHOR          REVISION		DESCRIPTION
+ * 01 April 2012    Kenny Hartono   0.1				Created class and functions
+ * 02 April 2012	Song Lei		0.2				Added buttons and interface setup													
+ * 05 April 2012	Kenny Hartono	0.3				Added logic functions to the interface 														
+ * 													
+ * 
+ */
+
 package com.onehash.view.panel.master.subscriptionplan;
 
 import java.awt.Dimension;
