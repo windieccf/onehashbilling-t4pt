@@ -10,10 +10,10 @@
  * REVISION HISTORY
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
- * 30 March 2012    Chen Changfeng	0.1				Class creating
- * 30 March 2012	Song Lei		0.2				Add testGetInstance, tearDown and testCalculateBill(uncompleted)
- * 													
- * 													
+ * 12 March 2012    Chen Changfeng	0.1				Class creating
+ * 14 March 2012	Song Lei		0.2				Add testGetInstance, tearDown and testCalculateBill(uncompleted)
+ * 15 March 2012    Robin Foe       0.3				Add testGetCurrentUser,	testGetCustomers and testFlushCache								
+ * 17 March 2012    Yue Yang        0.4			    Add Customer Related Test Case														
  * 													
  * 													
  * 
