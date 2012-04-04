@@ -10,11 +10,9 @@
  * REVISION HISTORY
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
- * 11 March 2012    Robin Foe	    0.1				Class creating
- * 12 March 2012	Chen Changfeng	0.1				Menu creating												
- * 													
- * 													
- * 													
+ * 11 March 2012    Robin Foe	    0.1				Class Creation
+ * 12 March 2012	Chen Changfeng	0.2				Menu creating												
+ * 01 April 2012    Robin Foe	    0.3				Add in user access rights and logout confirmation
  * 
  */
 
@@ -24,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -160,8 +159,10 @@ public class MenuPanel extends JPanel{
 		    	MenuScalar menuScalar = (MenuScalar)selectedNode.getUserObject();
 			    if(menuScalar.isAccessible()){
 			    	if(AuthenticationPanel.class.equals(menuScalar.getKlass())){
-			    		OneHashDataCache.getInstance().logout();
-				    	this.menuPanel.getMainFrame().doLoadLoginScreen();
+			    		if(0 == JOptionPane.showConfirmDialog(this.menuPanel.getMainFrame(),"Do you wish to logout?","Alert",JOptionPane.YES_NO_OPTION)){
+			    			OneHashDataCache.getInstance().logout();
+					    	this.menuPanel.getMainFrame().doLoadLoginScreen();
+			    		}
 			    	}else
 			    		this.menuPanel.getMainFrame().doLoadScreen(menuScalar.getKlass());
 			    }

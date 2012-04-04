@@ -12,8 +12,8 @@
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 15 March 2012    Robin Foe	    0.1				Class creation and screean loading
  * 16 March 2012    Yue Yang	    0.2				Validation and call to save
- * 22 March 2012	Robin Foe		0.4				Add in Remark													
- * 
+ * 22 March 2012	Robin Foe		0.3				Add in Remark													
+ * 23 March 2012	Yue Yang		0.4				Implement Access Rights	
  */
 
 package com.onehash.view.panel.customer;
@@ -167,8 +167,11 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 			if(OneHashStringUtil.isEmpty(this.customer.getAddress()))
 				throw new InsufficientInputParameterException("Customer Address is required");
 			
+			// perform save
 			OneHashDataCache.getInstance().saveCustomer(this.customer);
 			JOptionPane.showMessageDialog(this, "Customer Successfully Saved");
+			
+			// call of cancel to redirect to listing page
 			this.cancel();
 			
 		}catch(Exception e){
@@ -180,6 +183,7 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 		
 	}
 	
+	// initiate access rights to perform checking on user able to edit the field
 	@Override
 	protected void initiateAccessRights() {
 		if(!OneHashDataCache.getInstance().getCurrentUser().hasRights(EnumUserAccess.CUSTOMER_UPDATE)){

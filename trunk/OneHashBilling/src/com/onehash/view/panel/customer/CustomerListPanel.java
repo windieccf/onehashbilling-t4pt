@@ -66,7 +66,7 @@ public class CustomerListPanel extends BasePanel {
 	
 	@Override
 	protected void init() {
-		
+		// component registration
 		super.registerComponent(COMP_LBL_ACCOUNT_NO , FactoryComponent.createLabel("Account Number", new PositionScalar(20, 23, 100, 14)));
 		super.registerComponent(COMP_LBL_NAME , FactoryComponent.createLabel("Name", new PositionScalar(20, 50, 46, 14)));
 		super.registerComponent(COMP_LBL_NRIC , FactoryComponent.createLabel("NRIC.", new PositionScalar(20, 77, 46, 14)));
@@ -75,6 +75,7 @@ public class CustomerListPanel extends BasePanel {
 		super.registerComponent(COMP_TEXT_NAME , FactoryComponent.createTextField( new TextFieldAttributeScalar(136, 50, 150, 20,10) ));
 		super.registerComponent(COMP_TEXT_NRIC , FactoryComponent.createTextField( new TextFieldAttributeScalar(136, 77, 150, 20,10 ) ));
 		
+		// Creating table for listing
 		JTable table = new JTable();
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         table.setFillsViewportHeight(true);
@@ -118,6 +119,11 @@ public class CustomerListPanel extends BasePanel {
 	}
 	
 	/******************************** TABLE UTILITY******************************************/
+	
+	/**
+	 * @author robin.foe
+	 * to get the customer list
+	 * */
 	public Object[][] getData(){
 		Object[][] rowData = new String[1][5];
 		List<Customer> customers = OneHashDataCache.getInstance().getCustomers();
