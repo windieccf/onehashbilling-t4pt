@@ -24,7 +24,6 @@ import java.util.List;
 import com.onehash.constant.ConstantStatus;
 import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.model.base.BaseEntity;
-import com.onehash.model.scalar.MenuScalar;
 import com.onehash.utility.OneHashStringUtil;
 
 @SuppressWarnings("serial")
@@ -97,10 +96,4 @@ public class User extends BaseEntity{
         return sb.toString();
     }
     
-    //public boolean isValidPassword(String password) {return this.getPassword().equals(password); }
-   // public boolean isActive() {return ConstantStatus.ACTIVE.equals(this.status);}
-    
-   public MenuScalar getAvailableMenu(){
-	   return null;
-   };
 }

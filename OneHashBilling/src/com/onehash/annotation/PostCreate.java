@@ -23,6 +23,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+
+/**
+ * @author robin.foe
+ * Annotation for meta class processing, used by OneHashGUI to identity 
+ * which method need to be invoked upon completion of class/ panel initialisation
+ */
 @Target(value={ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PostCreate {

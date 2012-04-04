@@ -178,7 +178,11 @@ public class OneHashStringUtil {
     	return formatter.format(accountNo);
     }
     
-    
+    /**
+	 * @author robin.foe
+     * masking number based on prefix, and any number, while 
+     * @return  Map<String,Object>
+     */
     public static String generateReferenceNumberNumber(String prefix, long accountNo) throws ParseException{
     	String maskedAccountNumber = maskAccountNumber(accountNo);
     	List<String> tempList = new ArrayList<String>();
@@ -189,6 +193,12 @@ public class OneHashStringUtil {
     	return OneHashStringUtil.join(tempList, "-");
     }
     
+    
+    /**
+	 * @author robin.foe
+     * Join list as string
+     * @Return String
+     */
     public static String join(List<String> texts, String regex){
     	StringBuffer sb = new StringBuffer();
     	for(int i = 0 ; i < texts.size(); i++){

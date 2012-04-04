@@ -12,14 +12,11 @@
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 15 March 2012    Robin Foe	    0.1				Class creation and screean loading
  * 16 March 2012    Yue Yang	    0.2				Validation and call to save
- * 17 March 2012	Kenny Hartono	0.3				Adding manage ServicePlan													
- * 19 March 2012	Chen Changfeng	0.4				Complaint module start													
+ * 22 March 2012	Robin Foe		0.4				Add in Remark													
  * 
  */
 
 package com.onehash.view.panel.customer;
-
-
 
 import javax.swing.JOptionPane;
 
@@ -133,28 +130,6 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 	@Override
 	protected boolean isEnableHeader(){return false;}
 	
-	/*@PostCreate
-	public void postCreate(List<String> parameters){
-		if(parameters == null)
-			throw new IllegalArgumentException("CustomerEditPanel.postCreate parameter is required");
-		
-		if(ConstantAction.ADD.equals(parameters.get(0)))
-			customer = new Customer();
-		else{
-			customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(parameters.get(1));
-			servicePlans = new ArrayList<ServicePlan>(customer.getServicePlans());
-			if(customer != null){
-				super.getLabelComponent(COMP_LBL_ACCOUNT).setText(customer.getAccountNumber());
-				super.getTextFieldComponent(COMP_TEXT_NAME).setText(customer.getName());
-				super.getTextFieldComponent(COMP_TEXT_NRIC).setText(customer.getNric());
-				super.getTextFieldComponent(COMP_TEXT_CONTACT).setText(customer.getPhoneNumber());
-				super.getTextAreaComponent(COMP_TEXTAREA_ADDRESS).setText(customer.getAddress());
-			}
-		}
-		super.getCheckboxComponent(COMP_CHECKBOX_ACTIVATED).setSelected(customer.isActivated());
-		
-	}*/
-	
 	@Override
 	public void setSelectedEntity(BaseEntity baseEntity) {this.customer = (Customer) baseEntity;}
 
@@ -192,7 +167,6 @@ public class CustomerEditPanel  extends BasePanel implements BaseOperationImpl ,
 			if(OneHashStringUtil.isEmpty(this.customer.getAddress()))
 				throw new InsufficientInputParameterException("Customer Address is required");
 			
-			//this.customer.setServicePlans(this.servicePlans);
 			OneHashDataCache.getInstance().saveCustomer(this.customer);
 			JOptionPane.showMessageDialog(this, "Customer Successfully Saved");
 			this.cancel();

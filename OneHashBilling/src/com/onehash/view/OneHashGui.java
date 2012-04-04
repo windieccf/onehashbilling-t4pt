@@ -55,6 +55,11 @@ public class OneHashGui extends JFrame {
 		doLoadLoginScreen();
 	}
 	
+	
+	/**
+	 * @author robin.foe
+     * invoke the login screen
+     */
 	public void doLoadLoginScreen(){
 		this.splitPanel = null;
 		this.setContentPane(new AuthenticationPanel(this));
@@ -62,6 +67,11 @@ public class OneHashGui extends JFrame {
 		this.setResizable( false );
 	}
 	
+	
+	/**
+	 * @author robin.foe
+     * Load other module screen
+     */
 	@SuppressWarnings({ "rawtypes" })
 	public void doLoadScreen(Class<? extends BasePanel> klass,String... parameters){
 		final OneHashGui frame = this;

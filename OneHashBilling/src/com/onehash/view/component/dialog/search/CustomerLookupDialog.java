@@ -44,6 +44,10 @@ import com.onehash.view.component.listener.OneHashTabelFilterListener;
 import com.onehash.view.component.tablemodel.OneHashTableModel;
 import com.onehash.view.panel.base.CustomerOperationImpl;
 
+/**
+ * @author robin.foe
+ * Perform customer lookup as modal dialog
+ */
 @SuppressWarnings("serial")
 public class CustomerLookupDialog extends JDialog {
 	
@@ -59,6 +63,10 @@ public class CustomerLookupDialog extends JDialog {
 		setVisible(true);
 	}
 	
+	/**
+	 * @author robin.foe
+     * init swing component
+     */
 	private void init(){
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -104,6 +112,10 @@ public class CustomerLookupDialog extends JDialog {
 	}
 	
 	
+	/**
+	 * @author robin.foe
+     * get customer related data
+     */
 	private Object[][] getData(){
 		Object[][] rowData = new String[1][3];
 		List<Customer> customers = OneHashDataCache.getInstance().getCustomers();
@@ -122,10 +134,18 @@ public class CustomerLookupDialog extends JDialog {
 		return rowData;
 	}
 	
+	/**
+	 * @author robin.foe
+     * get Column name
+     */
 	private String[] getTableColumnNames(){
 		return new String[]{"Account Number", "Name","NRIC" };
 	}
 	
+	/**
+	 * @author robin.foe
+     * perform submission of the selected record
+     */
 	public void submitSelection(String parameter){
 		panel.setSelectedCustomer(OneHashDataCache.getInstance().getCustomerByAccountNumber(parameter));
 		this.dispose();

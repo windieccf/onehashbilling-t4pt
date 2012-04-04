@@ -31,6 +31,10 @@ import javax.swing.JTable;
 import com.onehash.constant.ConstantPrefix;
 import com.onehash.utility.OneHashStringUtil;
 
+/**
+ * @author robin.foe
+ * Mouse double click listener for table
+ */
 public class MouseTableListener extends MouseAdapter{
 	
 	private Component basePanel;

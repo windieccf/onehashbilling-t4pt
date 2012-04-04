@@ -12,9 +12,10 @@
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Robin Foe	    0.1				Class creating
  * 11 March 2012	Robin Foe		0.2				Add in file read and write													
- * 16 March 2012	Robin Foe		0.3				Add in Key Scalar and Customer related operation												
- * 17 March 2012	Aman Sharma		0.4				Add bill related methods.													
- * 													
+ * 16 March 2012	Robin Foe		0.3				Add in Key Scalar and Customer related operation		
+ * 16 March 2012	Robin Foe		0.4				Add in User Related Information										
+ * 17 March 2012	Aman Sharma		0.5				Add bill related methods.													
+ * 25 March 2012	Yue Yang		0.6				Add in Restore 
  * 
  */
 package com.onehash.controller;
@@ -51,7 +52,6 @@ import com.onehash.model.service.rate.ServiceRate;
 import com.onehash.model.user.User;
 import com.onehash.utility.OneHashBeanUtil;
 import com.onehash.utility.OneHashBillUtil;
-import com.onehash.utility.OneHashDateUtil;
 import com.onehash.utility.OneHashStringUtil;
 
 /**
@@ -201,15 +201,9 @@ public class OneHashDataCache {
 		}
 	}
 	
-	
 	private boolean isUsernameExist(String userName){
-		for(User user : this.getUsers()){
-			if(user.getUserName().equalsIgnoreCase(userName))
-				return true;
-		}
-		return false;
+		return (this.getUserByUserName(userName) != null);
 	}
-	
 	
 	public void authenticate(User user) throws Exception{	
 		if(user == null)
@@ -431,56 +425,6 @@ public class OneHashDataCache {
 			OneHashBeanUtil.copyProperties(cachedComplaintLog, complaintLog);
 		}
 	}
-	
-	
-	/**
-	 * Follow up field will be mandatory only when status is set to (F)Followup
-	 * Closed date will be the date issue set to closed status
-	 * @param complaintLog
-	 * @param status
-	 * @param followup
-	 * @throws BusinessLogicException
-	 */
-	public void updateComplaintLog(ComplaintLog complaintLog, String status, String followup) throws BusinessLogicException {
-		if (status.equals("F") && followup.isEmpty()) throw new BusinessLogicException("Followup field is mandatory when status is 'Follow up'");
-		if (status.equals("C")) complaintLog.setClosedDate(OneHashDateUtil.getDate());
-		if (!followup.isEmpty()) complaintLog.setFollowUp(followup);
-		complaintLog.setStatus(status);
-	}
-	
-	/**
-	 * Default complaint date will be sysdate
-	 * Default issue status will be A(active)
-	 * @param customer
-	 * @param issueDescription
-	 * @param allIssueNoList
-	 * @throws Exception
-	 */
-	public void createComplaint(Customer customer, String issueDescription, ArrayList<String> allIssueNoList) throws BusinessLogicException{
-		if (issueDescription.isEmpty()) throw new BusinessLogicException("Description field is mandatory.");
-		ComplaintLog complaintLog = new ComplaintLog(issueDescription,allIssueNoList);
-		System.out.println("com" + complaintLog.getIssueNo());
-		customer.addComplaintLog(complaintLog);
-	}
-	
-	/**
-	 * Retrieve complaintLog object by issue number
-	 * @param issueNo
-	 * @return
-	 * @throws Exception
-	 */
-	public ComplaintLog getComplaintLogByIssueNo(String issueNo, ArrayList<ComplaintLog> complaintLogs) throws Exception{
-		for(ComplaintLog complaintLog : complaintLogs){
-			if(complaintLog.getIssueNo().equalsIgnoreCase(issueNo)){
-				// will create a replicate of the complaintLog
-				return (ComplaintLog) complaintLog.clone();
-			}
-				
-		}
-		return null;
-	}
-	
-	
 	
 	// for data restoration back to the cache (Restore team 4 factory setting)
 	private void restoreFromFile(){

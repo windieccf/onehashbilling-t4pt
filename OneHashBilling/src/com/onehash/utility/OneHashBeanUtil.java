@@ -29,6 +29,13 @@ import java.util.Map;
 
 public class OneHashBeanUtil {
 	
+	
+	/**
+	 *  @author robin.foe
+     * Retrieve available setter method of class
+     * @return  java.lang.reflect.Method
+     * @param Class, String fieldName, Class... arguments
+     */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Method getSetterMethod(Class klass, String fieldName, Class... argumentsType) throws SecurityException, NoSuchMethodException{
 		String setter = "set" + OneHashStringUtil.capitalize(fieldName);
@@ -36,6 +43,12 @@ public class OneHashBeanUtil {
 		return mtd;
 	}
 	
+	
+	/**
+	 * @author robin.foe
+     * Perform dynamic copy of object from one to another object
+     * @return  void
+     */
 	public static void copyProperties(Object destinationBean, Object sourceBean, String... excludedPropertyName){
 		try{
 			Map<String,Object> fieldMap = OneHashBeanUtil.describe(destinationBean, sourceBean);
@@ -64,7 +77,11 @@ public class OneHashBeanUtil {
 	}
 	
 	
-	
+	/**
+	 * @author robin.foe
+     * Describe each variables the object has
+     * @return  Map<String,Object>
+     */
 	public static Map<String,Object> describe(Object destinationBean,Object sourceBean)throws Exception{
 		Map<String,Object> map  = new HashMap<String,Object>();
 		List<Field> fields = new ArrayList<Field>();
