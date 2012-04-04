@@ -49,6 +49,15 @@ import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
 
+/**
+ * @author robin.foe
+ * base panel serve the purpose of
+ * 	-	draw the component
+ * 	-	keep the component object
+ * 	-	define the single source of styling
+ * 	-	disabling component
+ */
+
 @SuppressWarnings("serial")
 public abstract class BasePanel extends JPanel implements Runnable{
 	
@@ -62,6 +71,10 @@ public abstract class BasePanel extends JPanel implements Runnable{
 		this.draw();
 	}
 	
+	/**
+	 * @author robin.foe
+     * Drawing the component into panel
+     */
 	@Override
 	public void run(){
 		JPanel panel = this;
@@ -103,6 +116,11 @@ public abstract class BasePanel extends JPanel implements Runnable{
 		EventQueue.invokeLater(this);
 	}
 	
+	
+	/**
+	 * @author robin.foe
+     * Registering java swing component
+     */
 	public final void registerComponent(String componentName , Component component){
 		if(component == null) throw new IllegalArgumentException("component must not be null");
 		if(OneHashStringUtil.isEmpty(componentName)) throw new IllegalArgumentException("componentName is required");
@@ -110,6 +128,10 @@ public abstract class BasePanel extends JPanel implements Runnable{
 		componentMap.put(componentName, component);
 	}
 	
+	/**
+	 * @author robin.foe
+     * Retrieving java swing component
+     */
 	public final Component getComponent(String componentName) {
 		if(componentName == null) throw new IllegalArgumentException("component must not be null");
 		if(OneHashStringUtil.isEmpty(componentName)) throw new IllegalArgumentException("componentName is required");
@@ -119,14 +141,11 @@ public abstract class BasePanel extends JPanel implements Runnable{
 		throw new IllegalArgumentException("Component name " + componentName + " is not exist");
 	}
 	
-	public final void setComponent(String componentName , Component component) {
-		if(component == null) throw new IllegalArgumentException("component must not be null");
-		if(OneHashStringUtil.isEmpty(componentName)) throw new IllegalArgumentException("componentName is required");
-		if (componentMap.containsKey(componentName))
-			componentMap.remove(componentName);
-		componentMap.put(componentName, component);
-	}
 	
+	/**
+	 * @author robin.foe
+     * Disabling java swing component, but will exclude the name in the parameters
+     */
 	public final void disableComponent(String... excludedComponentName){
 		List<String> excludedList = new ArrayList<String>();
 		if(excludedComponentName != null){
@@ -140,6 +159,10 @@ public abstract class BasePanel extends JPanel implements Runnable{
 		}
 	}
 	
+	/**
+	 * @author robin.foe
+     * Short hand method to retrieve component
+     */
 	public final JTextField getTextFieldComponent(String componentName){return (JTextField)componentMap.get(componentName);}
 	public final JTextArea getTextAreaComponent(String componentName){return (JTextArea)componentMap.get(componentName);}
 	public final JLabel getLabelComponent(String componentName){return (JLabel)componentMap.get(componentName);}
@@ -148,10 +171,9 @@ public abstract class BasePanel extends JPanel implements Runnable{
 	public final JButton getButtonComponent(String componentName){return (JButton)componentMap.get(componentName);}
 	
 	protected boolean isEnableHeader(){return true;}
-	
+
 	abstract protected void init();
 	abstract protected String getScreenTitle();
 	protected void initiateAccessRights(){/*IGNORED*/}
-	
 
 }

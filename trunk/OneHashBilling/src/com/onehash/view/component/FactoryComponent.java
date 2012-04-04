@@ -38,6 +38,11 @@ import com.onehash.model.scalar.PositionScalar;
 import com.onehash.model.scalar.TextFieldAttributeScalar;
 import com.onehash.view.component.comboboxitem.ComboBoxItem;
 
+
+/**
+ * @author robin.foe
+ * Factory component for SWING COMPONENT creation (Short hand method)
+ */
 public class FactoryComponent {
 	
 	public static JLabel createLabel(String labelName, PositionScalar pos){

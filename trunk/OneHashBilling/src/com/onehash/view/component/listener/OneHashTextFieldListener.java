@@ -28,6 +28,11 @@ import javax.swing.event.DocumentListener;
 import com.onehash.utility.OneHashBeanUtil;
 import com.onehash.view.panel.base.BaseOperationImpl;
 
+/**
+ * @author robin.foe
+ * Dynamic text field listener, any changes in text field will automatically
+ * updated to the respective object
+ */
 public class OneHashTextFieldListener implements DocumentListener{
 	
 	private BaseOperationImpl baseImpl;

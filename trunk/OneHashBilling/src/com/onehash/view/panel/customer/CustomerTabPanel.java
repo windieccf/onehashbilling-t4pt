@@ -11,7 +11,7 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 20 March 2012    Robin Foe	    0.1				Initial Creation
- * 													
+ * 20 March 2012    Yue Yang	    0.2				Include Service plan
  * 													
  * 													
  * 

@@ -12,6 +12,10 @@ import com.onehash.model.scalar.TableFilterScalar;
 import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.component.tablemodel.OneHashTableModel;
 
+/**
+ * @author robin.foe
+ * Dynamic table filter listener.
+ */
 public class OneHashTabelFilterListener implements DocumentListener{
 
 	private TableRowSorter<OneHashTableModel> sorter;

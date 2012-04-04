@@ -24,7 +24,11 @@ import java.lang.reflect.Method;
 
 import com.onehash.view.panel.base.BasePanel;
 
-
+/**
+ * @author robin.foe
+ * Action listener on button click, By passing BasePanel and action to call, 
+ * the class will use reflection style to refer to specific method call
+ */
 public class ButtonActionListener implements ActionListener{
 	
 	private BasePanel basePanel;

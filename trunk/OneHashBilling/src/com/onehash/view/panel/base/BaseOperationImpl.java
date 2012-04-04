@@ -21,6 +21,10 @@ package com.onehash.view.panel.base;
 
 import com.onehash.model.base.BaseEntity;
 
+/**
+ * @author robin.foe
+ * Interface Implementation to be used for OneHashTextFieldListener
+ */
 public interface BaseOperationImpl {
 	public BaseEntity getSelectedEntity();
 	public void setSelectedEntity(BaseEntity baseEntity);

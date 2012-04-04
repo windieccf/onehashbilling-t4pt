@@ -24,16 +24,18 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * @author robin.foe
+ * Custom table mode to suits ONE HASH BILLING needs
+ */
 @SuppressWarnings("serial")
 public class OneHashTableModel extends DefaultTableModel{
 	
 	 private String[] columnNames;
-	//private Object[][] data;
 	 
 	 public OneHashTableModel(String[] columnNames , Object[][] data){
 		 super(data, columnNames);
 		 this.columnNames = columnNames;
-		// this.data = data;
 	 }
 
 	
@@ -55,18 +57,6 @@ public class OneHashTableModel extends DefaultTableModel{
 		}
 		return -1;
     }
-	/*
-	@SuppressWarnings("rawtypes")
-	public Object[] getRowDataByColumnValue(int columnIndex, Object value){
-		if(value == null) return null;
-		for(Iterator ite = super.getDataVector().iterator() ; ite.hasNext(); ){
-			Object[] obj = (Object[])ite.next();
-			if(value.equals(obj[columnIndex]))
-				return obj;
-		}
-		return null;
-	}
-    */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Object[] getRowByIndex(int rowIndex){
 		int i = 0;
@@ -93,9 +83,6 @@ public class OneHashTableModel extends DefaultTableModel{
 		return obj;
 	}
 	
-	//public int getRowCount() {return data.length;}
-    //public int getColumnCount() {return columnNames.length;}
-    //public Object getValueAt(int row, int col) {return data[row][col];}
     
     public boolean isCellEditable(int row, int col){ 
     	return false; 

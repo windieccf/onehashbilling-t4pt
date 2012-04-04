@@ -13,7 +13,7 @@
  * 12 March 2012    Robin Foe	    0.1				Class creating
  * 15 March 2012    Robin Foe	    0.2				Add in table and table listener
  * 15 March 2012    Yue Yang	    0.3				Add in screen redirection
- * 													
+ * 16 March 2012    Robin Foe	    0.4				Add in Filter													
  * 													
  * 
  */

@@ -20,7 +20,10 @@
 package com.onehash.view.panel.customer.impl;
 
 import com.onehash.model.customer.Customer;
-
+/**
+ * @author robin.foe
+ * Customer tab interface, user for JPanel that need to share same panel in CustomerTabPanel
+ */
 public interface CustomerTabInterface {
 	
 	public void initializeCustomer(Customer customer);
