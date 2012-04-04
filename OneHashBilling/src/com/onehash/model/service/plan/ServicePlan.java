@@ -11,10 +11,8 @@
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
  * 10 March 2012    Robin Foe	    0.1				Class creating
- * 													
- * 													
- * 													
- * 													
+ * 18 March 2012	Kenny Hartono	0.2				Added status, calculateBill
+ * 31 March 2012	Yue Yang		0.3				Bug Fixing for the calculateBill
  * 
  */
 package com.onehash.model.service.plan;
