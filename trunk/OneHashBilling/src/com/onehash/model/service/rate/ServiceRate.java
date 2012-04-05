@@ -297,7 +297,6 @@ public abstract class ServiceRate extends BaseEntity{
 						String usageCode = serviceRates.get((int)(Math.random()*100) % serviceRates.size()).getRateCode(); // get random service rate
 						talkTimeUsage.setUsageType(usageCode.replaceAll("-", "")); // get the code without '-' (after reading Aman's code)
 						monthlyUsage.setTalkTimeUsages(talkTimeUsages);
-						System.out.println(year1+"-"+month1);
 						monthlyUsages.add(monthlyUsage);
 					}
 				}
