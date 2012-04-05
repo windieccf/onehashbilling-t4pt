@@ -35,6 +35,8 @@ import com.onehash.model.service.plan.CableTvPlan;
 import com.onehash.model.service.plan.DigitalVoicePlan;
 import com.onehash.model.service.plan.MobileVoicePlan;
 import com.onehash.model.service.plan.ServicePlan;
+import com.onehash.model.usage.MonthlyUsage;
+import com.onehash.model.usage.TalkTimeUsage;
 
 @SuppressWarnings("serial")
 public abstract class ServiceRate extends BaseEntity{
@@ -272,8 +274,34 @@ public abstract class ServiceRate extends BaseEntity{
 				}
 				servicePlan.setServiceRates(serviceRates);
 				Calendar calendar = Calendar.getInstance();
-				calendar.set(2007+(int)(Math.random()*100)%4, 0+(int)(Math.random()*100)%12, 1);
+				int year = 2007+(int)(Math.random()*100)%4;
+				int month = 0+(int)(Math.random()*100)%12;
+				int curMonth = Calendar.getInstance().get(Calendar.MONTH);
+				int curYear = Calendar.getInstance().get(Calendar.YEAR);
+				calendar.set(year, month, 1);
 				servicePlan.setStartDate(calendar.getTime());
+				ArrayList<MonthlyUsage> monthlyUsages = new ArrayList<MonthlyUsage>();
+				for (int year1=year; year1<=curYear; year1++) {
+					for (int month1=0; month1<12; month1++) {
+						if (year1 == curYear && month1 == curMonth) break; // transactions is only for past dates
+						MonthlyUsage monthlyUsage = new MonthlyUsage();
+						monthlyUsage.setUsageYearMonth(Integer.toString(month1) + Integer.toString(year1));
+						
+						ArrayList<TalkTimeUsage> talkTimeUsages = new ArrayList<TalkTimeUsage>();
+						TalkTimeUsage talkTimeUsage = new TalkTimeUsage();
+						talkTimeUsage.setCallNumber(Integer.toString(80000000 + (int)(Math.random()*10000000))); // 8 digit number
+						talkTimeUsage.setUsageDuration((long)(Math.random()*3600)); // 1 hour duration, random
+						Calendar randomTalkTime = Calendar.getInstance();
+						randomTalkTime.set(year1, month1, 1+(int)(Math.random()*28), ((int)(Math.random()*23))%24, 1+(int)(Math.random()*59), 1+(int)(Math.random()*59)); // random date & time
+						talkTimeUsage.setCallTime(randomTalkTime.getTime());
+						String usageCode = serviceRates.get((int)(Math.random()*100) % serviceRates.size()).getRateCode(); // get random service rate
+						talkTimeUsage.setUsageType(usageCode.replaceAll("-", "")); // get the code without '-' (after reading Aman's code)
+						monthlyUsage.setTalkTimeUsages(talkTimeUsages);
+						
+						monthlyUsages.add(monthlyUsage);
+					}
+				}
+				servicePlan.setMonthlyUsages(monthlyUsages);
 				servicePlans.add(servicePlan);
 			}
 			customer.setServicePlans(servicePlans);
