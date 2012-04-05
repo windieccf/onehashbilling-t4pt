@@ -40,8 +40,6 @@ public class Bill extends BaseEntity{
 	
 	private BigDecimal gstRate;
 	
-	private List<BillDetail> billDetails = new ArrayList<BillDetail>();
-	
 	Map<String,List<BillSummary>> billSummaryMap = new HashMap<String,List<BillSummary>>();
 	
 	private List<PaymentDetail> paymentDetails = new ArrayList<PaymentDetail>();
@@ -84,14 +82,6 @@ public class Bill extends BaseEntity{
 
 	public void setGstRate(BigDecimal gstRate) {
 		this.gstRate = gstRate;
-	}
-
-	public List<BillDetail> getBillDetails() {
-		return billDetails;
-	}
-
-	public void setBillDetails(List<BillDetail> billDetails) {
-		this.billDetails = billDetails;
 	}
 
 	public Map<String, List<BillSummary>> getBillSummaryMap() {
