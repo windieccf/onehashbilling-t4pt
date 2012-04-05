@@ -41,25 +41,6 @@ public class BillTest extends TestCase {
 	
 	@Before
 	public void setUp() throws Exception {
-        //Set up BillDetails
-    	List<BillDetail> billDetails = new ArrayList<BillDetail>();
-    	BillDetail bDetail1 = new BillDetail();
-    	BillDetail bDetail2 = new BillDetail();
-    	
-    	bDetail1.setPlanName("MV-L");
-    	bDetail1.setRate(new BigDecimal(0.5));
-    	bDetail1.setRateName("MV-L Rate");
-    	bDetail1.setUsageDuration(new Long(911));
-    	bDetail1.setUsageTime(OneHashDateUtil.getDate(2012, 2, 10));
-    	billDetails.add(bDetail1);
-    	
-    	bDetail2 = new BillDetail();
-        bDetail2.setPlanName("MV-R");
-        bDetail2.setRate(new BigDecimal(0.5));
-        bDetail2.setRateName("MV-R Rate");
-        bDetail2.setUsageDuration(new Long(233));
-        bDetail2.setUsageTime(OneHashDateUtil.getDate(2012, 2, 27));
-        billDetails.add(bDetail2);
         
         //Set up BillSummary
         Map<String,List<BillSummary>> billSummaryMap = new HashMap<String,List<BillSummary>>();
@@ -85,7 +66,6 @@ public class BillTest extends TestCase {
         b1.setCurrentBill(new BigDecimal(100));
         b1.setGstRate(new BigDecimal(7));
         b1.setTotalBill(new BigDecimal(107.00));
-        b1.setBillDetails(billDetails);
         b1.setBillSummaryMap(billSummaryMap);
         b1.setPaymentDetails(paymentDetails);
 	}
@@ -120,21 +100,6 @@ public class BillTest extends TestCase {
 	@Test
 	public void testGetTotalBill(){
 		assertEquals(b1.getTotalBill(),new BigDecimal(107.00));
-	}
-	
-	@Test
-	public void testGetBillDetails(){
-		assertEquals(b1.getBillDetails().size(),2);
-		assertEquals(b1.getBillDetails().get(0).getPalnName(),"MV-L");
-		assertEquals(b1.getBillDetails().get(0).getRate(),new BigDecimal(0.5));
-		assertEquals(b1.getBillDetails().get(0).getRateName(),"MV-L Rate");
-		assertEquals(b1.getBillDetails().get(0).getUsageDuration(),new Long(911));
-		assertEquals(b1.getBillDetails().get(0).getUsageTime(),OneHashDateUtil.getDate(2012, 2, 10));
-		assertEquals(b1.getBillDetails().get(1).getPalnName(),"MV-R");
-		assertEquals(b1.getBillDetails().get(1).getRate(),new BigDecimal(0.5));
-		assertEquals(b1.getBillDetails().get(1).getRateName(),"MV-R Rate");
-		assertEquals(b1.getBillDetails().get(1).getUsageDuration(),new Long(233));
-		assertEquals(b1.getBillDetails().get(1).getUsageTime(),OneHashDateUtil.getDate(2012, 2, 27));
 	}
 	
 	@Test
