@@ -285,28 +285,30 @@ public abstract class ServiceRate extends BaseEntity{
 					for (int month1=1; month1<=12; month1++) {
 						if (year1 == curYear && month1 > curMonth) break; // transactions is only for past dates
 						
-						MonthlyUsage monthlyUsage = new MonthlyUsage();
-						monthlyUsage.setUsageYearMonth(Integer.toString(month1) + Integer.toString(year1));
+						if(!(servicePlan instanceof CableTvPlan)){
+							MonthlyUsage monthlyUsage = new MonthlyUsage();
+							monthlyUsage.setUsageYearMonth(Integer.toString(month1) + Integer.toString(year1));
 						
-						for (ServiceRate serviceRate:serviceRates) { // fill in the usage to all serviceRate
-							if (serviceRate instanceof SubscriptionRate || serviceRate.getRateCode().indexOf("TV-") >= 0) continue; // must be non TV rate, and non subscription
-
-							String usageCode = "";
-							usageCode = serviceRate.getRateCode().replaceAll("-", ""); // MVL, DVL ,... 3 letters code
-							ArrayList<TalkTimeUsage> talkTimeUsages = new ArrayList<TalkTimeUsage>();
-							TalkTimeUsage talkTimeUsage = new TalkTimeUsage();
-							talkTimeUsage.setUsageType(usageCode);
-							
-							talkTimeUsage.setCallNumber(Integer.toString(80000000 + (int)(Math.random()*10000000))); // 8 digit number
-							talkTimeUsage.setUsageDuration((long)(Math.random()*1200)); // 20 minutes duration, random
-							
-							Calendar randomTalkTime = Calendar.getInstance();
-							randomTalkTime.set(year1, month1, 1+(int)(Math.random()*27), ((int)(Math.random()*23))%24, 1+(int)(Math.random()*59), 1+(int)(Math.random()*59)); // random date & time
-							
-							talkTimeUsage.setCallTime(randomTalkTime.getTime());
-							talkTimeUsages.add(talkTimeUsage);
-							monthlyUsage.setTalkTimeUsages(talkTimeUsages);
-							monthlyUsages.add(monthlyUsage);
+							for (ServiceRate serviceRate:serviceRates) { // fill in the usage to all serviceRate
+								if (serviceRate instanceof SubscriptionRate || serviceRate.getRateCode().indexOf("TV-") >= 0) continue; // must be non TV rate, and non subscription
+	
+								String usageCode = "";
+								usageCode = serviceRate.getRateCode().replaceAll("-", ""); // MVL, DVL ,... 3 letters code
+								ArrayList<TalkTimeUsage> talkTimeUsages = new ArrayList<TalkTimeUsage>();
+								TalkTimeUsage talkTimeUsage = new TalkTimeUsage();
+								talkTimeUsage.setUsageType(usageCode);
+								
+								talkTimeUsage.setCallNumber(Integer.toString(80000000 + (int)(Math.random()*10000000))); // 8 digit number
+								talkTimeUsage.setUsageDuration((long)(Math.random()*1200)); // 20 minutes duration, random
+								
+								Calendar randomTalkTime = Calendar.getInstance();
+								randomTalkTime.set(year1, month1, 1+(int)(Math.random()*27), ((int)(Math.random()*23))%24, 1+(int)(Math.random()*59), 1+(int)(Math.random()*59)); // random date & time
+								
+								talkTimeUsage.setCallTime(randomTalkTime.getTime());
+								talkTimeUsages.add(talkTimeUsage);
+								monthlyUsage.setTalkTimeUsages(talkTimeUsages);
+								monthlyUsages.add(monthlyUsage);
+							}
 						}
 					}
 				}
