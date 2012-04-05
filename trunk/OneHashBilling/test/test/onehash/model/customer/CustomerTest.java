@@ -34,7 +34,6 @@ import org.junit.Test;
 
 import com.onehash.constant.ConstantStatus;
 import com.onehash.model.bill.Bill;
-import com.onehash.model.bill.BillDetail;
 import com.onehash.model.bill.BillSummary;
 import com.onehash.model.bill.PaymentDetail;
 import com.onehash.model.complaint.ComplaintLog;
@@ -169,15 +168,6 @@ public class CustomerTest extends TestCase {
 	
 	@Test
 	public void testGetBill(){
-		List<BillDetail> billDetails = new ArrayList<BillDetail>();
-    	BillDetail bDetail1 = new BillDetail();
-    	
-    	bDetail1.setPlanName("MV-L");
-    	bDetail1.setRate(new BigDecimal(0.5));
-    	bDetail1.setRateName("MV-L Rate");
-    	bDetail1.setUsageDuration(new Long(911));
-    	bDetail1.setUsageTime(OneHashDateUtil.getDate(2012, 2, 10));
-    	billDetails.add(bDetail1);
         
         //Set up BillSummary
         Map<String,List<BillSummary>> billSummaryMap = new HashMap<String,List<BillSummary>>();
@@ -198,7 +188,6 @@ public class CustomerTest extends TestCase {
         b1.setCurrentBill(new BigDecimal(80));
         b1.setGstRate(new BigDecimal(7));
         b1.setTotalBill(new BigDecimal(85.60));
-        b1.setBillDetails(billDetails);
         b1.setBillSummaryMap(billSummaryMap);
         b1.setPaymentDetails(paymentDetails);
         bList.add(b1);
@@ -209,8 +198,6 @@ public class CustomerTest extends TestCase {
         assertEquals(cus1.getBill().get(0).getCurrentBill(),new BigDecimal(80));
         assertEquals(cus1.getBill().get(0).getGstRate(),new BigDecimal(7));
         assertEquals(cus1.getBill().get(0).getTotalBill(),new BigDecimal(85.60));
-        assertEquals(cus1.getBill().get(0).getBillDetails().get(0).getPalnName(),"MV-L");
-        assertEquals(cus1.getBill().get(0).getBillDetails().get(0).getRate(),new BigDecimal(0.5));
         assertEquals(cus1.getBill().get(0).getBillSummaryMap().get("20120301").get(0).getDescription(),"MV-L");
         assertEquals(cus1.getBill().get(0).getBillSummaryMap().get("20120301").get(0).getTotal(),new BigDecimal(80.00));
         assertEquals(cus1.getBill().get(0).getPaymentDetails().get(0).getPaymentDate(),OneHashDateUtil.getDate(2012,3,2));
