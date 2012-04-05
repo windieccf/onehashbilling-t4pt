@@ -276,17 +276,17 @@ public abstract class ServiceRate extends BaseEntity{
 				Calendar calendar = Calendar.getInstance();
 				int year = 2007+(int)(Math.random()*100)%4;
 				int month = 0+(int)(Math.random()*100)%12;
-				int curMonth = Calendar.getInstance().get(Calendar.MONTH);
+				int curMonth = Calendar.getInstance().get(Calendar.MONTH)+1;
 				int curYear = Calendar.getInstance().get(Calendar.YEAR);
 				calendar.set(year, month, 1);
 				servicePlan.setStartDate(calendar.getTime()); // setting the servicePlan starting date
 				ArrayList<MonthlyUsage> monthlyUsages = new ArrayList<MonthlyUsage>();
 				for (int year1=year; year1<=curYear; year1++) { // generate data based on the servicePlan starting date
-					for (int month1=0; month1<12; month1++) {
-						if (year1 == curYear && month1 == curMonth) break; // transactions is only for past dates
+					for (int month1=1; month1<=12; month1++) {
+						if (year1 == curYear && month1 > curMonth) break; // transactions is only for past dates
 						
 						for (ServiceRate serviceRate:serviceRates) { // fill in the usage to all serviceRate
-							if (serviceRate.getRateCode().indexOf("TV-") >= 0) continue; // must be non TV rate
+							if (serviceRate instanceof SubscriptionRate || serviceRate.getRateCode().indexOf("TV-") >= 0) continue; // must be non TV rate, and non subscription
 							
 							MonthlyUsage monthlyUsage = new MonthlyUsage();
 							monthlyUsage.setUsageYearMonth(Integer.toString(month1) + Integer.toString(year1));
@@ -297,10 +297,10 @@ public abstract class ServiceRate extends BaseEntity{
 							talkTimeUsage.setUsageType(usageCode);
 							
 							talkTimeUsage.setCallNumber(Integer.toString(80000000 + (int)(Math.random()*10000000))); // 8 digit number
-							talkTimeUsage.setUsageDuration((long)(Math.random()*3600)); // 1 hour duration, random
+							talkTimeUsage.setUsageDuration((long)(Math.random()*1200)); // 20 minutes duration, random
 							
 							Calendar randomTalkTime = Calendar.getInstance();
-							randomTalkTime.set(year1, month1, 1+(int)(Math.random()*28), ((int)(Math.random()*23))%24, 1+(int)(Math.random()*59), 1+(int)(Math.random()*59)); // random date & time
+							randomTalkTime.set(year1, month1, 1+(int)(Math.random()*27), ((int)(Math.random()*23))%24, 1+(int)(Math.random()*59), 1+(int)(Math.random()*59)); // random date & time
 							
 							talkTimeUsage.setCallTime(randomTalkTime.getTime());
 							talkTimeUsages.add(talkTimeUsage);
