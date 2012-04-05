@@ -279,9 +279,9 @@ public abstract class ServiceRate extends BaseEntity{
 				int curMonth = Calendar.getInstance().get(Calendar.MONTH);
 				int curYear = Calendar.getInstance().get(Calendar.YEAR);
 				calendar.set(year, month, 1);
-				servicePlan.setStartDate(calendar.getTime());
+				servicePlan.setStartDate(calendar.getTime()); // setting the servicePlan starting date
 				ArrayList<MonthlyUsage> monthlyUsages = new ArrayList<MonthlyUsage>();
-				for (int year1=year; year1<=curYear; year1++) {
+				for (int year1=year; year1<=curYear; year1++) { // generate data based on the servicePlan starting date
 					for (int month1=0; month1<12; month1++) {
 						if (year1 == curYear && month1 == curMonth) break; // transactions is only for past dates
 						MonthlyUsage monthlyUsage = new MonthlyUsage();
@@ -297,7 +297,7 @@ public abstract class ServiceRate extends BaseEntity{
 						String usageCode = serviceRates.get((int)(Math.random()*100) % serviceRates.size()).getRateCode(); // get random service rate
 						talkTimeUsage.setUsageType(usageCode.replaceAll("-", "")); // get the code without '-' (after reading Aman's code)
 						monthlyUsage.setTalkTimeUsages(talkTimeUsages);
-						
+						System.out.println(year1+"-"+month1);
 						monthlyUsages.add(monthlyUsage);
 					}
 				}
