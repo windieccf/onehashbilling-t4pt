@@ -307,8 +307,8 @@ public abstract class ServiceRate extends BaseEntity{
 								talkTimeUsage.setCallTime(randomTalkTime.getTime());
 								talkTimeUsages.add(talkTimeUsage);
 								monthlyUsage.setTalkTimeUsages(talkTimeUsages);
-								monthlyUsages.add(monthlyUsage);
 							}
+							monthlyUsages.add(monthlyUsage);
 						}
 					}
 				}
