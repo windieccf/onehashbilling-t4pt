@@ -285,11 +285,12 @@ public abstract class ServiceRate extends BaseEntity{
 					for (int month1=1; month1<=12; month1++) {
 						if (year1 == curYear && month1 > curMonth) break; // transactions is only for past dates
 						
+						MonthlyUsage monthlyUsage = new MonthlyUsage();
+						monthlyUsage.setUsageYearMonth(Integer.toString(month1) + Integer.toString(year1));
+						
 						for (ServiceRate serviceRate:serviceRates) { // fill in the usage to all serviceRate
 							if (serviceRate instanceof SubscriptionRate || serviceRate.getRateCode().indexOf("TV-") >= 0) continue; // must be non TV rate, and non subscription
-							
-							MonthlyUsage monthlyUsage = new MonthlyUsage();
-							monthlyUsage.setUsageYearMonth(Integer.toString(month1) + Integer.toString(year1));
+
 							String usageCode = "";
 							usageCode = serviceRate.getRateCode().replaceAll("-", ""); // MVL, DVL ,... 3 letters code
 							ArrayList<TalkTimeUsage> talkTimeUsages = new ArrayList<TalkTimeUsage>();
