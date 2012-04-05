@@ -10,7 +10,7 @@
  * REVISION HISTORY
  * -----------------------------------------------------------------
  * DATE             AUTHOR          REVISION		DESCRIPTION
- * 12 March 2012    Robin Foe	    0.1				Class creating
+ * 12 March 2012    Aman Sharma	    0.1				Class creating
  * 13 March 2012	Aman Sharma		0.2				Added Bill Functionalities
  * 													Search/History/Reset																									
  * 													
