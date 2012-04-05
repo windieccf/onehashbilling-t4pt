@@ -284,20 +284,28 @@ public abstract class ServiceRate extends BaseEntity{
 				for (int year1=year; year1<=curYear; year1++) { // generate data based on the servicePlan starting date
 					for (int month1=0; month1<12; month1++) {
 						if (year1 == curYear && month1 == curMonth) break; // transactions is only for past dates
-						MonthlyUsage monthlyUsage = new MonthlyUsage();
-						monthlyUsage.setUsageYearMonth(Integer.toString(month1) + Integer.toString(year1));
 						
-						ArrayList<TalkTimeUsage> talkTimeUsages = new ArrayList<TalkTimeUsage>();
-						TalkTimeUsage talkTimeUsage = new TalkTimeUsage();
-						talkTimeUsage.setCallNumber(Integer.toString(80000000 + (int)(Math.random()*10000000))); // 8 digit number
-						talkTimeUsage.setUsageDuration((long)(Math.random()*3600)); // 1 hour duration, random
-						Calendar randomTalkTime = Calendar.getInstance();
-						randomTalkTime.set(year1, month1, 1+(int)(Math.random()*28), ((int)(Math.random()*23))%24, 1+(int)(Math.random()*59), 1+(int)(Math.random()*59)); // random date & time
-						talkTimeUsage.setCallTime(randomTalkTime.getTime());
-						String usageCode = serviceRates.get((int)(Math.random()*100) % serviceRates.size()).getRateCode(); // get random service rate
-						talkTimeUsage.setUsageType(usageCode.replaceAll("-", "")); // get the code without '-' (after reading Aman's code)
-						monthlyUsage.setTalkTimeUsages(talkTimeUsages);
-						monthlyUsages.add(monthlyUsage);
+						for (ServiceRate serviceRate:serviceRates) { // fill in the usage to all serviceRate
+							if (serviceRate.getRateCode().indexOf("TV-") >= 0) continue; // must be non TV rate
+							
+							MonthlyUsage monthlyUsage = new MonthlyUsage();
+							monthlyUsage.setUsageYearMonth(Integer.toString(month1) + Integer.toString(year1));
+							String usageCode = "";
+							usageCode = serviceRate.getRateCode().replaceAll("-", ""); // MVL, DVL ,... 3 letters code
+							ArrayList<TalkTimeUsage> talkTimeUsages = new ArrayList<TalkTimeUsage>();
+							TalkTimeUsage talkTimeUsage = new TalkTimeUsage();
+							talkTimeUsage.setUsageType(usageCode);
+							
+							talkTimeUsage.setCallNumber(Integer.toString(80000000 + (int)(Math.random()*10000000))); // 8 digit number
+							talkTimeUsage.setUsageDuration((long)(Math.random()*3600)); // 1 hour duration, random
+							
+							Calendar randomTalkTime = Calendar.getInstance();
+							randomTalkTime.set(year1, month1, 1+(int)(Math.random()*28), ((int)(Math.random()*23))%24, 1+(int)(Math.random()*59), 1+(int)(Math.random()*59)); // random date & time
+							
+							talkTimeUsage.setCallTime(randomTalkTime.getTime());
+							monthlyUsage.setTalkTimeUsages(talkTimeUsages);
+							monthlyUsages.add(monthlyUsage);
+						}
 					}
 				}
 				servicePlan.setMonthlyUsages(monthlyUsages);
