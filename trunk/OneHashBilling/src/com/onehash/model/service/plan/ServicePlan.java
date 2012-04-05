@@ -17,7 +17,6 @@
  */
 package com.onehash.model.service.plan;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,11 +24,8 @@ import java.util.List;
 
 import com.onehash.constant.ConstantStatus;
 import com.onehash.model.base.BaseEntity;
-import com.onehash.model.bill.BillDetail;
 import com.onehash.model.service.rate.ServiceRate;
-import com.onehash.model.service.rate.SubscriptionRate;
 import com.onehash.model.usage.MonthlyUsage;
-import com.onehash.utility.OneHashDateUtil;
 
 @SuppressWarnings("serial")
 public abstract class ServicePlan extends BaseEntity {
@@ -75,36 +71,4 @@ public abstract class ServicePlan extends BaseEntity {
 	private List<MonthlyUsage> monthlyUsage = new ArrayList<MonthlyUsage>();
 	public List<MonthlyUsage> getMonthlyUsages() {return monthlyUsage;}
 	public void setMonthlyUsages(List<MonthlyUsage> monthlyUsage) {this.monthlyUsage = monthlyUsage;}
-	
-	public List<BillDetail> calculateBill() {
-		ArrayList<BillDetail> billDetails = new ArrayList<BillDetail>();
-		
-		BillDetail billDetail;
-		for (ServiceRate serviceRate:this.getServiceRates()) {
-			billDetail = new BillDetail();
-			billDetail.setPlanName(this.getPlanName());
-			billDetail.setRateName(serviceRate.getRateDescription());
-			if (serviceRate.isFreeCharge()) {
-				billDetail.setRate(new BigDecimal(0));
-				continue;
-			}
-			if (serviceRate instanceof SubscriptionRate) {
-				billDetail.setRate(serviceRate.getRatePrice());
-			}
-			else {
-				BigDecimal usage = new BigDecimal(0);
-				for(MonthlyUsage _monthlyUsage:monthlyUsage) {
-					if (OneHashDateUtil.checkMonthYear(_monthlyUsage.getUsageYearMonth(), this.getStartDate())) {
-						usage = new BigDecimal(_monthlyUsage.getCallUsages(serviceRate.getRateCode()));
-						break;
-					}
-				}
-				BigDecimal charge = serviceRate.getRatePrice().multiply(usage);
-				billDetail.setRate(charge);
-			}
-			billDetails.add(billDetail);
-		}
-		return billDetails;
-	}
-
 }
