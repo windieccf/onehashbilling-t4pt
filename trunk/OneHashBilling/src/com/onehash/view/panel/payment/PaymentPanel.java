@@ -1,3 +1,22 @@
+/*
+ * CONFIDENTIAL AND PROPRIETARY SOURCE CODE OF
+ * Institute of Systems Science, National University of Singapore
+ *
+ * Copyright 2012 Team 4(Part-Time), ISS, NUS, Singapore. All rights reserved.
+ * Use of this source code is subjected to the terms of the applicable license
+ * agreement.
+ *
+ * -----------------------------------------------------------------
+ * REVISION HISTORY
+ * -----------------------------------------------------------------
+ * DATE             AUTHOR          REVISION		DESCRIPTION
+ * 25 March 2012    Aman Sharma	    0.1				Class creating
+ * 28 March 2012	Aman Sharma		0.2				Added Payment Functionalities
+ * 													Search/History/Reset																									
+ * 													
+ * 													
+ * 
+ */
 package com.onehash.view.panel.payment;
 
 import java.awt.Dimension;
