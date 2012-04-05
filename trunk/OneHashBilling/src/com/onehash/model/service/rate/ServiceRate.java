@@ -303,6 +303,7 @@ public abstract class ServiceRate extends BaseEntity{
 							randomTalkTime.set(year1, month1, 1+(int)(Math.random()*28), ((int)(Math.random()*23))%24, 1+(int)(Math.random()*59), 1+(int)(Math.random()*59)); // random date & time
 							
 							talkTimeUsage.setCallTime(randomTalkTime.getTime());
+							talkTimeUsages.add(talkTimeUsage);
 							monthlyUsage.setTalkTimeUsages(talkTimeUsages);
 							monthlyUsages.add(monthlyUsage);
 						}
