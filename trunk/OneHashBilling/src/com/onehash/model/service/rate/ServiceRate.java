@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import com.onehash.constant.ConstantFilePath;
 import com.onehash.constant.ConstantSummary;
 import com.onehash.controller.OneHashDataCache;
 import com.onehash.model.base.BaseEntity;
@@ -127,7 +128,7 @@ public abstract class ServiceRate extends BaseEntity{
 		
 		// load TVChannel-Basic.csv
 		try {
-			rateFile = "data/TVChannel-Basic.txt";
+			rateFile = ConstantFilePath.ONE_HASH_RESTORE_TV_CHANNELS;
 			BufferedReader br = new BufferedReader(new FileReader(rateFile));
 			String line;
 
@@ -150,7 +151,7 @@ public abstract class ServiceRate extends BaseEntity{
 
 		// load VoiceFeatures.txt
 		try {
-			rateFile = "data/VoiceFeatures.txt";
+			rateFile = ConstantFilePath.ONE_HASH_RESTORE_VOICE_FEATURES;
 			BufferedReader br = new BufferedReader(new FileReader(rateFile));
 			String line;
 

@@ -33,6 +33,17 @@ public class ConstantFilePath {
 	public static final String ONE_HASH_RESTORE_RATES = "./data/restore/Rates.csv";
 	public static final String ONE_HASH_RESTORE_TV_CHANNELS = "./data/restore/TVChannel-Basic.txt";
 	public static final String ONE_HASH_RESTORE_VOICE_FEATURES = "./data/restore/VoiceFeatures.txt";
+
+	public static final String ONE_HASH_RESTORE_DV_SUBSCRIPTIONS = "./data/restore/DVSubscription.csv";
+	public static final String ONE_HASH_RESTORE_DV_OPT_SUBSCRIPTION = "./data/restore/DV-Opt-Subscription.csv";
+	public static final String ONE_HASH_RESTORE_DV_TRANSACTIONS = "./data/restore/DV-Transactions.csv";
+	
+	public static final String ONE_HASH_RESTORE_MV_SUBSCRIPTIONS = "./data/restore/MVSubscription.csv";
+	public static final String ONE_HASH_RESTORE_MV_OPT_SUBSCRIPTION = "./data/restore/MV-Opt-Subscription.csv";
+	public static final String ONE_HASH_RESTORE_MV_TRANSACTIONS = "./data/restore/MV-Transactions.csv";
+	
+	public static final String ONE_HASH_RESTORE_TV_SUBSCRIPTIONS = "./data/restore/CTVSubscription.csv";
+	public static final String ONE_HASH_RESTORE_TV_OPT_SUBSCRIPTION = "./data/restore/CTV-Opt-Subscription.csv";
 	
 	public static final int GST = 7;
 }

@@ -16,6 +16,7 @@
  * 16 March 2012	Robin Foe		0.4				Add in User Related Information										
  * 17 March 2012	Aman Sharma		0.5				Add bill related methods.													
  * 25 March 2012	Yue Yang		0.6				Add in Restore 
+ * 06 April 2012	Kenny Hartono	0.7				Add in Load Service Plan, Service Rate, Monthly Usage, TalkTimeUsage from CSV
  * 
  */
 package com.onehash.controller;
@@ -38,6 +39,7 @@ import java.util.StringTokenizer;
 
 import com.onehash.constant.ConstantFilePath;
 import com.onehash.constant.ConstantPrefix;
+import com.onehash.constant.ConstantSummary;
 import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.exception.BusinessLogicException;
 import com.onehash.exception.DataDuplicationException;
@@ -52,9 +54,12 @@ import com.onehash.model.service.plan.CableTvPlan;
 import com.onehash.model.service.plan.DigitalVoicePlan;
 import com.onehash.model.service.plan.MobileVoicePlan;
 import com.onehash.model.service.plan.ServicePlan;
+import com.onehash.model.service.plan.VoicePlan;
 import com.onehash.model.service.rate.ServiceRate;
 import com.onehash.model.service.rate.SubscriptionRate;
 import com.onehash.model.service.rate.UsageRate;
+import com.onehash.model.usage.MonthlyUsage;
+import com.onehash.model.usage.TalkTimeUsage;
 import com.onehash.model.user.User;
 import com.onehash.utility.OneHashBeanUtil;
 import com.onehash.utility.OneHashBillUtil;
@@ -73,6 +78,7 @@ public class OneHashDataCache {
 		if(instance == null){
 			instance = new OneHashDataCache();
 			instance.init();
+			instance.restoreFromFile();
 		}
 		return instance;
 	}
@@ -497,11 +503,8 @@ public class OneHashDataCache {
 				key  = this.keyScalar.getNextAccountNumber();
 			}while(key < lastKey);
 			
-			// loading the available plan for the customer
-			
-			//TODO :: kenny, you need to load the available plan for customer here
-			
-			
+
+
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -660,8 +663,209 @@ public class OneHashDataCache {
 			e.printStackTrace();
 		}
 		
-		
+		List<ServicePlan> masterServicePlans = this.getAvailableServicePlan();
+		if (masterServicePlans == null) {
+			masterServicePlans = new ArrayList<ServicePlan>();
+			
+			ServicePlan servicePlan;
+			servicePlan = new DigitalVoicePlan();
+			servicePlan.setPlanName(ConstantSummary.DigitalVoice);
+			servicePlan.setPlanCode(ServiceRate.PREFIX_DIGITAL_VOICE);
+			masterServicePlans.add(servicePlan);
+			
+			servicePlan = new MobileVoicePlan();
+			servicePlan.setPlanName(ConstantSummary.MobileVoice);
+			servicePlan.setPlanCode(ServiceRate.PREFIX_MOBILE_VOICE);
+			masterServicePlans.add(servicePlan);
+			
+			servicePlan = new CableTvPlan();
+			servicePlan.setPlanName(ConstantSummary.CableTV);
+			servicePlan.setPlanCode(ServiceRate.PREFIX_CABLE_TV);
+			masterServicePlans.add(servicePlan);
+			
+			this.setAvailableServicePlan(masterServicePlans);
+		}
+
+		try {
+			// loading the service plan for the customer
+			String[] availablePath = {ConstantFilePath.ONE_HASH_RESTORE_DV_SUBSCRIPTIONS,
+					ConstantFilePath.ONE_HASH_RESTORE_MV_SUBSCRIPTIONS,
+					ConstantFilePath.ONE_HASH_RESTORE_TV_SUBSCRIPTIONS};
+			String filePath;
+			for (int i=0; i<3; i++) {
+				filePath = availablePath[i];
+				// LOAD SERVICE PLAN
+				FileInputStream fstream2 = new FileInputStream(filePath);
+				java.io.DataInputStream in2 = new java.io.DataInputStream(fstream2);
+				java.io.BufferedReader br2 = new java.io.BufferedReader(new java.io.InputStreamReader(in2));
+				List<ServicePlan> servicePlans = new ArrayList<ServicePlan>();
+				br2.readLine(); // remove the header line
+				String strLine;
+				while ((strLine = br2.readLine()) != null)   {
+					String[] split = strLine.split(",");
+					if (split.length < 4) continue;
+					Customer customer1 = this.getCachedCustomerByAccountNumber(split[0]);
+					servicePlans = customer1.getServicePlans();
+					if (servicePlans == null) {
+						servicePlans = new ArrayList<ServicePlan>();
+					}
+					ServicePlan servicePlan = new MobileVoicePlan();
+					List<ServiceRate> serviceRates = new ArrayList<ServiceRate>();
+					ServiceRate serviceRate = new SubscriptionRate();
+					
+					if (filePath.equals(ConstantFilePath.ONE_HASH_RESTORE_DV_SUBSCRIPTIONS)) {
+						for (ServicePlan servicePlan2:OneHashDataCache.getInstance().getAvailableServicePlan()) {
+							if (servicePlan2 instanceof DigitalVoicePlan) {
+								servicePlan = (DigitalVoicePlan)servicePlan2.clone();
+								servicePlan.setPlanId(ServiceRate.PREFIX_DIGITAL_VOICE+(servicePlans.size()+1));
+								((DigitalVoicePlan)servicePlan).setRegisteredPhoneNumber(split[4]);
+								
+								// add basic subscription rate
+								for(ServiceRate serviceRate2:OneHashDataCache.getInstance().getAvailableServiceRate()) {
+									if (serviceRate2.getRateCode().equals("DV-S")) {
+										serviceRates.add((ServiceRate)serviceRate.clone());
+										break;
+									}
+								}
+								break;
+							}
+						}
+					}
+					else if (filePath.equals(ConstantFilePath.ONE_HASH_RESTORE_MV_SUBSCRIPTIONS)) {
+						for (ServicePlan servicePlan2:OneHashDataCache.getInstance().getAvailableServicePlan())
+							if (servicePlan2 instanceof MobileVoicePlan) {
+								servicePlan = (MobileVoicePlan)servicePlan2.clone();
+								servicePlan.setPlanId(ServiceRate.PREFIX_MOBILE_VOICE+(servicePlans.size()+1));
+								((MobileVoicePlan)servicePlan).setRegisteredPhoneNumber(split[4]);
+								
+								// add basic subscription rate
+								for(ServiceRate serviceRate2:OneHashDataCache.getInstance().getAvailableServiceRate()) {
+									if (serviceRate2.getRateCode().equals("MV-S")) {
+										serviceRates.add((ServiceRate)serviceRate.clone());
+										break;
+									}
+								}
+								break;
+							}
+					}
+					else if (filePath.equals(ConstantFilePath.ONE_HASH_RESTORE_TV_SUBSCRIPTIONS)) {
+						for (ServicePlan servicePlan2:OneHashDataCache.getInstance().getAvailableServicePlan())
+							if (servicePlan2 instanceof CableTvPlan) {
+								servicePlan = (CableTvPlan)servicePlan2.clone();
+								servicePlan.setPlanId(ServiceRate.PREFIX_CABLE_TV+(servicePlans.size()+1));
+								
+								// add basic subscription rate
+								for(ServiceRate serviceRate2:OneHashDataCache.getInstance().getAvailableServiceRate()) {
+									if (serviceRate2.getRateCode().equals("TV-S")) {
+										serviceRates.add((ServiceRate)serviceRate.clone());
+										break;
+									}
+								}
+								break;
+							}
+					}
 	
+					Calendar calendar;
+					String[] splitDate;
+	
+					calendar = Calendar.getInstance();
+					splitDate = split[2].split("/");
+					calendar.set(Integer.parseInt(splitDate[2]), Integer.parseInt(splitDate[1]), Integer.parseInt(splitDate[0]));
+					servicePlan.setStartDate(calendar.getTime());
+	
+					calendar = Calendar.getInstance();
+					splitDate = split[3].split("/");
+					calendar.set(Integer.parseInt(splitDate[2]), Integer.parseInt(splitDate[1]), Integer.parseInt(splitDate[0]));
+					servicePlan.setEndDate(calendar.getTime());
+					
+					servicePlans.add(servicePlan);
+					customer1.setServicePlans(servicePlans);
+				}
+				in2.close();
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		// Try to load service rate + generate all bill
+		ArrayList<ArrayList<String>> allServiceRates = new ArrayList<ArrayList<String>>();
+		try {
+			// loading the service rate for the customer
+			String[] availablePath = {ConstantFilePath.ONE_HASH_RESTORE_DV_OPT_SUBSCRIPTION,
+					ConstantFilePath.ONE_HASH_RESTORE_MV_OPT_SUBSCRIPTION,
+					ConstantFilePath.ONE_HASH_RESTORE_TV_OPT_SUBSCRIPTION};
+			String[] planCodes = {"DV", "MV", "TV"};
+			String filePath;
+			for (int i=0; i<3; i++) {
+				filePath = availablePath[i];
+				// LOAD SERVICE RATE
+				FileInputStream fstream2 = new FileInputStream(filePath);
+				java.io.DataInputStream in2 = new java.io.DataInputStream(fstream2);
+				java.io.BufferedReader br2 = new java.io.BufferedReader(new java.io.InputStreamReader(in2));
+				br2.readLine(); // remove the header line
+				String strLine;
+				while ((strLine = br2.readLine()) != null)   {
+					String[] store = strLine.split(",");
+					ArrayList<String> lineList = new ArrayList<String>();
+
+					// Matching serviceRate to Master Service Rate
+					String planCode = planCodes[i];
+					for(ServiceRate serviceRate_temp:this.getAvailableServiceRate()) {
+						if (serviceRate_temp.getRateCode().indexOf(planCode) >= 0) { // plan type must match the subscription
+							String serviceRateDescription_temp = serviceRate_temp.getRateDescription().replaceAll("IDD", "International"); // "IDD Calls" <> "International Calls" in the master set up
+							String[] serviceRateDescription = serviceRateDescription_temp.split(" ");
+							if (serviceRateDescription.length < 4) continue; // Avoid Subscription Rate
+							if (store[1].indexOf("- ") >= 0) { // TV Channel
+								if (serviceRate_temp.getRateCode().equals("TV-C")) {
+									lineList.add("TV-C");
+									lineList.add(store[1]);
+									break;
+								}
+							}
+							else if ((serviceRateDescription[2]+" "+serviceRateDescription[3]).equals(store[1])) {
+								lineList.add(serviceRate_temp.getRateCode());
+								lineList.add(serviceRate_temp.getRateDescription());
+								break;
+							}
+						}
+					}
+					
+					if (lineList.size() == 0) { // Service Rate not found in the Master set up, or different name
+						continue;
+					}
+					
+					for (int j=0; j<store.length; j++) {
+						if (j==1) continue;
+						lineList.add(store[j]);
+					}
+					//System.out.println(lineList);
+					allServiceRates.add(lineList);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		// generate bill for every month + add/delete service rate
+		for (int year1=2011; year1<=2012; year1++) {
+			for (int month1=1; month1<=12; month1++) {
+				for(ArrayList<String> line:allServiceRates) {
+					// take only service plan within the year && month
+					if (line.get(3).indexOf("/") < 0) continue;
+					String[] start = line.get(3).split("/");
+					String[] end = line.get(4).split("/");
+					int num_start = Integer.parseInt(start[2])*12 + Integer.parseInt(start[1]);
+					int num_end = Integer.parseInt(end[2])*12 + Integer.parseInt(end[1]);
+					if (!(num_start <= year1*12 + month1 && num_end >= year1*12 + month1))
+						continue;
+					
+					// Try to add/remove service rate and generate monthly usage + talk time usage + monthly bill
+					Customer customer1 = this.getCachedCustomerByAccountNumber(line.get(2));
+					List<ServicePlan> servicePlans = customer1.getServicePlans();
+				}
+			}
+		}
+
 	}
 	
 	public static void main(String...args){
