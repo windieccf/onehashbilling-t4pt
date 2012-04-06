@@ -457,9 +457,10 @@ public class OneHashDataCache {
 	private void restoreFromFile(){
 		try{
 			restoreServiceRates();
-			
 			restoreCustomer();
+			restoreCustomerPlan();
 			restoreUserAccess();
+			
 			this.flushCache();
 			// update the keys
 			
@@ -663,6 +664,11 @@ public class OneHashDataCache {
 			e.printStackTrace();
 		}
 		
+
+	}
+	
+	private void restoreCustomerPlan(){
+		
 		List<ServicePlan> masterServicePlans = this.getAvailableServicePlan();
 		if (masterServicePlans == null) {
 			masterServicePlans = new ArrayList<ServicePlan>();
@@ -865,7 +871,8 @@ public class OneHashDataCache {
 				}
 			}
 		}
-
+		
+		
 	}
 	
 	public static void main(String...args){
