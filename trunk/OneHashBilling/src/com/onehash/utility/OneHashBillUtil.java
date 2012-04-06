@@ -120,8 +120,10 @@ public class OneHashBillUtil {
 			}
 			
 			//Setting usages to BillSummary
-			usageRateLocal = usageRateLocal.multiply(BigDecimal.valueOf(dvLocal));
-			usageRateIDD = usageRateIDD.multiply(BigDecimal.valueOf(dvIDD));
+			BigDecimal valueDVLocal = new BigDecimal(dvLocal.toString());
+			usageRateLocal = usageRateLocal.multiply(valueDVLocal);
+			BigDecimal valueDVIDD = new BigDecimal(dvIDD.toString());
+			usageRateIDD = usageRateIDD.multiply(valueDVIDD);
 			totalUsage = usageRateLocal.add(usageRateIDD);
 			
 			BillSummary billSummaryDVLUsage = new BillSummary(ConstantSummary.UsagechargesLocal,usageRateLocal);
@@ -195,9 +197,14 @@ public class OneHashBillUtil {
 			}
 			
 			//Setting usages to BillSummary
-			usageRateLocal = usageRateLocal.multiply(BigDecimal.valueOf(mvLocal));
-			usageRateIDD = 	usageRateIDD.multiply(BigDecimal.valueOf(mvIDD));
-			usageRateRoaming = usageRateRoaming.multiply(BigDecimal.valueOf(mvRoaming));
+			BigDecimal valuemvLocal = new BigDecimal(mvLocal.toString());
+			usageRateLocal = usageRateLocal.multiply(valuemvLocal);
+			
+			BigDecimal valuemvIDD = new BigDecimal(mvIDD.toString());
+			usageRateIDD = 	usageRateIDD.multiply(valuemvIDD);
+			
+			BigDecimal valuemvRoaming = new BigDecimal(mvRoaming.toString());
+			usageRateRoaming = usageRateRoaming.multiply(valuemvRoaming);
 			totalUsage = usageRateLocal.add(usageRateIDD).add(usageRateRoaming);
 			
 			BillSummary billSummaryMVLUsage = new BillSummary(ConstantSummary.UsagechargesLocal,usageRateLocal);
