@@ -19,6 +19,8 @@
  */
 package com.onehash.view.panel.bill;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -44,6 +46,7 @@ import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -64,16 +67,18 @@ import com.onehash.utility.OneHashDateUtil;
 import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
+import com.onehash.view.component.dialog.search.CustomerLookupDialog;
 import com.onehash.view.component.listener.ButtonActionListener;
 import com.onehash.view.panel.base.BasePanel;
+import com.onehash.view.panel.base.CustomerOperationImpl;
 
 @SuppressWarnings("serial")
-public class BillReportPanel extends BasePanel {
+public class BillReportPanel extends BasePanel implements  CustomerOperationImpl{
 	private static final String COMP_LBL_ACCOUNTNUMBER = "LBL_USER_ACCOUNTNUMBER";
 	private static final String COMP_TXT_ACCOUNTNUMBER = "COMP_TXT_ACCOUNTNUMBER";
 	private static final String COMP_LBL_NRIC = "COMP_LBL_NRIC";
 	private static final String COMP_TXT_NRIC = "COMP_TXT_NRIC";
-	private static final String COMP_LBL_OR = "COMP_LBL_OR";
+//	private static final String COMP_LBL_OR = "COMP_LBL_OR";
 	
 	private static final String COMP_LBL_BILLDATE = "LBL_USER_BILLDATE";
 	private static final String COMP_LBL_BILLMONTH = "LBL_USER_BILLMONTH";
@@ -82,7 +87,9 @@ public class BillReportPanel extends BasePanel {
 	private static final String COMP_DATE_BILLMONTH = "DATE_BILL_MONTH";
 	private static final String COMP_DATE_BILYEAR = "DATE_BILL_YEAR";
 	private static final String COMP_BUTTON_SEARCH = "BTN_SEARCH";
-
+	
+	private static final String COMP_BUTTON_CUST_SEARCH = "BTN_CUST_SEARCH";
+	
 	private Calendar chosenDate;
 	
 	public BillReportPanel(OneHashGui mainFrame) {
@@ -94,9 +101,19 @@ public class BillReportPanel extends BasePanel {
 
 		super.registerComponent(COMP_LBL_ACCOUNTNUMBER , FactoryComponent.createLabel("Account No.", new PositionScalar(20,26,79,14)));
 		super.registerComponent(COMP_TXT_ACCOUNTNUMBER, FactoryComponent.createTextField( new TextFieldAttributeScalar(120, 23, 126, 20,10) ));
-		super.registerComponent(COMP_LBL_OR , FactoryComponent.createLabel("OR", new PositionScalar(250,35,50,20)));
+//		super.registerComponent(COMP_LBL_OR , FactoryComponent.createLabel("OR", new PositionScalar(250,35,50,20)));
 		super.registerComponent(COMP_LBL_NRIC , FactoryComponent.createLabel("NRIC ", new PositionScalar(20,46,79,14)));
 		super.registerComponent(COMP_TXT_NRIC, FactoryComponent.createTextField( new TextFieldAttributeScalar(120, 43, 126, 20,10) ));
+		
+		super.registerComponent(COMP_BUTTON_CUST_SEARCH , FactoryComponent.createButton("Look Up", new ButtonAttributeScalar(250, 23, 100, 23 )));
+		final BillReportPanel panel = this;
+		super.getButtonComponent(COMP_BUTTON_CUST_SEARCH).addActionListener(
+				new ActionListener() { public void actionPerformed(ActionEvent e) {
+			        	new CustomerLookupDialog(new JFrame("Title") , panel);
+			        }});
+		
+		
+		
 		
 		super.registerComponent(COMP_LBL_BILLDATE , FactoryComponent.createLabel("Bill Date", new PositionScalar(20,71,79,14)));
 		final String[] months = new String[12];
@@ -136,6 +153,13 @@ public class BillReportPanel extends BasePanel {
         //Registering Search/History/Refresh Button
 		super.registerComponent(COMP_BUTTON_SEARCH , FactoryComponent.createButton("Generate And Save", new ButtonAttributeScalar(20, 100, 150, 23 , new ButtonActionListener(this,"searchCusomerBill"))));
 	}
+	
+	public Customer getSelectedCustomer() {return null;}
+	public void setSelectedCustomer(Customer selectedCustomer) {
+			super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(selectedCustomer.getAccountNumber());
+			super.getTextFieldComponent(COMP_TXT_NRIC).setText(selectedCustomer.getNric());
+	}
+	
 	
 	private Integer[] getYears(int chosenYear) {
         final int size = 20 * 2 + 1;

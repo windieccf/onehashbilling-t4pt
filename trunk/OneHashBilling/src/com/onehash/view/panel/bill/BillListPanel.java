@@ -20,6 +20,8 @@
 package com.onehash.view.panel.bill;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -32,6 +34,7 @@ import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -55,13 +58,15 @@ import com.onehash.utility.OneHashDateUtil;
 import com.onehash.utility.OneHashStringUtil;
 import com.onehash.view.OneHashGui;
 import com.onehash.view.component.FactoryComponent;
+import com.onehash.view.component.dialog.search.CustomerLookupDialog;
 import com.onehash.view.component.listener.ButtonActionListener;
 import com.onehash.view.component.listener.MouseTableListener;
 import com.onehash.view.component.tablemodel.OneHashTableModel;
 import com.onehash.view.panel.base.BasePanel;
+import com.onehash.view.panel.base.CustomerOperationImpl;
 
 @SuppressWarnings("serial")
-public class BillListPanel extends BasePanel{
+public class BillListPanel extends BasePanel implements  CustomerOperationImpl{
 
 	private static final String COMP_LBL_ACCOUNTNUMBER = "LBL_USER_ACCOUNTNUMBER";
 	private static final String COMP_LBL_BILLDATE = "LBL_USER_BILLDATE";
@@ -70,10 +75,12 @@ public class BillListPanel extends BasePanel{
 	private static final String COMP_TXT_ACCOUNTNUMBER = "COMP_TXT_ACCOUNTNUMBER";
 	private static final String COMP_LBL_NRIC = "COMP_LBL_NRIC";
 	private static final String COMP_TXT_NRIC = "COMP_TXT_NRIC";
-	private static final String COMP_LBL_OR = "COMP_LBL_OR";
+//	private static final String COMP_LBL_OR = "COMP_LBL_OR";
 	
 	private static final String COMP_DATE_BILLMONTH = "DATE_BILL_MONTH";
 	private static final String COMP_DATE_BILYEAR = "DATE_BILL_YEAR";
+	private static final String COMP_BUTTON_CUST_SEARCH = "BTN_CUST_SEARCH";
+	
 	private static final String COMP_BUTTON_SEARCH = "BTN_SEARCH";
 	private static final String COMP_BUTTON_RESET = "BTN_RESET";
 	private static final String COMP_BUTTON_SEARCHHISTORY = "BTN_SEARCHHISTORY";
@@ -123,9 +130,17 @@ public class BillListPanel extends BasePanel{
 
 		super.registerComponent(COMP_LBL_ACCOUNTNUMBER , FactoryComponent.createLabel("Account No.", new PositionScalar(20,26,79,14)));
 		super.registerComponent(COMP_TXT_ACCOUNTNUMBER, FactoryComponent.createTextField( new TextFieldAttributeScalar(120, 23, 126, 20,10) ));
-		super.registerComponent(COMP_LBL_OR , FactoryComponent.createLabel("OR", new PositionScalar(250,35,50,20)));
+		//super.registerComponent(COMP_LBL_OR , FactoryComponent.createLabel("OR", new PositionScalar(250,35,50,20)));
 		super.registerComponent(COMP_LBL_NRIC , FactoryComponent.createLabel("NRIC ", new PositionScalar(20,46,79,14)));
 		super.registerComponent(COMP_TXT_NRIC, FactoryComponent.createTextField( new TextFieldAttributeScalar(120, 43, 126, 20,10) ));
+		
+		super.registerComponent(COMP_BUTTON_CUST_SEARCH , FactoryComponent.createButton("Look Up", new ButtonAttributeScalar(250, 23, 100, 23 )));
+		final BillListPanel panel = this;
+		super.getButtonComponent(COMP_BUTTON_CUST_SEARCH).addActionListener(
+				new ActionListener() { public void actionPerformed(ActionEvent e) {
+			        	new CustomerLookupDialog(new JFrame("Title") , panel);
+			        }});
+		
 		
 		super.registerComponent(COMP_LBL_BILLDATE , FactoryComponent.createLabel("Bill Date", new PositionScalar(20,71,79,14)));
 		final String[] months = new String[12];
@@ -222,6 +237,19 @@ public class BillListPanel extends BasePanel{
 		super.registerComponent(COMP_TEXT_TCC , FactoryComponent.createLabel("",new PositionScalar(750, 350,100,20)));
 	}
 	
+	
+	public Customer getSelectedCustomer() {return null;}
+	public void setSelectedCustomer(Customer selectedCustomer) {
+		try {
+			this.resetSearchCriteria();
+			super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).setText(selectedCustomer.getAccountNumber());
+			super.getTextFieldComponent(COMP_TXT_NRIC).setText(selectedCustomer.getNric());
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private Integer[] getYears(int chosenYear) {
         final int size = 20 * 2 + 1;
         final int start = chosenYear - 20;
@@ -236,11 +264,11 @@ public class BillListPanel extends BasePanel{
 	public void searchCusomerBill() throws Exception {
 		try{
 			
-			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
-			String accountNumber = (String)accountComponent.getText();
+//			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
+			String accountNumber = super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).getText(); //(String)accountComponent.getText();
 			
-			JTextField nricComponent = (JTextField)super.getComponent(COMP_TXT_NRIC);
-			String nric = (String)nricComponent.getText();
+//			JTextField nricComponent = (JTextField)super.getComponent(COMP_TXT_NRIC);
+			String nric = super.getTextFieldComponent(COMP_TXT_NRIC).getText();//(String)nricComponent.getText();
 			
 			if(OneHashStringUtil.isEmpty(accountNumber)
 					&& OneHashStringUtil.isEmpty(nric)){
@@ -303,8 +331,8 @@ public class BillListPanel extends BasePanel{
 	
 	public void viewBillDetail(String parameters) throws Exception {
 		try{
-			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
-			String accountNumber = (String)accountComponent.getText();
+//			JTextField accountComponent = (JTextField)super.getComponent(COMP_TXT_ACCOUNTNUMBER);
+			String accountNumber = super.getTextFieldComponent(COMP_TXT_ACCOUNTNUMBER).getText();//(String)accountComponent.getText();
 			
 			Customer customer = OneHashDataCache.getInstance().getCustomerByAccountNumber(accountNumber);
 			if(customer!=null){
