@@ -793,7 +793,7 @@ public class OneHashDataCache {
 			System.out.println(e);
 		}
 
-		// Try to load service rate + generate all bill
+		// Try to load service rate
 		ArrayList<ArrayList<String>> allServiceRates = new ArrayList<ArrayList<String>>();
 		try {
 			// loading the service rate for the customer
@@ -852,7 +852,10 @@ public class OneHashDataCache {
 			System.out.println(e);
 		}
 		
+		/*
 		// generate bill for every month + add/delete service rate
+		//[Customer][ServicePlan][ServiceRate][year,month]
+		HashMap<String, HashMap<String, HashMap<String, List<Integer>>>> customerServiceRateDate= new HashMap<String, HashMap<String, HashMap<String, List<Integer>>>>();
 		for (int year1=2011; year1<=2012; year1++) {
 			for (int month1=1; month1<=12; month1++) {
 				for(ArrayList<String> line:allServiceRates) {
@@ -868,9 +871,75 @@ public class OneHashDataCache {
 					// Try to add/remove service rate and generate monthly usage + talk time usage + monthly bill
 					Customer customer1 = this.getCachedCustomerByAccountNumber(line.get(2));
 					List<ServicePlan> servicePlans = customer1.getServicePlans();
+					
+					for(ServicePlan servicePlan:servicePlans) {
+						if (line.get(0).substring(0, 2).equals(servicePlan.getPlanId().substring(0,2))) {
+							List<ServiceRate> serviceRates = servicePlan.getServiceRates();
+							
+							// ignore if the servicerate is available
+							Boolean checkAvailable = false;
+							for(ServiceRate serviceRate:serviceRates) {
+								if (serviceRate.getRateCode().equals(line.get(0))) {
+									checkAvailable = true;
+								}
+							}
+							if (checkAvailable.equals(false)) {
+								for(ServiceRate serviceRate:this.getAvailableServiceRate()) {
+									if (serviceRate.getRateCode().equals(line.get(0))) {
+										serviceRates.add(serviceRate);
+										System.out.println("adding service rate");
+										
+										// capture the expiration date of this service rate
+										List<Integer> yearMonthExpired = new ArrayList<Integer>();
+										String[] date = line.get(4).split("/");
+										yearMonthExpired.add(Integer.parseInt(date[2]));
+										yearMonthExpired.add(Integer.parseInt(date[1]));
+										HashMap<String, List<Integer>> activeServiceRate = new HashMap<String, List<Integer>>();
+										activeServiceRate.put(line.get(0), yearMonthExpired);
+										HashMap<String, HashMap<String, List<Integer>>> activeServicePlan = new HashMap<String, HashMap<String, List<Integer>>>();
+										activeServicePlan.put(servicePlan.getPlanId(), activeServiceRate);
+										
+										customerServiceRateDate.put(line.get(2), activeServicePlan);
+										break;
+									}
+								}
+							}
+							
+						}
+					}
 				}
+				
+				// check for expired service rate at every month for all customers
+				for(Customer customer:this.getCustomers()) {
+					for(ServicePlan servicePlan:customer.getServicePlans()) {
+						List<ServiceRate> activeServiceRates = new ArrayList<ServiceRate>();
+						for (ServiceRate serviceRate:servicePlan.getServiceRates()) {
+							HashMap<String, HashMap<String, List<Integer>>> activeServicePlan;
+							activeServicePlan = customerServiceRateDate.get(customer.getAccountNumber());
+							//if (activeServicePlan == null) continue;
+
+							List<Integer> yearDate;
+							
+							HashMap<String, List<Integer>> activeServiceRate = new HashMap<String, List<Integer>>();
+							activeServiceRate = activeServicePlan.get(servicePlan.getPlanId());
+							yearDate = activeServiceRate.get(serviceRate);
+							
+							// remove the service rate, because it is expired
+							if (year1*12 + month1 > yearDate.get(0)*12 + yearDate.get(1)) {
+								continue;
+							}
+							
+							// add the active service rate
+							activeServiceRates.add(serviceRate);
+						}
+						servicePlan.setServiceRates(activeServiceRates);
+					}
+				}
+			
+				// generate Monthly Bill HERE
 			}
 		}
+		*/
 		
 		
 	}
