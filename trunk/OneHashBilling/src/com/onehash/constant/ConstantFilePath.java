@@ -24,5 +24,15 @@ public class ConstantFilePath {
 	public static final String ONE_HASH_DATA = "./data/onehash.dat";
 	public static final String ONE_HASH_DATA_SECURITY = "./data/onehashsecurity.dat";
 	public static final String ONE_HASH_KEY_DATA = "./data/onehashkey.dat";
+	public static final String ONE_HASH_DATA_PLAN = "./data/onehashplan.dat";
+	public static final String ONE_HASH_DATA_RATE = "./data/onehashrate.dat";
+	
+	
+	public static final String ONE_HASH_RESTORE_CUSTOMER = "./data/restore/CustomerData.txt";
+	
+	public static final String ONE_HASH_RESTORE_RATES = "./data/restore/Rates.csv";
+	public static final String ONE_HASH_RESTORE_TV_CHANNELS = "./data/restore/TVChannel-Basic.txt";
+	public static final String ONE_HASH_RESTORE_VOICE_FEATURES = "./data/restore/VoiceFeatures.txt";
+	
 	public static final int GST = 7;
 }

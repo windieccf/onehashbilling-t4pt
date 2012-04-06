@@ -20,8 +20,10 @@
  */
 package com.onehash.controller;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
@@ -32,11 +34,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import com.onehash.constant.ConstantFilePath;
 import com.onehash.constant.ConstantPrefix;
 import com.onehash.enumeration.EnumUserAccess;
 import com.onehash.exception.BusinessLogicException;
+import com.onehash.exception.DataDuplicationException;
 import com.onehash.exception.InsufficientInputParameterException;
 import com.onehash.model.bill.Bill;
 import com.onehash.model.bill.BillSummary;
@@ -49,6 +53,8 @@ import com.onehash.model.service.plan.DigitalVoicePlan;
 import com.onehash.model.service.plan.MobileVoicePlan;
 import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.model.service.rate.ServiceRate;
+import com.onehash.model.service.rate.SubscriptionRate;
+import com.onehash.model.service.rate.UsageRate;
 import com.onehash.model.user.User;
 import com.onehash.utility.OneHashBeanUtil;
 import com.onehash.utility.OneHashBillUtil;
@@ -116,9 +122,7 @@ public class OneHashDataCache {
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			this.setUsers((List<User>) ois.readObject());
 			ois.close();
-		}catch(Exception e){
-			
-		}
+		}catch(Exception e){/*IGNORED*/}
 		
 		try{
 			FileInputStream fin = new FileInputStream(ConstantFilePath.ONE_HASH_DATA);
@@ -130,11 +134,20 @@ public class OneHashDataCache {
 			ois = new ObjectInputStream(fin);
 			this.keyScalar= (KeyScalar) ois.readObject();
 			ois.close();
+			
+			fin = new FileInputStream(ConstantFilePath.ONE_HASH_DATA_PLAN);
+			ois = new ObjectInputStream(fin);
+			this.availableServicePlan= (List<ServicePlan>) ois.readObject();
+			ois.close();
+			
+			fin = new FileInputStream(ConstantFilePath.ONE_HASH_DATA_RATE);
+			ois = new ObjectInputStream(fin);
+			this.availableServiceRate= (List<ServiceRate>) ois.readObject();
+			ois.close();
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		ServiceRate.loadServiceRate();
-		ServiceRate.generateRandomServicePlanForCustomer();
 	}
 	
 	
@@ -157,6 +170,16 @@ public class OneHashDataCache {
 			fout = new FileOutputStream(ConstantFilePath.ONE_HASH_DATA_SECURITY);
 			oos = new ObjectOutputStream(fout);
 			oos.writeObject(this.users);
+			oos.close();
+			
+			fout = new FileOutputStream(ConstantFilePath.ONE_HASH_DATA_PLAN);
+			oos = new ObjectOutputStream(fout);
+			oos.writeObject(this.availableServicePlan);
+			oos.close();
+			
+			fout = new FileOutputStream(ConstantFilePath.ONE_HASH_DATA_RATE);
+			oos = new ObjectOutputStream(fout);
+			oos.writeObject(this.availableServiceRate);
 			oos.close();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -189,7 +212,7 @@ public class OneHashDataCache {
 			// means you are new customer, we just assign the account number and append new record into the list
 			// validate username
 			if(this.isUsernameExist(user.getUserName()))
-				throw new BusinessLogicException("Username is taken");
+				throw new DataDuplicationException("Username is taken");
 			
 			user.setUserId(this.keyScalar.getNextUserID());
 			this.getUsers().add(user);
@@ -225,7 +248,6 @@ public class OneHashDataCache {
 		this.flushCache();
 		this.currentUser = null;
 	}
-	
 
 	/****************************************** CUSTOMER RELATED OPERATION **************************************************/
 	public Customer getCustomerByAccountNumber(String accountNumber) {
@@ -245,7 +267,6 @@ public class OneHashDataCache {
 		return null;
 	}
 	
-	
 	public Customer getCustomerByNric(String nric) {
 		for(Customer customer : this.getCustomers()){
 			if(customer.getNric().equalsIgnoreCase(nric)){
@@ -261,7 +282,7 @@ public class OneHashDataCache {
 			// means you are new customer, we just assign the account number and append new record into the list
 			// validate NRIC
 			if(this.isNricExist(customer.getNric()))
-				throw new BusinessLogicException("NRIC exist");
+				throw new DataDuplicationException("NRIC exist");
 			
 			String accountNumber = OneHashStringUtil.generateReferenceNumberNumber(ConstantPrefix.ACCOUNT_NUMBER, this.keyScalar.getNextAccountNumber());
 			customer.setAccountNumber(accountNumber);
@@ -283,7 +304,6 @@ public class OneHashDataCache {
 		
 		return false;
 	}
-	
 	
 	/****************************************** BILL RELATED OPERATION - START **************************************************/
 	
@@ -430,9 +450,25 @@ public class OneHashDataCache {
 	// for data restoration back to the cache (Restore team 4 factory setting)
 	private void restoreFromFile(){
 		try{
+			restoreServiceRates();
 			
+			restoreCustomer();
+			restoreUserAccess();
+			this.flushCache();
+			// update the keys
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	private void restoreCustomer(){
+		
+		try{
 			// restoring customer related information
-			FileInputStream fstream = new FileInputStream("./data/CustomerData.txt");
+			FileInputStream fstream = new FileInputStream(ConstantFilePath.ONE_HASH_RESTORE_CUSTOMER);
 			java.io.DataInputStream in = new java.io.DataInputStream(fstream);
 			java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(in));
 			List<Customer> customers = new ArrayList<Customer>();
@@ -459,10 +495,23 @@ public class OneHashDataCache {
 			Long key = 1L;
 			do{
 				key  = this.keyScalar.getNextAccountNumber();
-				
 			}while(key < lastKey);
 			
+			// loading the available plan for the customer
 			
+			//TODO :: kenny, you need to load the available plan for customer here
+			
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void restoreUserAccess(){
+
+		try{
 			// basic user credentials
 			User adminUser = new User();
 			adminUser.setUserId(this.keyScalar.getNextUserID());
@@ -476,7 +525,6 @@ public class OneHashDataCache {
 				adminUser.getUserAccesses().add(availableAccess);
 			}
 			this.users.add(adminUser);
-			
 			
 			User agentUser = new User();
 			agentUser.setUserId(this.keyScalar.getNextUserID());
@@ -493,15 +541,127 @@ public class OneHashDataCache {
 			agentUser.getUserAccesses().add(EnumUserAccess.SERVICE_PLAN_VIEW);
 			agentUser.getUserAccesses().add(EnumUserAccess.BILL_VIEW);
 			this.users.add(agentUser);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void restoreServiceRates(){
+
+		try{
 			
-			this.flushCache();
-			// update the keys
+			int priority = 0;
+			String rateFile = "";
+			ArrayList<ServiceRate> services = new ArrayList<ServiceRate>();
+			
+			
+			// load Rates.csv
+			try {
+				rateFile = ConstantFilePath.ONE_HASH_RESTORE_RATES;
+				BufferedReader br = new BufferedReader(new FileReader(rateFile));
+				StringTokenizer st;
+				String line;
+				HashMap<Integer, String> header = new HashMap<Integer, String>();
+				HashMap<String, String> value = new HashMap<String, String>();
+		
+				// read header
+				line = br.readLine();
+				st = new StringTokenizer(line, ",");
+				while (st.hasMoreTokens()) {
+					header.put(header.size(), st.nextToken());
+				}
+				
+				ServiceRate temp;
+				// read data
+				while ((line = br.readLine()) != null) {
+					value.clear();
+					st = new StringTokenizer(line, ",");
+					int index = 0;
+					while (st.hasMoreTokens()) {
+						String columnValue = st.nextToken();
+						String columnName = header.get(index);
+						value.put(columnName, columnValue);
+						index++;
+					}
+					
+					if (value.get("Desc").indexOf("Subscription") >= 0 || value.get("RateUnit").equals("Month")) {
+						temp = new SubscriptionRate();
+					} else {
+						temp = new UsageRate(0);
+					}
+					temp.setRateCode(value.get("RateCode"));
+					temp.setRateDescription(value.get("Desc"));
+					temp.setRatePrice(new BigDecimal(value.get("Rate")));
+					temp.setPriority(priority);
+					priority++;
+					services.add(temp);
+				}
+			}
+			catch (Exception e) {
+				System.out.println(rateFile+" "+e);
+			}
+			
+			
+			// load TVChannel-Basic.csv
+			try {
+				rateFile = ConstantFilePath.ONE_HASH_RESTORE_TV_CHANNELS;
+				BufferedReader br = new BufferedReader(new FileReader(rateFile));
+				String line;
+
+				ServiceRate temp;
+				// read data
+				while ((line = br.readLine()) != null) {
+					temp = new SubscriptionRate();
+					temp.setRateCode("TV-C");
+					temp.setRateDescription(line);
+					temp.setRatePrice(new BigDecimal(5));
+					temp.setPriority(priority);
+					priority++;
+					services.add(temp);
+				}
+			}
+			catch (Exception e) {
+				System.out.println(rateFile+" "+e);
+			}
+
+
+			// load VoiceFeatures.txt
+			try {
+				rateFile = ConstantFilePath.ONE_HASH_RESTORE_VOICE_FEATURES;
+				BufferedReader br = new BufferedReader(new FileReader(rateFile));
+				String line;
+
+				ServiceRate temp;
+				// read data
+				while ((line = br.readLine()) != null) {
+					temp = new SubscriptionRate(); // voice features has SubscriptionRate
+					temp.setRateCode(line);
+					temp.setRateDescription(line);
+					temp.setRatePrice(new BigDecimal(5));
+					temp.setPriority(priority);
+					priority++;
+					services.add(temp);
+
+					temp = new UsageRate(0); // voice features has UsageRate
+					temp.setRateCode(line);
+					temp.setRateDescription(line);
+					temp.setRatePrice(new BigDecimal(5));
+					temp.setPriority(priority);
+					priority++;
+					services.add(temp);
+				}
+			}
+			catch (Exception e) {
+				System.out.println(rateFile+" "+e);
+			}
+			this.setAvailableServiceRate(services);
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
 		
+	
 	}
 	
 	public static void main(String...args){
