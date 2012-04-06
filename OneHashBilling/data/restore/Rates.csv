@@ -5,8 +5,9 @@ DV-L,Digital Voice Local Calls,Second,0.3
 DV-I,Digital Voice IDD Calls,Second,1
 MV-S,Mobile Voice Subscription,Month,45
 MV-D,Mobile Voice Data Service,Month,10
+MV-C,Mobile Voice Call Transfer,Month,5
 MV-L,Mobile Voice Local Calls,Second,0.5
 MV-I,Mobile Voice IDD Calls,Second,1.5
-MV-R,Mobile Voice Roaming,Second,1.5
+MV-R,Mobile Voice Roaming Calls,Second,1.5
 TV-S,TV Subscription,Month,60
 TV-C,TV Per Channel,Month,20
