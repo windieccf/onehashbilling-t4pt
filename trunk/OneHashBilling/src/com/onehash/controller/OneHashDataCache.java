@@ -57,6 +57,8 @@ import com.onehash.model.service.plan.ServicePlan;
 import com.onehash.model.service.rate.ServiceRate;
 import com.onehash.model.service.rate.SubscriptionRate;
 import com.onehash.model.service.rate.UsageRate;
+import com.onehash.model.usage.MonthlyUsage;
+import com.onehash.model.usage.TalkTimeUsage;
 import com.onehash.model.user.User;
 import com.onehash.utility.OneHashBeanUtil;
 import com.onehash.utility.OneHashBillUtil;
@@ -690,6 +692,10 @@ public class OneHashDataCache {
 		}
 
 		try {
+			
+			HashMap<String,HashMap<String,MonthlyUsage>> mapAccMonthlyDVUsages = restoreTransactionDetails("DV");
+			HashMap<String,HashMap<String,MonthlyUsage>> mapAccMonthlyMVUsages = restoreTransactionDetails("DV");
+			
 			// loading the service plan for the customer
 			String[] availablePath = {ConstantFilePath.ONE_HASH_RESTORE_DV_SUBSCRIPTIONS,
 					ConstantFilePath.ONE_HASH_RESTORE_MV_SUBSCRIPTIONS,
@@ -733,9 +739,19 @@ public class OneHashDataCache {
 								break;
 							}
 						}
+						//Setting monthly usage
+						HashMap<String,MonthlyUsage> monthlyUsages = mapAccMonthlyDVUsages.get(customer1.getAccountNumber());
+						if(servicePlan.getMonthlyUsages()==null || servicePlan.getMonthlyUsages().size()==0){
+							List<MonthlyUsage> monthlyUsageList = new ArrayList<MonthlyUsage>();
+							servicePlan.setMonthlyUsages(monthlyUsageList);
+						}
+						for(MonthlyUsage _monthlyUsage : monthlyUsages.values()){
+							servicePlan.getMonthlyUsages().add(_monthlyUsage);
+						}
+						
 					}
 					else if (filePath.equals(ConstantFilePath.ONE_HASH_RESTORE_MV_SUBSCRIPTIONS)) {
-						for (ServicePlan servicePlan2:OneHashDataCache.getInstance().getAvailableServicePlan())
+						for (ServicePlan servicePlan2:OneHashDataCache.getInstance().getAvailableServicePlan()){
 							if (servicePlan2 instanceof MobileVoicePlan) {
 								servicePlan = (MobileVoicePlan)servicePlan2.clone();
 								servicePlan.setPlanId(ServiceRate.PREFIX_MOBILE_VOICE+(servicePlans.size()+1));
@@ -750,6 +766,16 @@ public class OneHashDataCache {
 								}
 								break;
 							}
+						}
+						//Setting monthly usage
+						HashMap<String,MonthlyUsage> monthlyUsages = mapAccMonthlyMVUsages.get(customer1.getAccountNumber());
+						if(servicePlan.getMonthlyUsages()==null || servicePlan.getMonthlyUsages().size()==0){
+							List<MonthlyUsage> monthlyUsageList = new ArrayList<MonthlyUsage>();
+							servicePlan.setMonthlyUsages(monthlyUsageList);
+						}
+						for(MonthlyUsage _monthlyUsage : monthlyUsages.values()){
+							servicePlan.getMonthlyUsages().add(_monthlyUsage);
+						}
 					}
 					else if (filePath.equals(ConstantFilePath.ONE_HASH_RESTORE_TV_SUBSCRIPTIONS)) {
 						for (ServicePlan servicePlan2:OneHashDataCache.getInstance().getAvailableServicePlan())
@@ -938,11 +964,103 @@ public class OneHashDataCache {
 		}
 		*/
 		
+	}
+	
+	private HashMap<String,HashMap<String,MonthlyUsage>> restoreTransactionDetails(String plantype){
+		String transactionFile = new String();
+		if(plantype.equalsIgnoreCase("DV"))
+			transactionFile = ConstantFilePath.ONE_HASH_RESTORE_DV_TRANSACTIONS;
+		if(plantype.equalsIgnoreCase("MV"))
+			transactionFile = ConstantFilePath.ONE_HASH_RESTORE_MV_TRANSACTIONS;
 		
+		HashMap<String,HashMap<String,MonthlyUsage>> mapAccMonthlyUsages = new HashMap<String, HashMap<String,MonthlyUsage>>();
+		
+		try{
+			BufferedReader br = new BufferedReader(new FileReader(transactionFile));
+			StringTokenizer st;
+			String line;
+			int count = 0;
+
+			
+			while ((line = br.readLine()) != null) {
+				if(count==0){
+					count = 1;
+					continue;
+				}
+				
+				st = new StringTokenizer(line, ",");
+				
+				int column =0;
+				String accountNumber = new String();
+				
+				HashMap<String,MonthlyUsage> mapMonthlyUsage = new HashMap<String,MonthlyUsage>();
+				MonthlyUsage monthlyUsage = new MonthlyUsage();
+				TalkTimeUsage talkTimeUsage = new TalkTimeUsage();
+				
+				while (st.hasMoreTokens()) {
+					String columnValue = st.nextToken();
+					//Check if account number exists
+					if(column==0){
+						if(mapAccMonthlyUsages.containsKey(columnValue)){
+							mapMonthlyUsage = (HashMap<String,MonthlyUsage>)mapAccMonthlyUsages.get(columnValue);
+						}
+						accountNumber = columnValue;
+						talkTimeUsage = new TalkTimeUsage();
+						
+						column++;
+						continue;
+						
+						//Check if month year exists	
+					}if(column==1){
+						String[] dateTime = columnValue.split(" ");
+						String dateOfCall = dateTime[0];
+						String[] dateSplit = dateOfCall.split("/");
+						String monthYear = dateSplit[1]+""+dateSplit[2];
+						if(mapMonthlyUsage.containsKey(monthYear)){
+							monthlyUsage = mapMonthlyUsage.get(monthYear);
+						}else{
+							monthlyUsage.setUsageYearMonth(monthYear);
+							List<TalkTimeUsage> talkTimeUsages = new ArrayList<TalkTimeUsage>();
+							monthlyUsage.setTalkTimeUsages(talkTimeUsages);
+						}
+						Calendar cal = Calendar.getInstance();
+						cal.set(Calendar.DATE, new Integer(dateSplit[0]));
+						cal.set(Calendar.MONTH, new Integer(dateSplit[1]));
+						cal.set(Calendar.YEAR, new Integer(dateSplit[2]));
+						talkTimeUsage.setCallTime(cal.getTime());
+						
+						column++;
+						continue;
+						//Setting call type
+					}if(column==2){
+						talkTimeUsage.setUsageType(columnValue);
+						column++;
+						continue;
+						//Setting call number
+					}if(column==3){
+						talkTimeUsage.setCallNumber(columnValue);
+						column++;
+						continue;
+						//Setting call duration	
+					}if(column==4){
+						talkTimeUsage.setUsageDuration(new Long(columnValue));
+						monthlyUsage.getTalkTimeUsages().add(talkTimeUsage);
+						mapMonthlyUsage.put(monthlyUsage.getUsageYearMonth(), monthlyUsage);
+						mapAccMonthlyUsages.put(accountNumber, mapMonthlyUsage);
+					}
+				}
+			}
+			
+		}catch(Exception exp){
+			exp.printStackTrace();
+		}
+		System.out.println("mapAccMonthlyUsages.size() : "+mapAccMonthlyUsages.size());
+		
+		return mapAccMonthlyUsages;
 	}
 	
 	public static void main(String...args){
 		(new OneHashDataCache()).restoreFromFile();
-		
+		//(new OneHashDataCache()).restoreTransactionDetails();	
 	}
 }
