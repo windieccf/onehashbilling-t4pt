@@ -720,7 +720,6 @@ public class OneHashDataCache {
 					}
 					ServicePlan servicePlan = new MobileVoicePlan();
 					List<ServiceRate> serviceRates = new ArrayList<ServiceRate>();
-					ServiceRate serviceRate = new SubscriptionRate();
 					
 					if (filePath.equals(ConstantFilePath.ONE_HASH_RESTORE_DV_SUBSCRIPTIONS)) {
 						for (ServicePlan servicePlan2:OneHashDataCache.getInstance().getAvailableServicePlan()) {
@@ -870,7 +869,7 @@ public class OneHashDataCache {
 										lineList.add("TV-C");
 										lineList.add(store[1]);
 										serviceRates.add(serviceRate_temp);
-										continue;
+										break;
 									}
 								}
 								else if (serviceRateDescription.length>=4) {
@@ -878,7 +877,7 @@ public class OneHashDataCache {
 										lineList.add(serviceRate_temp.getRateCode());
 										lineList.add(serviceRate_temp.getRateDescription());
 										serviceRates.add(serviceRate_temp);
-										continue;
+										break;
 									}
 								}
 							}

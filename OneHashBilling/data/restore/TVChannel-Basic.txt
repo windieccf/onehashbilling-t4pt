@@ -1,13 +1,28 @@
+Education- Animal Planet
+Education- Animal Planet
+Education- BBC Knowledge
+Education- Crime & Investigation Network
+Education- Discovery Channel
+Education- Discovery HD World
+Education- HISTORY
+Education- Nat Geo Wild
+Entertainment- Animax
+Entertainment- AXN HD
+Entertainment- FOX HD
+Entertainment- FOXCRIME HD
+Entertainment- MTV SEA
+Entertainment- STAR World HD
+Entertainment- Syfy HD
+Entertainment- Universal Channel HD
+Kids- BabyTV
+Kids- Cartoon Network
+Kids- Disney Channel
+Kids- Nickelodeon
+News- BBC World News
 News- CNN Headline News
 News- Fox News Channel
 News- Sky News
-Education- HISTORY
-Education- BBC Knowledge
-Education- Crime & Investigation Network
-Education- Discovery HD World
-Entertainment- Animax
-Entertainment- MTV SEA
-Entertainment- FOXCRIME HD
-Entertainment- Syfy HD
-Kids- Nickelodeon
-Kids- BabyTV
+Sports- All Sports Network HD
+Sports- Football Channel
+Sports- Neo Cricket
+Sports- Sports HD
