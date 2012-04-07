@@ -850,7 +850,6 @@ public class OneHashDataCache {
 						if (serviceRate_temp.getRateCode().indexOf(planCode) >= 0) { // plan type must match the subscription
 							String serviceRateDescription_temp = serviceRate_temp.getRateDescription().replaceAll("IDD", "International"); // "IDD Calls" <> "International Calls" in the master set up
 							String[] serviceRateDescription = serviceRateDescription_temp.split(" ");
-							if (serviceRateDescription.length < 4) continue; // Avoid Subscription Rate
 														
 							Integer year2 = Integer.parseInt(store[3].substring(6));
 							if (year2 == 2012) { // only get the non expired service rate
@@ -867,17 +866,20 @@ public class OneHashDataCache {
 								serviceRates = servicePlan.getServiceRates();
 								
 								if (store[1].indexOf("- ") >= 0) { // TV Channel
-									if (serviceRate_temp.getRateCode().equals("TV-C")) {
+									if (serviceRate_temp.getRateDescription().equals(store[1])) {
 										lineList.add("TV-C");
 										lineList.add(store[1]);
-										break;
+										serviceRates.add(serviceRate_temp);
+										continue;
 									}
 								}
-								else if ((serviceRateDescription[2]+" "+serviceRateDescription[3]).equals(store[1])) {
-									lineList.add(serviceRate_temp.getRateCode());
-									lineList.add(serviceRate_temp.getRateDescription());
-									serviceRates.add(serviceRate_temp);
-									break;
+								else if (serviceRateDescription.length>=4) {
+									if ((serviceRateDescription[2]+" "+serviceRateDescription[3]).equals(store[1])) {
+										lineList.add(serviceRate_temp.getRateCode());
+										lineList.add(serviceRate_temp.getRateDescription());
+										serviceRates.add(serviceRate_temp);
+										continue;
+									}
 								}
 							}
 						}
