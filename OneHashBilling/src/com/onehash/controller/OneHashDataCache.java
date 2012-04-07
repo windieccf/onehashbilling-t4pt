@@ -732,7 +732,7 @@ public class OneHashDataCache {
 								// add basic subscription rate
 								for(ServiceRate serviceRate2:OneHashDataCache.getInstance().getAvailableServiceRate()) {
 									if (serviceRate2.getRateCode().equals("DV-S")) {
-										serviceRates.add((ServiceRate)serviceRate2.clone());
+										serviceRates.add(serviceRate2);
 										break;
 									}
 								}
@@ -760,7 +760,7 @@ public class OneHashDataCache {
 								// add basic subscription rate
 								for(ServiceRate serviceRate2:OneHashDataCache.getInstance().getAvailableServiceRate()) {
 									if (serviceRate2.getRateCode().equals("MV-S")) {
-										serviceRates.add((ServiceRate)serviceRate2.clone());
+										serviceRates.add(serviceRate2);
 										break;
 									}
 								}
@@ -793,7 +793,7 @@ public class OneHashDataCache {
 								// add basic subscription rate
 								for(ServiceRate serviceRate2:OneHashDataCache.getInstance().getAvailableServiceRate()) {
 									if (serviceRate2.getRateCode().equals("TV-S")) {
-										serviceRates.add((ServiceRate)serviceRate2.clone());
+										serviceRates.add(serviceRate2);
 										break;
 									}
 								}
@@ -851,18 +851,34 @@ public class OneHashDataCache {
 							String serviceRateDescription_temp = serviceRate_temp.getRateDescription().replaceAll("IDD", "International"); // "IDD Calls" <> "International Calls" in the master set up
 							String[] serviceRateDescription = serviceRateDescription_temp.split(" ");
 							if (serviceRateDescription.length < 4) continue; // Avoid Subscription Rate
-							if (store[1].indexOf("- ") >= 0) { // TV Channel
-								if (serviceRate_temp.getRateCode().equals("TV-C")) {
-									lineList.add("TV-C");
-									lineList.add(store[1]);
+														
+							Integer year2 = Integer.parseInt(store[3].substring(6));
+							if (year2 == 2012) { // only get the non expired service rate
+								Customer customer1 = this.getCachedCustomerByAccountNumber(store[0]);
+								List<ServicePlan> servicePlans = customer1.getServicePlans();
+								ServicePlan servicePlan = new MobileVoicePlan();
+								List<ServiceRate> serviceRates = new ArrayList<ServiceRate>();
+								
+								for(ServicePlan servicePlan2:servicePlans) {
+									if (servicePlan2.getPlanId().substring(0,2).equals(planCodes[i])) {
+										servicePlan = servicePlan2;
+									}
+								}
+								serviceRates = servicePlan.getServiceRates();
+								
+								if (store[1].indexOf("- ") >= 0) { // TV Channel
+									if (serviceRate_temp.getRateCode().equals("TV-C")) {
+										lineList.add("TV-C");
+										lineList.add(store[1]);
+										break;
+									}
+								}
+								else if ((serviceRateDescription[2]+" "+serviceRateDescription[3]).equals(store[1])) {
+									lineList.add(serviceRate_temp.getRateCode());
+									lineList.add(serviceRate_temp.getRateDescription());
+									serviceRates.add(serviceRate_temp);
 									break;
 								}
-							}
-							else if ((serviceRateDescription[2]+" "+serviceRateDescription[3]).equals(store[1])) {
-								lineList.add(serviceRate_temp.getRateCode());
-								lineList.add(serviceRate_temp.getRateDescription());
-								Customer customer1 = this.getCachedCustomerByAccountNumber(store[0]);
-								break;
 							}
 						}
 					}
@@ -877,6 +893,7 @@ public class OneHashDataCache {
 					}
 					//System.out.println(lineList);
 					allServiceRates.add(lineList);
+					
 				}
 			}
 		} catch (Exception e) {
